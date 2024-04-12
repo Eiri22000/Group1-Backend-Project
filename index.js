@@ -3,10 +3,12 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 const exphbs = require('express-handlebars');
 
-//Database
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
-//Wait for database connection
+//Import custom modules
+const User = require('./models/User')
+
+//Wait for database connection and when succesful make the app listen to port 3000
 mongoose.connect(dbURI)
     .then((result) => {
         console.log('Database access succesful!')
