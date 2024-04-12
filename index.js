@@ -30,7 +30,13 @@ app.engine('handlebars', exphbs.engine({
 }));
 
 
-
+// Main page
+app.get('/', (req, res) => {
+    res.render('index',
+    { 
+    title: 'Penan Puutarha'
+    });
+});
 
 // ROUTES //
 app.get('/admin', async (req, res) => {
