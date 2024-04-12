@@ -7,6 +7,7 @@ const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPA
 
 //Import custom modules
 const User = require('./models/User')
+const Worksite = require('./models/Worksite')
 
 //Wait for database connection and when succesful make the app listen to port 3000
 mongoose.connect(dbURI)
