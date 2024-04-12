@@ -32,7 +32,11 @@ app.engine('handlebars', exphbs.engine({
 
 
 
-
+// ROUTES //
+app.get('/admin', async (req, res) => {
+    const users = await User.find()
+    res.render('admin', { title: 'Työntekijät', workers: users })
+})
 
 app.use((req, res, next) => {
     res.status(404).send("Sorry, we could not find the content.");
