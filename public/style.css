@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+    background-image: url("testBackground.jpg");
+}
+
+h1 {
+    font-size: 40px;
+}
+
+
+/* Navigation bar */
+nav {
+    overflow: hidden;
+    background-color: rgb(238, 248, 236);
+}
+
+#navTitle {
+    margin: 1em 0.5em 1em 0.5em;
+    float:left;
+}
+.signInForm {
+    float: right;
+}
+
+.formLabel {
+    font-size: 20px;
+}
+
+.signInInput {
+    margin-top: 0.5em;
+    margin-right: 2em;;
+    font-size: 17px;
+    width: 150px;
+}
+
+#username, #password{
+    padding: 3px;
+    font-size: 17px;
+    width: 150px;
+}
+
+#signInButton {
+    padding: 6px;
+    margin-bottom: 0.3em;
+    margin-top: 0.3em;
+    width: 80px;
+    font-size: 17px;
+    background-color: black;
+    color: white;
+}
+
