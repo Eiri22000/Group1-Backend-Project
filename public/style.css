@@ -94,3 +94,19 @@ nav {
     flex-direction: row;
 
 }
+
+/* ADMIN-page css */
+#addOrLookupEmployee {
+    display: grid;
+    grid-template-columns: 40% auto;
+}
+
+#addEmployee {
+    grid-column: 1;
+}
+
+#lookEmployeeInfo {
+    grid-column: 2;
+}
+
+/* End of ADMIN-page css */
