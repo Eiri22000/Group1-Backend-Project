@@ -19,13 +19,13 @@ h1 {
 }
 
 h2 {
-    color:white;
+    color: white;
     font-size: 35px;
 }
 
 
 h2 {
-    color:white;
+    color: white;
     font-size: 35px;
 }
 
@@ -105,3 +105,19 @@ input[type=text] {
     font-size: 1em;
     margin: 0.3em 0 0.5em 0;
 }
+
+/* ADMIN-page css */
+#addOrLookupEmployee {
+    display: grid;
+    grid-template-columns: 40% auto;
+}
+
+#addEmployee {
+    grid-column: 1;
+}
+
+#lookEmployeeInfo {
+    grid-column: 2;
+}
+
+/* End of ADMIN-page css */
