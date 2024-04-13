@@ -1,21 +1,21 @@
-<nav>
+<header>
+{{!-- <nav> --}}
     <h1 id="navTitle">{{title}}</h1>
-    <form class="signInForm" action="">
-        <div class="signInInput">
+    {{!-- <form class="signInForm" action=""> --}}
             <label for="username" class="formLabel">User name:</label>
             <input type="text" id="username">
-        </div>
-        <div class="signInInput">
             <label for="password" class="formLabel">Password:</label>
             <input type="text" id="password">
-        </div>
-        <button type="button" id="signInButton">Sign in</button>
-    </form>
-</nav>
+        <button type="submit">Sign in</button>
+    {{!-- </form> --}}
+{{!-- </nav> --}}
+</header>
 
 <main>
-    <h2>Tee työtilaus Peten Puutarhalle</h2>
+    <h2>Tee työtilaus Penan Puutarhalle</h2>
+
     <form id="addWorkForm" action="">
+
         <fieldset>
             <legend>Tilaajan tiedot</legend>
             <label for="">Nimi:</label>
@@ -58,7 +58,7 @@
             </div>
             <div>
                 <label for="lisätietoja">Muita toiveita tai lisätietoja:</label>
-                <textarea id="lisätietoja" rows="5" cols="40"></textarea>
+                <textarea id="lisätietoja" rows="5" cols="30"></textarea>
             </div>
         </fieldset>
     </form>
