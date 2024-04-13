@@ -23,6 +23,7 @@ mongoose.connect(dbURI)
 
 const app = express();
 app.set('view engine', 'handlebars');
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'));
 
 app.engine('handlebars', exphbs.engine({
@@ -33,15 +34,32 @@ app.engine('handlebars', exphbs.engine({
 // Main page
 app.get('/', (req, res) => {
     res.render('index',
-    { 
-    title: 'Penan Puutarha'
-    });
+        {
+            title: 'Penan Puutarha'
+        });
 });
 
 // ROUTES //
 app.get('/admin', async (req, res) => {
-    const users = await User.find()
+    const users = await User.find().lean()
     res.render('admin', { title: 'Työntekijät', workers: users })
+})
+
+app.post('/saveFormToDB', (req, res) => {
+    try {
+        switch (req.body.type) {
+            case "addEmployee":
+                console.log("lisää")
+                break;
+            case "addWorksite":
+                break;
+            default:
+                res.send("Virhe tallennuksessa.")
+        }
+    }
+    catch (error) {
+        console.log(error)
+    }
 })
 
 app.use((req, res, next) => {

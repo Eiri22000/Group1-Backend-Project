@@ -11,6 +11,33 @@ h1 {
     font-size: 40px;
 }
 
+main {
+    background-color: var(--sectionsBgColor);
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--sectionsBgColor);
+    padding: 1em;
+    font-size: 1.8em;
+    width: min-content;
+}
+
+input {
+    font-size: 1em;
+    margin: 0.3em 0 0.5em 0;
+}
+
+button {
+    height: fit-content;
+    width: max-content;
+    padding: 0.4em;
+    font-size: 0.6em;
+    font-weight: 700;
+    background-color: black;
+    color: white;
+}
 
 /* Navigation bar */
 nav {
@@ -45,31 +72,7 @@ nav {
     width: 150px;
 }
 
-button {
-    height: fit-content;
-    width: max-content;
-    padding: 0.4em;
-    font-size: 0.6em;
-    font-weight: 700;
-    background-color: black;
-    color: white;
-}
-
 #signInButton {
     margin-bottom: 0.3em;
     margin-top: 0.3em;
-}
-
-form {
-    display: flex;
-    flex-direction: row;
-    background-color: var(--sectionsBgColor);
-    padding: 1em;
-    font-size: 1.8em;
-    width: min-content;
-}
-
-input {
-    font-size: 1em;
-    margin: 0.3em 0 0.5em 0;
 }
