@@ -14,6 +14,18 @@ main {
     background-color: var(--sectionsBgColor);
 }
 
+header {
+    overflow: hidden;
+    background-color: rgb(238, 248, 236);
+}
+
+footer {
+    font-size: 17px;
+    padding: 0.4em;
+    overflow: hidden;
+    background-color: rgb(238, 248, 236);
+}
+
 h1 {
     font-size: 40px;
 }
@@ -24,7 +36,7 @@ h2 {
 }
 
 
-h2 {
+h3 {
     color:white;
     font-size: 35px;
 }
@@ -37,6 +49,13 @@ form {
     padding: 1em;
     font-size: 1.8em;
     width: min-content;
+}
+
+.list-group {
+    background-color: var(--sectionsBgColor);
+    padding: 1em;
+    font-size: 1em;
+    padding: 0.3em;
 }
 
 input {
