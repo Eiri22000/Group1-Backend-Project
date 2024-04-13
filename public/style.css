@@ -31,7 +31,7 @@ h1 {
 }
 
 h2 {
-    color:white;
+    color: white;
     font-size: 35px;
 }
 
@@ -117,24 +117,3 @@ input[type=text] {
     font-size: 1em;
     margin: 0.3em 0 0.5em 0;
 }
-
-/* Gargener page*/
-
-.worklist {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: var(--sectionsBgColor);
-    padding: 1em;
-    font-size: 1.8em;
-    width: min-content;
-}
-
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
-  th, td {
-    width: 100px;
-    padding: 5px;
-    text-align: left;
-  }

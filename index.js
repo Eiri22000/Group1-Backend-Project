@@ -51,13 +51,24 @@ app.get('/gardener', async (req, res) => {
     res.render('gardener', { title: 'Puutarhurin työlista', workers: AppointedWorksites })
 })
 
-app.post('/saveFormToDB', (req, res) => {
+app.post('/saveFormToDB', async (req, res) => {
     try {
         switch (req.body.type) {
             case "addEmployee":
-                console.log("lisää")
+                const newEmployee = new User({
+                    name: req.body.employeeName,
+                    phoneNumber: req.body.phoneNumber,
+                    email: req.body.email,
+                    role: "worker"
+                })
+                await newEmployee.save()
+                    .then(res.redirect('admin'), { message: "Uusi työntekijä tallennettu!" })
+                    .catch(error => {
+                        res.redirect('admin'), { message: "Tallennus epäonnistui." }
+                    })
                 break;
             case "addWorksite":
+
                 break;
             default:
                 res.send("Virhe tallennuksessa.")
@@ -69,6 +80,6 @@ app.post('/saveFormToDB', (req, res) => {
 })
 
 app.use((req, res, next) => {
-    res.status(404).send("Sorry, we could not find the content.");
+    res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");
 });
 
