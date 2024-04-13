@@ -11,6 +11,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: var(--sectionsBgColor);
 }
 
 h1 {
@@ -23,6 +24,35 @@ h2 {
 }
 
 
+h2 {
+    color:white;
+    font-size: 35px;
+}
+
+
+form {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--sectionsBgColor);
+    padding: 1em;
+    font-size: 1.8em;
+    width: min-content;
+}
+
+input {
+    font-size: 1em;
+    margin: 0.3em 0 0.5em 0;
+}
+
+button {
+    height: fit-content;
+    width: max-content;
+    padding: 0.4em;
+    font-size: 0.6em;
+    font-weight: 700;
+    background-color: black;
+    color: white;
+}
 
 /* Navigation bar */
 nav {
@@ -55,16 +85,6 @@ nav {
     padding: 3px;
     font-size: 17px;
     width: 150px;
-}
-
-button {
-    height: fit-content;
-    width: max-content;
-    padding: 0.4em;
-    font-size: 0.6em;
-    font-weight: 700;
-    background-color: black;
-    color: white;
 }
 
 #signInButton {
