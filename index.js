@@ -4,7 +4,6 @@ const path = require('path');
 require('dotenv').config();
 const exphbs = require('express-handlebars');
 
-
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
 //Import custom modules

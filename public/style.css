@@ -48,14 +48,7 @@ form {
     background-color: var(--sectionsBgColor);
     padding: 1em;
     font-size: 1.8em;
-    width: min-content;
-}
-
-.list-group {
-    background-color: var(--sectionsBgColor);
-    padding: 1em;
-    font-size: 1em;
-    padding: 0.3em;
+    width: max-content;
 }
 
 input {
@@ -117,10 +110,31 @@ form {
     background-color: var(--sectionsBgColor);
     padding: 1em;
     font-size: 1.8em;
-    width: min-content;
+    width: max-content;
 }
 
 input[type=text] {
     font-size: 1em;
     margin: 0.3em 0 0.5em 0;
 }
+
+/* Gargener page*/
+
+.worklist {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--sectionsBgColor);
+    padding: 1em;
+    font-size: 1.8em;
+    width: min-content;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td {
+    width: 100px;
+    padding: 5px;
+    text-align: left;
+  }

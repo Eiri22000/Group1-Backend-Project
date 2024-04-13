@@ -1,15 +1,26 @@
-<header>{{> header}}</header>
+<header>
+    <h1>Puutarhurin työlista</h2>
+</header>
 
 <main>
-    <h2>Puutarhurin työlista</h2>
+<fieldset>
+    <legend>Viikon työkohteet</legend>
+    <div class="worklist">
+        <table style="width:70%">
+             <tr>
+                <th>Maanantai</th>
+                <th>Tiistai</th>
+                <th>Keskiviikko</th>
+                <th>Torstai</th>
+                <th>Perjantai</th>
+            </tr>
+            <tr>
+                <td>Bill Gates</td>
+                <td>555 77 854</td>
+                <td>555 77 855</td>
+            </tr>
+</table>
+    </div>
+</dl>
+</fieldset>
 </main>
-
-<ul class="list-group">
-  <li class="list-group-item active" aria-current="true">Viikon työkohteet</li>
-  <li class="list-group-item">A second item</li>
-  <li class="list-group-item">A third item</li>
-  <li class="list-group-item">A fourth item</li>
-  <li class="list-group-item">And a fifth one</li>
-</ul>
-
-<footer>{{> footer}}</footer>
