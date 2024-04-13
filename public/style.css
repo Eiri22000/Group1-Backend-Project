@@ -27,6 +27,18 @@ header {
     height: 5em;
 }
 
+header {
+    overflow: hidden;
+    background-color: rgb(238, 248, 236);
+}
+
+footer {
+    font-size: 17px;
+    padding: 0.4em;
+    overflow: hidden;
+    background-color: rgb(238, 248, 236);
+}
+
 h1 {
     font-size: 40px;
 }
@@ -37,11 +49,26 @@ h2 {
     padding: 0.3em;
 }
 
+<<<<<<< HEAD
+=======
+
+h3 {
+    color:white;
+    font-size: 35px;
+}
+
+
+>>>>>>> bdb982faf6f0509e36bf0086b6b68cc5a06011ad
 form {
     background-color: var(--sectionsBgColor);
     padding: 1em;
+<<<<<<< HEAD
     width: min-content;
     max-width: 100%;
+=======
+    font-size: 1.8em;
+    width: max-content;
+>>>>>>> bdb982faf6f0509e36bf0086b6b68cc5a06011ad
 }
 
 input[type=text], textarea{
@@ -92,6 +119,7 @@ nav {
 #addWorkForm {
     display: flex;
     flex-direction: row;
+<<<<<<< HEAD
 
 }
 
@@ -110,3 +138,15 @@ nav {
 }
 
 /* End of ADMIN-page css */
+=======
+    background-color: var(--sectionsBgColor);
+    padding: 1em;
+    font-size: 1.8em;
+    width: max-content;
+}
+
+input[type=text] {
+    font-size: 1em;
+    margin: 0.3em 0 0.5em 0;
+}
+>>>>>>> bdb982faf6f0509e36bf0086b6b68cc5a06011ad

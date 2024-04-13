@@ -1,6 +1,7 @@
 const express = require('express');
-const mongoose = require('mongoose')
-require('dotenv').config()
+const mongoose = require('mongoose');
+const path = require('path');
+require('dotenv').config();
 const exphbs = require('express-handlebars');
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
@@ -43,6 +44,11 @@ app.get('/', (req, res) => {
 app.get('/admin', async (req, res) => {
     const users = await User.find().lean()
     res.render('admin', { title: 'Työntekijät', workers: users })
+})
+
+app.get('/gardener', async (req, res) => {
+    const users = await User.find().lean()
+    res.render('gardener', { title: 'Puutarhurin työlista', workers: AppointedWorksites })
 })
 
 app.post('/saveFormToDB', async (req, res) => {
