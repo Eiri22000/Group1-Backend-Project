@@ -1,9 +1,6 @@
    <main>
-    <h2>{{title}}</h2>
-    <p class="description">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä, joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita.</p>
-
     <form id="addWorkForm" action="/addWork" method="post">
-
+        <p class="description">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä, joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita.</p>
         <fieldset>
             <legend>Tilaajan tiedot</legend>
             <label for="name">Nimi:</label>
@@ -13,7 +10,6 @@
             <label for="email">Sähköposti:</label>
             <input name="email" id="email" type="text" required="true">
         </fieldset>
-
         <fieldset>
             <legend>Kohteen tiedot</legend>
             <label for="address">Kohteen osoite:</label>
@@ -23,7 +19,6 @@
             <label for="city">Paikkakunta:</label>
             <input name="city" id="city" type="text">
         </fieldset>
-
         <fieldset>
             <legend>Kohteeseen tilattavat työt</legend>
             <div>
