@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
 // ROUTES //
 app.get('/admin', async (req, res) => {
     const users = await User.find().lean()
-    res.render('admin', { title: 'Työntekijät', workers: users })
+    res.render('admin', { subtitle: 'Työntekijöiden hallinta', workers: users })
 })
 
 app.get('/gardener', async (req, res) => {
@@ -51,8 +51,8 @@ app.get('/gardener', async (req, res) => {
     res.render('gardener', { title: 'Puutarhurin työlista', workers: AppointedWorksites })
 })
 
-app.get('/workIntake', async (req,res) => {
-    res.render('workIntake', {title: 'Tilaa työ puutarhaasi'})
+app.get('/workIntake', async (req, res) => {
+    res.render('workIntake', { title: 'Tilaa työ puutarhaasi' })
 })
 
 app.post('/saveFormToDB', async (req, res) => {
@@ -86,15 +86,15 @@ app.post('/saveFormToDB', async (req, res) => {
 // Add a work
 app.post('/addWork', async (req, res) => {
     try {
-    const work = new Worksite(req.body)
-    console.log(req.body)
-    await work.save()
-    res.send('<h3>Tilaus lisätty järjestelmään</h2><p>Kiitos tilauksesta!</h1>')
-}
+        const work = new Worksite(req.body)
+        console.log(req.body)
+        await work.save()
+        res.send('<h3>Tilaus lisätty järjestelmään</h2><p>Kiitos tilauksesta!</h1>')
+    }
 
-catch (error) {
-    console.log(error)
-}
+    catch (error) {
+        console.log(error)
+    }
 })
 
 
