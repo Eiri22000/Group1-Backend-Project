@@ -1,53 +1,53 @@
    <main>
     <h2>Tee työtilaus Penan Puutarhalle</h2>
+    <p class="description">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä, joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita.</p>
 
-    <form id="addWorkForm" action="">
+    <form id="addWorkForm" action="/addWork" method="post">
 
         <fieldset>
             <legend>Tilaajan tiedot</legend>
-            <label for="">Nimi:</label>
-            <input type="text">
-            <label for="">Osoite:</label>
-            <input type="text">
-            <label for="">Puhelinnumero:</label>
-            <input type="text">
-            <label for="">Sähköposti:</label>
-            <input type="text">
+            <label for="name">Nimi:</label>
+            <input name="customerName" id="name" type="text" required="true">
+            <label for="phone">Puhelinnumero:</label>
+            <input name="phoneNumber" id="phone" type="text" required="true">
+            <label for="email">Sähköposti:</label>
+            <input name="email" id="email" type="text" required="true">
         </fieldset>
 
         <fieldset>
             <legend>Kohteen tiedot</legend>
-            <label for="">Kohteen osoite:</label>
-            <input type="text">
-            <label for="">Postinumero:</label>
-            <input type="text">
-            <label for="">Paikkakunta:</label>
-            <input type="text">
+            <label for="address">Kohteen osoite:</label>
+            <input name="workAddress" id="address" type="text">
+            <label for="postalCode">Postinumero:</label>
+            <input name="postalCode" id="postalCode" type="text">
+            <label for="city">Paikkakunta:</label>
+            <input name="city" id="city" type="text">
         </fieldset>
 
         <fieldset>
             <legend>Kohteeseen tilattavat työt</legend>
             <div>
-                <input type="checkbox" id="haravointi" value="Haravointi">
+                <input type="checkbox" id="haravointi" value="Haravointi" name="tasks">
                 <label for="haravointi">Haravointi</label>
             </div>
             <div>
-                <input type="checkbox" id="nurmikonleikkaus" value="Nurmikonleikkaus">
+                <input type="checkbox" id="nurmikonleikkaus" value="Nurmikonleikkaus" name="tasks">
                 <label for="nurmikonleikkaus">Nurmikonleikkaus</label>
             </div>
             <div>
-                <input type="checkbox" id="istutustyö" value="Istutustyö">
+                <input type="checkbox" id="istutustyö" value="Istutustyö" name="tasks">
                 <label for="istutustyö">Istutustyö</label>
             </div>
             <div>
-                <input type="checkbox" id="rikkaruohojenKitkentä" value="Rikkaruohojen kitkentä">
+                <input type="checkbox" id="rikkaruohojenKitkentä" value="Rikkaruohojen kitkentä" name="tasks">
                 <label for="rikkaruohojenKitkentä">Rikkaruohojen kitkentä</label>
             </div>
             <div>
                 <label for="lisätietoja">Muita toiveita tai lisätietoja:</label>
-                <textarea id="lisätietoja" rows="5" cols="30"></textarea>
+                <textarea name="additionalInformation"  id="lisätietoja" rows="5" cols="30"></textarea>
             </div>
         </fieldset>
+        <button>Tilaa puutarhuri</button>
     </form>
     </main>
 
