@@ -86,17 +86,23 @@ app.post('/saveFormToDB', async (req, res) => {
 // Add a work
 app.post('/addWork', async (req, res) => {
     try {
-    const work = new Worksite(req.body)
-    console.log(req.body)
-    await work.save()
-    res.send('<h3>Tilaus lisätty järjestelmään</h2><p>Kiitos tilauksesta!</h1>')
-}
-
-catch (error) {
-    console.log(error)
-}
+        const work = new Worksite({
+            customerName: req.body.customerName,
+            phoneNumber: req.body.phoneNumber,
+            email: req.body.email,
+            workAddress: req.body.workAddress,
+            postalCode: req.body.postalCode,
+            city: req.body.city,
+            tasks: req.body.tasks,
+            additionalInformation: req.body.additionalInformation
+        })
+        await work.save()
+        .then(res.redirect('workIntake'))
+    }
+    catch (error) {
+        console.log(error)
+    }
 })
-
 
 app.use((req, res, next) => {
     res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");
