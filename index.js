@@ -83,6 +83,27 @@ app.post('/saveFormToDB', async (req, res) => {
     }
 })
 
+app.post('/updateDB', async (req, res) => {
+    try {
+        switch (req.body.type) {
+            case "editEmployee":
+                await User.updateOne({ _id: req.body.hiddenId }, {
+                    name: req.body.employeeName,
+                    phoneNumber: req.body.phoneNumber,
+                    email: req.body.email
+                })
+                    .then(res.redirect('admin'), { message: "Tiedot päivitetty onnistuneesti!." })
+                    .catch(error => {
+                        res.redirect('admin'), { message: "Tallennus epäonnistui." }
+                    })
+                break;
+        }
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
+
 // Add a work
 app.post('/addWork', async (req, res) => {
     try {

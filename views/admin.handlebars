@@ -15,22 +15,25 @@
         </form>
     </section>
     <section class="employeeFormSelection">
-        <form method="post" action="">
+        <form method="post" action="/updateDB">
             <fieldset id="editEmployee" class="employeeFieldset">
-                <legend>Muokkaa työntekijän tietoja EI KÄYTÖSSSÄ</legend>
+                <legend>Muokkaa työntekijän tietoja</legend>
                 <label for="selectEmployee">Valitse työntekijä</label>
                 <select id="selectEmployee" name="selectedEmployee">
                     {{#each workers}}
-                    <option name="employeeName" value={{this}}>{{this.name}}</option>
+                    <option name="employeeName" data-id={{this._id}} data-name={{this.name}}
+                        data-phoneNumber={{this.phoneNumber}} data-email={{this.email}}>
+                        {{this.name}}</option>
                     {{/each}}
                 </select>
-                <label for="editName">Työntekijän nimi: </label>
+                <label for=" editName">Työntekijän nimi: </label>
                 <input id="editName" type="text" name="employeeName" value="" />
                 <label for="editPhone">Puhelinnumero: </label>
                 <input id="editPhone" type="text" name="phoneNumber" value="" />
                 <label for="editEmail">Sähköpostiosoite: </label>
                 <input id="editEmail" type="email" name="email" value="" />
-                {{!-- <input type="hidden" value="addEmployee" name="type" /> --}}
+                <input type="hidden" value="editEmployee" name="type" />
+                <input type="hidden" id="editEmployeeHiddenInput" name="hiddenId" />
                 <button type="submit">Päivitä tiedot</button>
             </fieldset>
         </form>
@@ -56,14 +59,14 @@
         <h3>{{this.name}}</h3>
         {{/each}}
     </section> --}}
-    <p>{{message}}</p>
+
 </main>
+<p style="background-color:pink">TÄHÄN SE PITÄIS SAADA :{{message}}</p>
 
 <script>
-    document.getElementById("selectEmployee").addEventListener("change", function (e) {
-        const olio = e.target.value
-        console.log(olio[0])
-
-
-    })
-</script>
+    document.getElementById(" selectEmployee").addEventListener("change", function (e) {
+        document.getElementById('editName').value = e.target.value
+        document.getElementById('editPhone').value = e.target[e.target.options.selectedIndex].getAttribute('data-phoneNumber');
+        document.getElementById('editEmail').value = e.target[e.target.options.selectedIndex].getAttribute('data-email');
+        document.getElementById('editEmployeeHiddenInput').value = e.target[e.target.options.selectedIndex].getAttribute('data-id')
+    }) </script>
