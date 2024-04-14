@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config();
 const exphbs = require('express-handlebars');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const router = express.Router();
+module.exports = router;
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -32,15 +36,26 @@ app.engine('handlebars', exphbs.engine({
 }));
 
 
-// Main page
+// Parse JSON request body
+app.use(express.json());
+
+// ROUTES //
+
+// Define authentication routes
+app.use('/auth', authRoutes);
+
+// Define user routes
+app.use('/user', userRoutes);
+
+
 app.get('/', (req, res) => {
     res.render('index',
         {
-            title: 'Penan Puutarha'
+            title: 'Penan Puutarha',
+            subtitle: 'Tervetuloa Penan Puutarhalle!'
         });
 });
 
-// ROUTES //
 app.get('/admin', async (req, res) => {
     const users = await User.find().lean()
     res.render('admin', { subtitle: 'Työntekijöiden hallinta', workers: users })
@@ -52,7 +67,7 @@ app.get('/gardener', async (req, res) => {
 })
 
 app.get('/workIntake', async (req, res) => {
-    res.render('workIntake', { title: 'Tilaa työ puutarhaasi' })
+    res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi' })
 })
 
 app.post('/saveFormToDB', async (req, res) => {
@@ -107,17 +122,23 @@ app.post('/updateDB', async (req, res) => {
 // Add a work
 app.post('/addWork', async (req, res) => {
     try {
-        const work = new Worksite(req.body)
-        console.log(req.body)
+        const work = new Worksite({
+            customerName: req.body.customerName,
+            phoneNumber: req.body.phoneNumber,
+            email: req.body.email,
+            workAddress: req.body.workAddress,
+            postalCode: req.body.postalCode,
+            city: req.body.city,
+            tasks: req.body.tasks,
+            additionalInformation: req.body.additionalInformation
+        })
         await work.save()
-        res.send('<h3>Tilaus lisätty järjestelmään</h2><p>Kiitos tilauksesta!</h1>')
+        .then(res.redirect('workIntake'))
     }
-
     catch (error) {
         console.log(error)
     }
 })
-
 
 app.use((req, res, next) => {
     res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");

@@ -25,6 +25,7 @@ main {
 header {
     overflow: hidden;
     background-color: rgb(238, 248, 236);
+    margin-bottom: 1em;
 }
 
 footer {
@@ -40,6 +41,11 @@ h1 {
 }
 
 h2 {
+    font-size: 32px;
+    padding: 0.3em;
+}
+
+h3 {
     font-size: 32px;
     padding: 0.3em;
 }
@@ -63,27 +69,50 @@ button {
     height: fit-content;
     width: max-content;
     padding: 0.4em 0.6em;
-    font-size: 0.6em;
+    font-size: 0.7em;
     font-weight: 600;
     background-color: rgb(204, 191, 241);
     color: #111a46;
     border: 2px solid #1D3124;
     border-radius: 15px;
     letter-spacing: 0.08em;
+    margin: 0.8em 0;
 }
 
 .description {
     background-color: #BACEC1;
+    width: 80%;
+    padding: 0.6em;
+    font-size: 0.8em;
 }
 
 .signIn {
-    float: right;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     background-color: #BACEC1;
     margin-top: 1em;
-    width: min-content;
+    width: max-content;
+    max-width: 90%;
     padding: 1em;
 }
+/* Gardener page css */
 
+th, td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #343a40;
+}
+
+#worklist {
+    display: flex;
+    flex-direction: row;
+}
 
 /* Work Intake page */
 #addWorkForm {

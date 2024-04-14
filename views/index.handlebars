@@ -1,18 +1,20 @@
 <main>
-    <h2>Tervetuloa Penan Puutarhalle</h2>
-    <article class="description">
-        <p>Penan puutarha on toiminut jo vuodesta 1995 Kankaanpäässä. Nykyään toimimme ympäri Suomen, työllistäen puutarhureita joka maakunnassa.</p>
-        <p>Hommiimme kuuluu kaikki puutarhan perustyöt, ja pystymme ottamaan myös erikoistoiveet huomioon. Teemme työtämme ammattitaidolla ja ylpeydellä.</p>
-        <p>Nappia painamalla pääset tekemään työtilauksen. Tervetuloa {{title}}an!</p>
-        <a href="/workIntake"><button>Tee työtilaus</button></a>
-    </article>
-    
     <section class="signIn">
-        <h3>Kirjaudu sisään</h3>
-        <label for="username">User name:</label>
-        <input type="text" id="username">
-        <label for="password" >Password:</label>
-        <input type="text" id="password">
-        <button type="submit">Sign in</button>
+        <article class="description">
+            <p>Penan puutarha on toiminut jo vuodesta 1995 Kankaanpäässä. Nykyään toimimme ympäri Suomen, työllistäen puutarhureita joka maakunnassa.</p>
+            <p>Hommiimme kuuluu kaikki puutarhan perustyöt, ja pystymme ottamaan myös erikoistoiveet huomioon. Teemme työtämme ammattitaidolla ja ylpeydellä.</p>
+            <p>Nappia painamalla pääset tekemään työtilauksen. Tervetuloa {{title}}an!</p>
+            <a href="/workIntake"><button>Tee työtilaus</button></a>
+        </article>
+        <form id="loginForm" action="/auth/login" method="POST">
+        <fieldset>
+        <legend>Kirjaudu sisään</legend>
+            <label for="username">User name:</label>
+            <input type="text" name="username">
+            <label for="password">Password:</label>
+            <input type="text" name="password">
+            <button type="submit">Sign in</button>
+            </fieldset>
+        </form>
     </section>
 </main>
