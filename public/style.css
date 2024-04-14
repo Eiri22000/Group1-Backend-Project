@@ -12,19 +12,13 @@ body {
     background-image: url("testBackground.jpg");
     font-family:Georgia, 'Times New Roman', Times, serif;
     font-size: 1.4em;
-
 }
 
 main {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-header {
-    background-color: #efc0a0;
-    width: 100%;
-    height: 5em;
 }
 
 header {
@@ -35,6 +29,7 @@ header {
 footer {
     font-size: 17px;
     padding: 0.4em;
+    margin-top: 1em;
     overflow: hidden;
     background-color: rgb(238, 248, 236);
 }
@@ -54,12 +49,11 @@ form {
     padding: 1em;
     width: min-content;
     max-width: 100%;
-    font-size: 1.8em;
-    width: max-content;
+    font-size: 0.8em;
 }
 
 input[type=text], textarea{
-    font-size: 0.9em;
+    font-size: 0.7em;
     margin: 0.3em 0 0.5em 0;
     padding: 0.2em;
 }
@@ -77,36 +71,24 @@ button {
     letter-spacing: 0.08em;
 }
 
-/* Navigation bar */
-nav {
-    overflow: hidden;
-}
-
-#navTitle {
-    float: left;
+/*  Home page */
+#description {
+    background-color: #BACEC1;
 }
 
 .signIn {
     float: right;
-    background-color: #efc0a0;
+    background-color: #BACEC1;
+    margin-top: 1em;
+    width:min-content;
+    padding: 1em;
 }
 
-.formLabel {
-    font-size: 22px;
-}
 
-#username,
-#password {
-    padding: 3px;
-    font-size: 17px;
-    width: 150px;
-}
-
-/* Index page */
+/* Work Intake page */
 #addWorkForm {
     display: flex;
     flex-direction: row;
-
 }
 
 /* ADMIN-page css */
