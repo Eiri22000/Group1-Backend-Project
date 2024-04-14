@@ -51,6 +51,10 @@ app.get('/gardener', async (req, res) => {
     res.render('gardener', { title: 'Puutarhurin työlista', workers: AppointedWorksites })
 })
 
+app.get('/workIntake', async (req,res) => {
+    res.render('workIntake', {title: 'Tilaa työ puutarhaasi'})
+})
+
 app.post('/saveFormToDB', async (req, res) => {
     try {
         switch (req.body.type) {
