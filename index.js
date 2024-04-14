@@ -36,14 +36,6 @@ app.engine('handlebars', exphbs.engine({
 }));
 
 
-// Main page
-app.get('/', (req, res) => {
-    res.render('index',
-        {
-            title: 'Penan Puutarha'
-        });
-});
-
 // Parse JSON request body
 app.use(express.json());
 
@@ -54,6 +46,15 @@ app.use('/auth', authRoutes);
 
 // Define user routes
 app.use('/user', userRoutes);
+
+
+app.get('/', (req, res) => {
+    res.render('index',
+        {
+            title: 'Penan Puutarha',
+            subtitle: 'Tervetuloa Penan Puutarhalle!'
+        });
+});
 
 app.get('/admin', async (req, res) => {
     const users = await User.find().lean()
@@ -66,7 +67,7 @@ app.get('/gardener', async (req, res) => {
 })
 
 app.get('/workIntake', async (req, res) => {
-    res.render('workIntake', { title: 'Tilaa työ puutarhaasi' })
+    res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi' })
 })
 
 app.post('/saveFormToDB', async (req, res) => {
