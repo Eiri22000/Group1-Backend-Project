@@ -5,7 +5,15 @@ const worksiteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: {
+    phoneNumber: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    workAddress: {
         type: String,
         required: true
     },
@@ -13,17 +21,15 @@ const worksiteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    locality: {
+    city: {
         type: String,
         required: true
     },
-    chores: {
+    tasks: {
         type: Array,
-        required: true
     },
-    date: {
-        type: Date,
-        required: true
+    additionalInformation: {
+        type: String
     }
 })
 
