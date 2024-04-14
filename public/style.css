@@ -44,6 +44,11 @@ h2 {
     padding: 0.3em;
 }
 
+h3 {
+    font-size: 32px;
+    padding: 0.3em;
+}
+
 form {
     background-color: var(--sectionsBgColor);
     padding: 1em;
@@ -83,7 +88,23 @@ button {
     width: min-content;
     padding: 1em;
 }
+/* Gardener page css */
 
+th, td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #343a40;
+}
+
+#worklist {
+    display: flex;
+    flex-direction: row;
+}
 
 /* Work Intake page */
 #addWorkForm {
