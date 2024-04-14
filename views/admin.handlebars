@@ -1,10 +1,7 @@
-<header>
-    <h1>Työntekijöiden hallinta</h1>
-</header>
-<main id="addOrLookupEmployee">
-    <aside id="addEmployee">
+<main id="addDeleteEditEmployee">
+    <section class="employeeFormSelection">
         <form method="post" action="/saveFormToDB">
-            <fieldset>
+            <fieldset class="employeeFieldset">
                 <legend>Uusi työntekijä</legend>
                 <label for="employeeName" placeholder="Nimi">Työntekijän nimi: </label>
                 <input id="employeeName" type="text" name="employeeName" />
@@ -16,12 +13,57 @@
                 <button type="submit">Lisää työntekijä</button>
             </fieldset>
         </form>
-    </aside>
-    <section id="lookEmployeeInfo">
+    </section>
+    <section class="employeeFormSelection">
+        <form method="post" action="">
+            <fieldset id="editEmployee" class="employeeFieldset">
+                <legend>Muokkaa työntekijän tietoja EI KÄYTÖSSSÄ</legend>
+                <label for="selectEmployee">Valitse työntekijä</label>
+                <select id="selectEmployee" name="selectedEmployee">
+                    {{#each workers}}
+                    <option name="employeeName" value={{this}}>{{this.name}}</option>
+                    {{/each}}
+                </select>
+                <label for="editName">Työntekijän nimi: </label>
+                <input id="editName" type="text" name="employeeName" value="" />
+                <label for="editPhone">Puhelinnumero: </label>
+                <input id="editPhone" type="text" name="phoneNumber" value="" />
+                <label for="editEmail">Sähköpostiosoite: </label>
+                <input id="editEmail" type="email" name="email" value="" />
+                {{!-- <input type="hidden" value="addEmployee" name="type" /> --}}
+                <button type="submit">Päivitä tiedot</button>
+            </fieldset>
+        </form>
+    </section>
+    <section class="employeeFormSelection">
+        <form method="post" action="">
+            <fieldset class="employeeFieldset">
+                <legend>Poista työntekijä EI KÄYTÖSSÄ</legend>
+                <label for="employeeName" placeholder="Nimi">Työntekijän nimi: </label>
+                <input id="employeeName" type="text" name="employeeName" />
+                <label for="employeePhone" placeholder="Puhelinnumero">Puhelinnumero: </label>
+                <input id="employeePhone" type="text" name="phoneNumber" />
+                <label for="employeeEmail" placeholder='Sähköpostiosoite'>Sähköpostiosoite: </label>
+                <input id="employeeEmail" type="email" name="email" />
+                <input type="hidden" value="addEmployee" name="type" />
+                <button type="submit">Lisää työntekijä</button>
+            </fieldset>
+        </form>
+    </section>
+    {{!-- <section id="lookEmployeeInfo">
         <h2>Katso työntekijän tiedot</h2>
         {{#each workers}}
         <h3>{{this.name}}</h3>
         {{/each}}
-    </section>
-    <h1>{{message}}</h1>
+    </section> --}}
+    <p>{{message}}</p>
 </main>
+
+<script>
+    document.getElementById("selectEmployee").addEventListener("change", function (e) {
+        const olio = e.target.value
+        console.log(olio[0])
+
+
+    })
+</script>
