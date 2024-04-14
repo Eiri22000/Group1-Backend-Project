@@ -71,8 +71,7 @@ button {
     letter-spacing: 0.08em;
 }
 
-/*  Home page */
-#description {
+.description {
     background-color: #BACEC1;
 }
 
