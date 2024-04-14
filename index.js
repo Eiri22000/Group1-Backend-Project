@@ -83,6 +83,21 @@ app.post('/saveFormToDB', async (req, res) => {
     }
 })
 
+// Add a work
+app.post('/addWork', async (req, res) => {
+    try {
+    const work = new Worksite(req.body)
+    console.log(req.body)
+    await work.save()
+    res.send('<h3>Tilaus lisätty järjestelmään</h2><p>Kiitos tilauksesta!</h1>')
+}
+
+catch (error) {
+    console.log(error)
+}
+})
+
+
 app.use((req, res, next) => {
     res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");
 });
