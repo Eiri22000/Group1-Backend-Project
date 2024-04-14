@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config();
 const exphbs = require('express-handlebars');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const router = express.Router();
+module.exports = router;
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -40,7 +44,17 @@ app.get('/', (req, res) => {
         });
 });
 
+// Parse JSON request body
+app.use(express.json());
+
 // ROUTES //
+
+// Define authentication routes
+app.use('/auth', authRoutes);
+
+// Define user routes
+app.use('/user', userRoutes);
+
 app.get('/admin', async (req, res) => {
     const users = await User.find().lean()
     res.render('admin', { title: 'Työntekijät', workers: users })
@@ -89,7 +103,7 @@ app.post('/addWork', async (req, res) => {
     const work = new Worksite(req.body)
     console.log(req.body)
     await work.save()
-    res.send('<h3>Tilaus lisätty järjestelmään</h2><p>Kiitos tilauksesta!</h1>')
+    res.send('<h3>Tilaus lisätty järjestelmään</h3><p>Kiitos tilauksesta!</h1>')
 }
 
 catch (error) {
