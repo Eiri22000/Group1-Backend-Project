@@ -7,10 +7,11 @@
 html {
     width: 100%;
 }
+
 body {
     margin: 0;
     background-image: url("testBackground.jpg");
-    font-family:Georgia, 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.4em;
 }
 
@@ -40,7 +41,6 @@ h1 {
 
 h2 {
     font-size: 32px;
-    background-color: var(--sectionsBgColor);
     padding: 0.3em;
 }
 
@@ -52,7 +52,8 @@ form {
     font-size: 0.8em;
 }
 
-input[type=text], textarea{
+input[type=text],
+textarea {
     font-size: 0.7em;
     margin: 0.3em 0 0.5em 0;
     padding: 0.2em;
@@ -79,7 +80,7 @@ button {
     float: right;
     background-color: #BACEC1;
     margin-top: 1em;
-    width:min-content;
+    width: min-content;
     padding: 1em;
 }
 
@@ -91,17 +92,26 @@ button {
 }
 
 /* ADMIN-page css */
-#addOrLookupEmployee {
+#addDeleteEditEmployee {
+    display: flex;
+    flex-direction: row;
+}
+
+.employeeFormSelection {
+    width: 33%;
+}
+
+.employeeFormSelection>form {
+    width: 90%;
+}
+
+.employeeFieldset>label {
+    align-content: center;
+}
+
+.employeeFieldset {
     display: grid;
-    grid-template-columns: 40% auto;
-}
-
-#addEmployee {
-    grid-column: 1;
-}
-
-#lookEmployeeInfo {
-    grid-column: 2;
+    grid-template-columns: 40fr 60fr;
 }
 
 /* End of ADMIN-page css */
