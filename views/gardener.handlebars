@@ -1,7 +1,3 @@
-<header>
-    <h2>Puutarhurin työlista</h2>
-</header>
-
 <form id="worklist">
 <fieldset>
     <legend>Viikon työkohteet</legend>
@@ -26,6 +22,10 @@
 <fieldset>
     <aside>
     <legend>Työkohteen sääennuste</legend>
+    <p>{{#each works}}</p>
+   <p>{{this.date}}: {{{this.customerName}}}</p>
+      </p>{{/each}}</p>
     </aside>
     </fieldset>
 </form>
+

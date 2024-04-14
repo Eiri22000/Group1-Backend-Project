@@ -18,4 +18,4 @@ const AppointedWorksitesSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("AppointedWorksitesSchema", AppointedWorksitesSchema)
+module.exports = mongoose.model("AppointedWorksites", AppointedWorksitesSchema)
