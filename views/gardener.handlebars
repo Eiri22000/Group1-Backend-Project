@@ -2,26 +2,16 @@
     <section class="worklist">
         <form id="worklist">
             <fieldset class="worklist">
-                <legend>
-                    <h3>Viikon työkohteet</h3>
-                </legend>
-            <div class="worklist">
-                <table id="worklist">
-                    <tr>
-                        <th>Maanantai</th>
-                        <th>Tiistai</th>
-                        <th>Keskiviikko</th>
-                        <th>Torstai</th>
-                        <th>Perjantai</th>
-                    </tr>
-                    <tr>
-                        {{#each AppointedWorksites}}
-                        <td>{{this.date}} {{{this.customerName}}}
-                        {{this.chores}}</td>
-                        {{/each}}
-                    </tr>
-                </table>
-            </div>
+                <div class="list-group">
+                    <legend><h3>Seuraavat työkohteet</h3></legend>
+                    <ul class="list-group list-group-horizontal"></ul>
+                    {{#each AppointedWorksites}}
+                        <li class="list-group-item"> {{this.date}} </li>
+                        <li class="list-group-item"> {{{this.customerName}}} </li>
+                        <li class="list-group-item"> {{this.chores}} </li>
+                    {{/each}}
+                    </ul>               
+                </div>
             </fieldset>
         </form>
     </section>
@@ -32,7 +22,6 @@
                     <legend>
                         <h3>Työkohteen sääennuste</h3>
                     </legend>
-
                 </aside>
             </fieldset>
         </form>
