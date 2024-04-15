@@ -115,7 +115,12 @@ app.post('/updateDB', async (req, res) => {
                     .catch(error => {
                         res.render('admin'), { message: "Tallennus epäonnistui." }
                     })
-                break;
+                break
+            case "removeEmployee":
+                await User.deleteOne({ _id: req.body.idToRemove })
+                    .then(res.redirect('admin'))
+                    .catch(error => console.log('Poisto epäonnistui: ' + error))
+                break
         }
     }
     catch (error) {

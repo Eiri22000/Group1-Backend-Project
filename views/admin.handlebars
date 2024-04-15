@@ -2,7 +2,9 @@
     <section class="employeeFormSelection">
         <form method="post" action="/saveFormToDB">
             <fieldset class="employeeFieldset">
-                <legend>Uusi työntekijä</legend>
+                <legend>
+                    <h3>Uusi työntekijä</h3>
+                </legend>
                 <label for="employeeName" placeholder="Nimi">Työntekijän nimi: </label>
                 <input id="employeeName" type="text" name="employeeName" />
                 <label for="employeePhone" placeholder="Puhelinnumero">Puhelinnumero: </label>
@@ -19,7 +21,9 @@
     <section class="employeeFormSelection">
         <form method="post" action="/updateDB">
             <fieldset id="editEmployee" class="employeeFieldset">
-                <legend>Muokkaa työntekijän tietoja</legend>
+                <legend>
+                    <h3>Muokkaa työntekijän tietoja</h3>
+                </legend>
                 <label for="selectEmployee">Valitse työntekijä</label>
                 <select id="selectEmployee" name="selectedEmployee">
                     {{#each workers}}
@@ -41,19 +45,14 @@
         </form>
     </section>
     <section class="employeeFormSelection">
-        <form method="post" action="">
-            <fieldset class="employeeFieldset">
-                <legend>Poista työntekijä EI KÄYTÖSSÄ</legend>
-                <label for="employeeName" placeholder="Nimi">Työntekijän nimi: </label>
-                <input id="employeeName" type="text" name="employeeName" />
-                <label for="employeePhone" placeholder="Puhelinnumero">Puhelinnumero: </label>
-                <input id="employeePhone" type="text" name="phoneNumber" />
-                <label for="employeeEmail" placeholder='Sähköpostiosoite'>Sähköpostiosoite: </label>
-                <input id="employeeEmail" type="email" name="email" />
-                <input type="hidden" value="addEmployee" name="type" />
-                <button type="submit">Lisää työntekijä</button>
-            </fieldset>
+        <h3>Poista työntekijä</h3>
+        {{#each workers}}
+        <form class="deleteWorkerForm" method="post" action="/updateDB">
+            <p>{{this.name}}</p>
+            <button type="submit" value="{{this._id}}" name="idToRemove">Poista työntekijä</button>
+            <input type="hidden" value="removeEmployee" name="type" />
         </form>
+        {{/each}}
     </section>
     {{!-- <section id="lookEmployeeInfo">
         <h2>Katso työntekijän tiedot</h2>

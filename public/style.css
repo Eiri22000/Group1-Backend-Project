@@ -96,9 +96,11 @@ button {
     max-width: 90%;
     padding: 1em;
 }
+
 /* Gardener page css */
 
-th, td {
+th,
+td {
     border: 1px solid #dee2e6;
     padding: 10px;
     text-align: center;
@@ -141,6 +143,10 @@ th {
 .employeeFieldset {
     display: grid;
     grid-template-columns: 40fr 60fr;
+}
+
+.deleteWorkerForm {
+    display: block;
 }
 
 /* End of ADMIN-page css */
