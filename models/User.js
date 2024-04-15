@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: true
@@ -30,21 +34,21 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function (next) {
     const user = this;
     if (!user.isModified('password')) return next();
-  
+
     try {
-      const salt = await bcrypt.genSalt();
-      user.password = await bcrypt.hash(user.password, salt);
-      next();
+        const salt = await bcrypt.genSalt();
+        user.password = await bcrypt.hash(user.password, salt);
+        next();
     } catch (error) {
-      return next(error);
+        return next(error);
     }
-  });
-  
-  // Compare the given password with the hashed password in the database
-  userSchema.methods.comparePassword = async function (password) {
+});
+
+// Compare the given password with the hashed password in the database
+userSchema.methods.comparePassword = async function (password) {
     return bcrypt.compare(password, this.password);
-  };
-  
-  const User = mongoose.model('User', userSchema);
-  
-  module.exports = User;
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;

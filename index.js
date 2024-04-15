@@ -71,6 +71,7 @@ app.get('/workIntake', async (req, res) => {
 })
 
 app.post('/saveFormToDB', async (req, res) => {
+    console.log(req.body)
     try {
         switch (req.body.type) {
             case "addEmployee":
@@ -78,12 +79,15 @@ app.post('/saveFormToDB', async (req, res) => {
                     name: req.body.employeeName,
                     phoneNumber: req.body.phoneNumber,
                     email: req.body.email,
+                    username: req.body.username,
+                    password: req.body.username,
                     role: "worker"
                 })
                 await newEmployee.save()
                     .then(res.redirect('admin'), { message: "Uusi työntekijä tallennettu!" })
                     .catch(error => {
-                        res.redirect('admin'), { message: "Tallennus epäonnistui." }
+                        console.log("Virhe" + error)
+                        //res.redirect('admin'), { message: "Tallennus epäonnistui." }
                     })
                 break;
             case "addWorksite":
@@ -109,7 +113,7 @@ app.post('/updateDB', async (req, res) => {
                 })
                     .then(res.redirect('admin'), { message: "Tiedot päivitetty onnistuneesti!." })
                     .catch(error => {
-                        res.redirect('admin'), { message: "Tallennus epäonnistui." }
+                        res.render('admin'), { message: "Tallennus epäonnistui." }
                     })
                 break;
         }
@@ -133,7 +137,7 @@ app.post('/addWork', async (req, res) => {
             additionalInformation: req.body.additionalInformation
         })
         await work.save()
-        .then(res.redirect('workIntake'))
+            .then(res.redirect('workIntake'))
     }
     catch (error) {
         console.log(error)
@@ -144,10 +148,10 @@ app.post('/addWork', async (req, res) => {
 const workerName = 'testi';
 async function getWorksForWorker() {
     const collection = database.collection(appointedWorksites);
-    const works = await collection.find({worker: workerName}).toArray();
+    const works = await collection.find({ worker: workerName }).toArray();
     return works;
 }
-    
+
 app.get('/gardenerWorks/:worker', async (req, res) => {
     const worker = 'testi';
     const works = await appointedWorksites.findById(worker);

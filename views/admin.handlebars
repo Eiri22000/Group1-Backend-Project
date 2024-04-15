@@ -9,6 +9,8 @@
                 <input id="employeePhone" type="text" name="phoneNumber" />
                 <label for="employeeEmail" placeholder='Sähköpostiosoite'>Sähköpostiosoite: </label>
                 <input id="employeeEmail" type="email" name="email" />
+                <label for="employeeUsername">Käyttäjälle luotu käyttäjätunnus: </label>
+                <input id="employeeUsername" type="text" name="username" />
                 <input type="hidden" value="addEmployee" name="type" />
                 <button type="submit">Lisää työntekijä</button>
             </fieldset>
@@ -64,9 +66,17 @@
 <p style="background-color:pink">TÄHÄN SE PITÄIS SAADA :{{message}}</p>
 
 <script>
-    document.getElementById(" selectEmployee").addEventListener("change", function (e) {
+    document.getElementById("selectEmployee").addEventListener("change", function (e) {
         document.getElementById('editName').value = e.target.value
         document.getElementById('editPhone').value = e.target[e.target.options.selectedIndex].getAttribute('data-phoneNumber');
         document.getElementById('editEmail').value = e.target[e.target.options.selectedIndex].getAttribute('data-email');
         document.getElementById('editEmployeeHiddenInput').value = e.target[e.target.options.selectedIndex].getAttribute('data-id')
-    }) </script>
+    })
+
+    document.getElementById("employeeName").addEventListener("focusout", function (e) {
+        let newUserName = e.target.value.toLowerCase()
+        newUserName = newUserName.substring(0, 3) + newUserName.substring(newUserName.length - 3, newUserName.length) + Math.floor(Math.random() * 999)
+        document.getElementById("employeeUsername").value = newUserName
+    })
+
+</script>
