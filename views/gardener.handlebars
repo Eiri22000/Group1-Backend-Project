@@ -15,11 +15,10 @@
                         <th>Perjantai</th>
                     </tr>
                     <tr>
-                        <td>Bill Gates</td>
-                        <td>555 77 854</td>
-                        <td>555 77 855</td>
-                        <td>555 77 855</td>
-                        <td>555 77 855</td>
+                        {{#each AppointedWorksites}}
+                        <td>{{this.date}} {{{this.customerName}}}
+                        {{this.chores}}</td>
+                        {{/each}}
                     </tr>
                 </table>
             </div>
@@ -33,9 +32,7 @@
                     <legend>
                         <h3>Työkohteen sääennuste</h3>
                     </legend>
-                        <p>{{#each works}}</p>
-                        <p>{{this.worker}}: {{{this.customerName}}}</p>
-                        </p>{{/each}}</p>
+
                 </aside>
             </fieldset>
         </form>
