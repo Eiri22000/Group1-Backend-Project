@@ -1,31 +1,44 @@
-<form id="worklist">
-<fieldset>
-    <legend>Viikon työkohteet</legend>
-    <div class="worklist">
-        <table id="worklist">
-             <tr>
-                <th>Maanantai</th>
-                <th>Tiistai</th>
-                <th>Keskiviikko</th>
-                <th>Torstai</th>
-                <th>Perjantai</th>
-            </tr>
-            <tr>
-                <td>Bill Gates</td>
-                <td>555 77 854</td>
-                <td>555 77 855</td>
-            </tr>
-        </table>
-    </div>
-</fieldset>
-
-<fieldset>
-    <aside>
-    <legend>Työkohteen sääennuste</legend>
-    <p>{{#each works}}</p>
-   <p>{{this.date}}: {{{this.customerName}}}</p>
-      </p>{{/each}}</p>
-    </aside>
-    </fieldset>
-</form>
+<main id="worklist">
+    <section class="worklist">
+        <form id="worklist">
+            <fieldset class="worklist">
+                <legend>
+                    <h3>Viikon työkohteet</h3>
+                </legend>
+            <div class="worklist">
+                <table id="worklist">
+                    <tr>
+                        <th>Maanantai</th>
+                        <th>Tiistai</th>
+                        <th>Keskiviikko</th>
+                        <th>Torstai</th>
+                        <th>Perjantai</th>
+                    </tr>
+                    <tr>
+                        <td>Bill Gates</td>
+                        <td>555 77 854</td>
+                        <td>555 77 855</td>
+                        <td>555 77 855</td>
+                        <td>555 77 855</td>
+                    </tr>
+                </table>
+            </div>
+            </fieldset>
+        </form>
+    </section>
+    <section class="worksiteForecast">
+        <form id="worksiteForecast">
+            <fieldset class="worksiteForecast"> 
+                <aside>
+                    <legend>
+                        <h3>Työkohteen sääennuste</h3>
+                    </legend>
+                        <p>{{#each works}}</p>
+                        <p>{{this.worker}}: {{{this.customerName}}}</p>
+                        </p>{{/each}}</p>
+                </aside>
+            </fieldset>
+        </form>
+    </section>
+</main>
 

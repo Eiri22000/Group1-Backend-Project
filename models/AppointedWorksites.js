@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const AppointedWorksitesSchema = new mongoose.Schema({
+const appointedWorksitesSchema = new mongoose.Schema({
     date: {
         type: Date
     },
@@ -18,4 +18,5 @@ const AppointedWorksitesSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("AppointedWorksites", AppointedWorksitesSchema)
+const AppointedWorksites = mongoose.model('AppointedWorksites', appointedWorksitesSchema);
+module.exports = AppointedWorksites;

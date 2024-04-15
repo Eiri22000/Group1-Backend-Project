@@ -99,8 +99,12 @@ button {
 
 /* Gardener page css */
 
-th,
-td {
+#worklist {
+    display: flex;
+    flex-direction: row;
+}
+
+th, td {
     border: 1px solid #dee2e6;
     padding: 10px;
     text-align: center;
@@ -109,11 +113,6 @@ td {
 th {
     background-color: #f2f2f2;
     color: #343a40;
-}
-
-#worklist {
-    display: flex;
-    flex-direction: row;
 }
 
 /* Work Intake page */

@@ -62,9 +62,14 @@ app.get('/admin', async (req, res) => {
 })
 
 app.get('/gardener', async (req, res) => {
-    const users = await User.find().lean()
-    res.render('gardener', { subtitle: 'Puutarhurin työlista', workers: AppointedWorksites })
-})
+    try {
+        const worker = 'annoff285';
+        const works = await AppointedWorksites.find({worker:worker}).lean();
+        res.render('gardener', {subtitle: 'Puutarhurin työlista', AppointedWorksites:works});
+    } catch (error){
+            res.status(500).json({message: error.message});
+    }
+});
 
 app.get('/workIntake', async (req, res) => {
     res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi' })
@@ -149,35 +154,6 @@ app.post('/addWork', async (req, res) => {
     }
 })
 
-// Get gardeners work
-const workerName = 'testi';
-async function getWorksForWorker() {
-    const collection = database.collection(appointedWorksites);
-    const works = await collection.find({ worker: workerName }).toArray();
-    return works;
-}
-
-app.get('/gardenerWorks/:worker', async (req, res) => {
-    const worker = 'testi';
-    const works = await appointedWorksites.findById(worker);
-    res.render(AppointedWorksites);
-})
-/*
-async function getWorksForWorker() {
-    const collection = database.collection(appointedWorksites);
-    const works = await collection.find({worker: worker}).toArray();
-    try {
-        // Call the function to get works for the worker
-        const works = await getWorksForWorker();
-
-        // Respond with the works
-        res.json(works);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-    }
-})
-*/
 
 
 app.use((req, res, next) => {
