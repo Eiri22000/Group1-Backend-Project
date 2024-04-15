@@ -1,49 +1,55 @@
    <main>
-    <form id="addWorkForm" action="/addWork" method="post">
-        <p class="description">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä, joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita.</p>
-        <fieldset>
-            <legend>Tilaajan tiedot</legend>
-            <label for="name">Nimi:</label>
-            <input name="customerName" id="name" type="text" required="true">
-            <label for="phone">Puhelinnumero:</label>
-            <input name="phoneNumber" id="phone" type="text" required="true">
-            <label for="email">Sähköposti:</label>
-            <input name="email" id="email" type="text" required="true">
-        </fieldset>
-        <fieldset>
-            <legend>Kohteen tiedot</legend>
-            <label for="address">Kohteen osoite:</label>
-            <input name="workAddress" id="address" type="text">
-            <label for="postalCode">Postinumero:</label>
-            <input name="postalCode" id="postalCode" type="text">
-            <label for="city">Paikkakunta:</label>
-            <input name="city" id="city" type="text">
-        </fieldset>
-        <fieldset>
-            <legend>Kohteeseen tilattavat työt</legend>
-            <div>
-                <input type="checkbox" id="haravointi" value="Haravointi" name="tasks">
-                <label for="haravointi">Haravointi</label>
+    <section class="col greenBack ">
+        <p class="description row">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä, joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita.</p>
+        <form id="addWorkForm" action="/addWork" method="post">
+            <div class="row row-cols-2 d-flex justify-content-center">
+            <fieldset class="border p-3 m-1 border-secondary col-3">
+                <legend class="w-auto form-group">Tilaajan tiedot</legend>
+                <label for="name">Nimi:</label>
+                <input name="customerName" id="name" type="text" class="form-control border-secondary" required="true">
+                <label for="phone">Puhelinnumero:</label>
+                <input name="phoneNumber" id="phone" type="text" class="form-control border-secondary" required="true">
+                <label for="email">Sähköposti:</label>
+                <input name="email" id="email" type="text" class="form-control border-secondary" required="true">
+            </fieldset>
+            <fieldset class="border p-3 m-1 border-secondary col-3">
+                <legend class="w-auto form-group">Kohteen tiedot</legend>
+                <label for="address">Kohteen osoite:</label>
+                <input name="workAddress" id="address" type="text" class="form-control border-secondary">
+                <label for="postalCode">Postinumero:</label>
+                <input name="postalCode" id="postalCode" type="text" class="form-control border-secondary">
+                <label for="city">Paikkakunta:</label>
+                <input name="city" id="city" type="text" class="form-control border-secondary">
+            </fieldset>
+            <fieldset class="border p-3 m-1 border-secondary col-4">
+                <legend class="w-auto">Kohteeseen tilattavat työt</legend>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="haravointi" value="Haravointi" name="tasks" class="custom-control-input">
+                    <label for="haravointi" class="custom-control-label">Haravointi</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="nurmikonleikkaus" value="Nurmikonleikkaus" name="tasks" class="custom-control-input">
+                    <label for="nurmikonleikkaus" class="custom-control-label">Nurmikonleikkaus</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="istutustyö" value="Istutustyö" name="tasks" class="custom-control-input">
+                    <label for="istutustyö" class="custom-control-label">Istutustyö</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="rikkaruohojenKitkentä" value="Rikkaruohojen kitkentä" name="tasks" class="custom-control-input">
+                    <label for="rikkaruohojenKitkentä" class="custom-control-label">Rikkaruohojen kitkentä</label>
+                </div>
+                <div>
+                    <label for="lisätietoja" class="form-label">Muita toiveita tai lisätietoja:</label>
+                    <textarea name="additionalInformation"  id="lisätietoja" class="form-control" rows="3"></textarea>
+                </div>
+            </fieldset>
             </div>
-            <div>
-                <input type="checkbox" id="nurmikonleikkaus" value="Nurmikonleikkaus" name="tasks">
-                <label for="nurmikonleikkaus">Nurmikonleikkaus</label>
-            </div>
-            <div>
-                <input type="checkbox" id="istutustyö" value="Istutustyö" name="tasks">
-                <label for="istutustyö">Istutustyö</label>
-            </div>
-            <div>
-                <input type="checkbox" id="rikkaruohojenKitkentä" value="Rikkaruohojen kitkentä" name="tasks">
-                <label for="rikkaruohojenKitkentä">Rikkaruohojen kitkentä</label>
-            </div>
-            <div>
-                <label for="lisätietoja">Muita toiveita tai lisätietoja:</label>
-                <textarea name="additionalInformation"  id="lisätietoja" rows="5" cols="30"></textarea>
-            </div>
-        </fieldset>
+            <div class="row justify-content-end">
         <button type="submit">Tilaa puutarhuri</button>
-    </form>
+        </div>
+        </form>
+     </section>
     </main>
 
   
