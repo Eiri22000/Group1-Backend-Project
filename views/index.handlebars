@@ -1,19 +1,18 @@
 <main>
-    {{!-- <section class="signIn"> --}}
-        <section class="container">
+        <section class="container greenBack">
         <article class="description col">
             <p>Penan puutarha on toiminut jo vuodesta 1995 Kankaanpäässä. Nykyään toimimme ympäri Suomen, työllistäen puutarhureita joka maakunnassa.</p>
             <p>Hommiimme kuuluu kaikki puutarhan perustyöt, ja pystymme ottamaan myös erikoistoiveet huomioon. Teemme työtämme ammattitaidolla ja ylpeydellä.</p>
             <p>Nappia painamalla pääset tekemään työtilauksen. Tervetuloa {{title}}an!</p>
             <a href="/workIntake"><button>Tee työtilaus</button></a>
         </article>
-        <form id="loginForm" action="/auth/login" method="POST" class="col d-flex justify-content-center">
-        <fieldset>
-        <legend >Kirjaudu sisään</legend>
+        <form action="/auth/login" method="POST" class="col d-flex justify-content-center">
+        <fieldset class="border p-3 border-secondary col-4">
+        <legend class="w-auto form-group">Kirjaudu sisään</legend>
             <label for="username">User name:</label>
-            <input type="text" name="username" class="row">
+            <input type="text" name="username" class="row form-control border-secondary">
             <label for="password">Password:</label>
-            <input type="text" name="password" class="row">
+            <input type="text" name="password" class="row form-control border-secondary">
             <button type="submit">Sign in</button>
             </fieldset>
         </form>
