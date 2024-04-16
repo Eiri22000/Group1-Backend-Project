@@ -1,0 +1,76 @@
+<select name="Valitse">
+    {{#each workers}}
+    <option>tyhjä</option>
+    <option>{{this.name}}</option>
+    {{/each}}
+</select>
+
+<table style="background-color: lightyellow">
+    <thead>
+        <h3>Avoimet työkohteet</h3>
+        <tr>
+            <th>Päivämäärä</th>
+            <th>Asiakas</th>
+            <th>Puhelinnumero</th>
+            <th>Sähköpostiosoite</th>
+            <th>Työtehtävät</th>
+            <th>Lisätiedot</th>
+            <th>Poista työ</th>
+            <th>Valitse työntekijä</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each openWorksites}}
+        <tr>
+            <td>PVM</td>
+            <td>{{this.customerName}}</td>
+            <td>{{this.phoneNumber}}</td>
+            <td>{{this.email}}</td>
+            <td>{{#each this.tasks}}
+                {{this}}<br>
+                {{/each}}</td>
+            <td>{{this.additionalInformation}}</td>
+            <td><input class="worksiteToDelete" value={{this._id}} type="checkbox"></td>
+            <td>
+                <select name="Valitse">
+                    <option disabled selected value> -- Valitse -- </option>
+                    {{#each ../workers}}
+                    <option value={{this._id}}>{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+    <tfoot>
+        <td>
+            <button onclick=deleteWorksites()>Poista valitut työkohteet</button>
+        </td>
+    </tfoot>
+</table>
+
+<script>
+    async function deleteWorksites() {
+        let idsToRemove = [];
+        let worksiteCheckboxes = document.getElementsByClassName('worksiteToDelete')
+        Array.from(worksiteCheckboxes).map((checkbox) => {
+            if (checkbox.checked) {
+                idsToRemove.push(checkbox.value)
+            }
+        })
+
+        const response = await fetch('/deleteWorksite', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json' // Specify the content type
+            },
+            body: JSON.stringify(idsToRemove) // Convert the data to JSON string
+        });
+
+        const data = await response.json();
+
+        console.log(data.message)
+
+
+    }
+</script>
