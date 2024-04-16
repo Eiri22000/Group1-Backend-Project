@@ -61,13 +61,19 @@ app.get('/admin', async (req, res) => {
     res.render('admin', { subtitle: 'Työntekijöiden hallinta', workers: users })
 })
 
+app.get('/assignWorksite', async (req, res) => {
+    const openWorksites = await Worksite.find().lean()
+    const workers = await User.find().select('_id, name').lean()
+    res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers })
+})
+
 app.get('/gardener', async (req, res) => {
     try {
         const worker = 'annoff285';
-        const works = await AppointedWorksites.find({worker:worker}).lean();
-        res.render('gardener', {subtitle: 'Puutarhurin työlista', AppointedWorksites:works});
-    } catch (error){
-            res.status(500).json({message: error.message});
+        const works = await AppointedWorksites.find({ worker: worker }).lean();
+        res.render('gardener', { subtitle: 'Puutarhurin työlista', AppointedWorksites: works });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 });
 
@@ -154,6 +160,15 @@ app.post('/addWork', async (req, res) => {
     }
 })
 
+app.delete('/deleteWorksite', async (req, res) => {
+    try {
+        await Worksite.deleteMany({ _id: { $in: req.body } });
+        res.status(200).json({ message: "Valitsemasi työt poistettu!" })
+    } catch {
+
+        res.status(500).json({ message: "Poisto epäonnistui." })
+    }
+})
 
 
 app.use((req, res, next) => {
