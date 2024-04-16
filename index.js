@@ -7,6 +7,8 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const router = express.Router();
 module.exports = router;
+require('esm-hook');
+const fetch = require('node-fetch').default;
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -38,6 +40,17 @@ app.engine('handlebars', exphbs.engine({
 
 // Parse JSON request body
 app.use(express.json());
+
+// Get plant photo from Perenual Plan API
+
+//     fetch('https://perenual.com/api/species/details/1?key=sk-aQC8661e7af0453875143')
+//     .then(req => req.json())
+//     .then(json => console.log(json.default_image))
+// .catch(console.error);
+
+
+
+
 
 // ROUTES //
 
