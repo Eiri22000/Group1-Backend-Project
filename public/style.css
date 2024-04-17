@@ -22,11 +22,14 @@ header {
 }
 
 footer {
+    position: absolute;
+    width: 100%;
     font-size: 17px;
     padding: 0.4em;
     margin-top: 1em;
     overflow: hidden;
     background-color: rgb(238, 248, 236);
+    bottom: 0;
 }
 
 h1 {
