@@ -14,12 +14,13 @@ async function createMongoDBView() {
             },
             {
               $project: {
+                date: 1,
                 customerName: 1,
                 phoneNumber: 1,
                 email: 1,
                 workAddress: 1,
                 city: 1,
-                tasks: "$workerWorksites.chores",
+                chores: "$workerWorksites.chores",
                 additionalInformation: "$workerWorksites.additionalInformation"
             }
         }
@@ -38,5 +39,5 @@ async function createMongoDBView() {
         console.error("Error occurred while creating MongoDB view:", error);
     }
 }
-
+const workerWorksites = mongoose.model('createMongoDBView', createMongoDBView);
 module.exports = createMongoDBView;

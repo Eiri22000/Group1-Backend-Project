@@ -16,7 +16,7 @@ const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPA
 const User = require('./models/User');
 const Worksite = require('./models/Worksite');
 const AppointedWorksites = require('./models/AppointedWorksites');
-const createMongoDBView = require('./models/createView');
+const createMongoDBView = require('./models/worksiteView');
 
 //Wait for database connection and when succesful make the app listen to port 3000
 mongoose.connect(dbURI)
@@ -24,7 +24,7 @@ mongoose.connect(dbURI)
         console.log('Database access succesful!')
         const PORT = process.env.PORT || 3000
         app.listen(PORT, () => console.log('Listening port: ' + PORT))
-        createMongoDBView();
+        workersiteView();
     })
     .catch((error) => {
         console.log('Error occurred connecting to database: ' + error)
@@ -84,12 +84,14 @@ app.get('/assignWorksite', async (req, res) => {
 
 app.get('/gardener', async (req, res) => {
     try {
-        /*const worker = req.session.worker;*/
-        worker = "eirnen167";
+        const worker = "eirnen167";
         const works = await AppointedWorksites.find({ worker: worker }).lean();
         res.render('gardener', { subtitle: 'Puutarhurin työlista', AppointedWorksites: works });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        // Log the full error for debugging purposes
+        console.error(error);
+        // Send an error response with a generic message
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
 
