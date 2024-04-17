@@ -30,6 +30,10 @@ const worksiteSchema = new mongoose.Schema({
     },
     additionalInformation: {
         type: String
+    },
+    date: {
+        type: Date,
+        required: true
     }
 })
 

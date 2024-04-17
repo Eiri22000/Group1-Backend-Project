@@ -43,13 +43,25 @@ app.engine('handlebars', exphbs.engine({
 // Parse JSON request body
 app.use(express.json());
 
+
+
 // Get plant photo from Perenual Plan API
+// const randomImage = async() => {
+//     try{
+//         const number = Math.floor(Math.random() * 3001)
+//         await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
+//             key: process.env.PLANTAPIKEY,
+//         }))
+//         .then(req => req.json())
+//         .then(json => json.default_image)
+//         .then(defImage => console.log(defImage.regular_url))
+//     }
+//     catch (error) {
+//         console.log(error)
+//     }
+// }
 
-//     fetch('https://perenual.com/api/species/details/1?key=sk-aQC8661e7af0453875143')
-//     .then(req => req.json())
-//     .then(json => console.log(json.default_image))
-// .catch(console.error);
-
+// console.log(randomImage())
 
 
 
@@ -80,6 +92,25 @@ app.get('/assignWorksite', async (req, res) => {
     const openWorksites = await Worksite.find().lean()
     const workers = await User.find().select('_id, name').lean()
     res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers })
+})
+
+app.post('/assignWorksite', async (req, res) => {
+    const assignedWorksitesToDB = req.body
+    for (const worksite of assignedWorksitesToDB) {
+        const workerNames = await User.findOne({ _id: worksite.workerId }).lean()
+        let workerUserName = workerNames.username
+        let workerFullName = workerNames.name
+
+        const newAssignedWorksite = new AppointedWorksites({
+            date: worksite.date,
+            customerName: worksite.customer,
+            chores: worksite.chores,
+            worker: workerFullName,
+            workerFullName: workerUserName
+        })
+        await newAssignedWorksite.save()
+    }
+
 })
 
 app.get('/gardener', async (req, res) => {

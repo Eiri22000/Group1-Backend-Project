@@ -1,10 +1,3 @@
-<select name="Valitse">
-    {{#each workers}}
-    <option>tyhjä</option>
-    <option>{{this.name}}</option>
-    {{/each}}
-</select>
-
 <table style="background-color: lightyellow">
     <thead>
         <h3>Avoimet työkohteet</h3>
@@ -22,7 +15,7 @@
     <tbody>
         {{#each openWorksites}}
         <tr>
-            <td>PVM</td>
+            <td>{{this.date}}</td>
             <td>{{this.customerName}}</td>
             <td>{{this.phoneNumber}}</td>
             <td>{{this.email}}</td>
@@ -32,10 +25,12 @@
             <td>{{this.additionalInformation}}</td>
             <td><input class="worksiteToDelete" value={{this._id}} type="checkbox"></td>
             <td>
-                <select name="Valitse">
+                <select class="workerOption" name="Valitse">
                     <option disabled selected value> -- Valitse -- </option>
                     {{#each ../workers}}
-                    <option value={{this._id}}>{{this.name}}</option>
+                    <option value={{this._id}} data-date={{../date}} data-customer={{../customerName}}
+                        data-chores={{../tasks}}>
+                        {{this.name}}</option>
                     {{/each}}
                 </select>
             </td>
@@ -45,10 +40,11 @@
     <tfoot>
         <td>
             <button onclick=deleteWorksites()>Poista valitut työkohteet</button>
+            <button onclick=assignWorks()>Lisää määritetyt työt työntekijöille</button>
         </td>
     </tfoot>
 </table>
-
+<p id="responseMessage"></p>
 <script>
     async function deleteWorksites() {
         let idsToRemove = [];
@@ -62,15 +58,41 @@
         const response = await fetch('/deleteWorksite', {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json' // Specify the content type
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(idsToRemove) // Convert the data to JSON string
+            body: JSON.stringify(idsToRemove)
         });
 
         const data = await response.json();
-
-        console.log(data.message)
-
-
+        document.getElementById('responseMessage').innerHTML = data.message
     }
+
+    async function assignWorks() {
+        let toBeAssigned = []
+        let workerSelects = document.getElementsByClassName('workerOption')
+        Array.from(workerSelects).map((select) => {
+            Array.from(select).map((option) => {
+                if (option.selected && option.label != "-- Valitse --") {
+                    let newAssignedWork = {
+                        date: option.dataset.date,
+                        customer: option.dataset.customer,
+                        chores: option.dataset.chores,
+                        workerId: option.value
+                    }
+                    toBeAssigned.push(newAssignedWork)
+                }
+            })
+        })
+        const response = await fetch('/assignWorksite', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(toBeAssigned)
+        });
+
+        const data = await response.json();
+        document.getElementById('responseMessage').innerHTML = data.message
+    }
+
 </script>
