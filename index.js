@@ -43,13 +43,25 @@ app.engine('handlebars', exphbs.engine({
 // Parse JSON request body
 app.use(express.json());
 
+
+
 // Get plant photo from Perenual Plan API
+// const randomImage = async() => {
+//     try{
+//         const number = Math.floor(Math.random() * 3001)
+//         await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
+//             key: process.env.PLANTAPIKEY,
+//         }))
+//         .then(req => req.json())
+//         .then(json => json.default_image)
+//         .then(defImage => console.log(defImage.regular_url))
+//     }
+//     catch (error) {
+//         console.log(error)
+//     }
+// }
 
-//     fetch('https://perenual.com/api/species/details/1?key=sk-aQC8661e7af0453875143')
-//     .then(req => req.json())
-//     .then(json => console.log(json.default_image))
-// .catch(console.error);
-
+// console.log(randomImage())
 
 
 
