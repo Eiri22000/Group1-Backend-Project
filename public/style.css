@@ -84,14 +84,8 @@ button {
 
 #worklist {
     display: flex;
-}
-
-#worklist {
-    display: flex;
     flex-direction: row;
 }
-
-
 
 /* ADMIN-page css */
 #addDeleteEditEmployee {

@@ -13,9 +13,10 @@ const fetch = require('node-fetch').default;
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
 //Import custom modules
-const User = require('./models/User')
-const Worksite = require('./models/Worksite')
-const AppointedWorksites = require('./models/AppointedWorksites')
+const User = require('./models/User');
+const Worksite = require('./models/Worksite');
+const AppointedWorksites = require('./models/AppointedWorksites');
+const createMongoDBView = require('./models/createView');
 
 //Wait for database connection and when succesful make the app listen to port 3000
 mongoose.connect(dbURI)
@@ -23,6 +24,7 @@ mongoose.connect(dbURI)
         console.log('Database access succesful!')
         const PORT = process.env.PORT || 3000
         app.listen(PORT, () => console.log('Listening port: ' + PORT))
+        createMongoDBView();
     })
     .catch((error) => {
         console.log('Error occurred connecting to database: ' + error)
@@ -82,7 +84,8 @@ app.get('/assignWorksite', async (req, res) => {
 
 app.get('/gardener', async (req, res) => {
     try {
-        const worker = 'annoff285';
+        /*const worker = req.session.worker;*/
+        worker = "eirnen167";
         const works = await AppointedWorksites.find({ worker: worker }).lean();
         res.render('gardener', { subtitle: 'Puutarhurin työlista', AppointedWorksites: works });
     } catch (error) {
@@ -187,4 +190,3 @@ app.delete('/deleteWorksite', async (req, res) => {
 app.use((req, res, next) => {
     res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");
 });
-

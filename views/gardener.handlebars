@@ -1,18 +1,28 @@
 <main id="worklist">
     <section class="worklist">
         <form id="worklist">
-            <fieldset class="worklist">
-                <div class="list-group">
-                    <legend><h3>Seuraavat työkohteet</h3></legend>
-                    <ul class="list-group list-group-horizontal"></ul>
-                    {{#each AppointedWorksites}}
-                        <li class="list-group-item"> {{this.date}} </li>
-                        <li class="list-group-item"> {{{this.customerName}}} </li>
-                        <li class="list-group-item"> {{this.chores}} </li>
-                    {{/each}}
-                    </ul>               
-                </div>
-            </fieldset>
+             <table>
+        <thead>
+            <tr>
+                <th>Phone Number</th>
+                <th>Work Address</th>
+                <th>City</th>
+                <th>Tasks</th>
+                <th>Additional Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each AppointedWorksites}}
+            <tr>
+                <td>{{phoneNumber}}</td>
+                <td>{{workAddress}}</td>
+                <td>{{city}}</td>
+                <td>{{tasks}}</td>
+                <td>{{additionalInformation}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
         </form>
     </section>
     <section class="worksiteForecast">

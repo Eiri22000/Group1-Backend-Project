@@ -5,8 +5,10 @@ const User = require('../models/User');
 // Login with an existing user
 const login = async (req, res, next) => {
   const {username,password } = req.body;
-
+  
   try {
+    /*const worker = req.body.username;
+    req.session.worker = worker;*/
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
