@@ -82,6 +82,25 @@ app.get('/assignWorksite', async (req, res) => {
     res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers })
 })
 
+app.post('/assignWorksite', async (req, res) => {
+    const assignedWorksitesToDB = req.body
+    for (const worksite of assignedWorksitesToDB) {
+        const workerNames = await User.findOne({ _id: worksite.workerId }).lean()
+        let workerUserName = workerNames.username
+        let workerFullName = workerNames.name
+
+        const newAssignedWorksite = new AppointedWorksites({
+            date: worksite.date,
+            customerName: worksite.customer,
+            chores: worksite.chores,
+            worker: workerFullName,
+            workerFullName: workerUserName
+        })
+        await newAssignedWorksite.save()
+    }
+
+})
+
 app.get('/gardener', async (req, res) => {
     try {
         /*const worker = req.session.worker;*/
