@@ -7,8 +7,6 @@ const login = async (req, res, next) => {
   const {username,password } = req.body;
   
   try {
-    /*const worker = req.body.username;
-    req.session.worker = worker;*/
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
@@ -20,7 +18,7 @@ const login = async (req, res, next) => {
     }
 
     // Check user type
-    if (user.type === 'admin') {
+    if (user.role === 'admin') {
     
     // If user is admin, generate admin token
     const adminToken = jwt.sign({ userId: user._id, userType: 'admin' }, process.env.SECRET_KEY, {
