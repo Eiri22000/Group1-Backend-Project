@@ -25,15 +25,18 @@ const worksiteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    date: {
+        type: String,
+        required: true
+    },
     tasks: {
         type: Array,
     },
     additionalInformation: {
         type: String
     },
-    date: {
-        type: Date,
-        required: true
+    isAssigned: {
+        type: Boolean,
     }
 })
 

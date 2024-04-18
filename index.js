@@ -127,7 +127,12 @@ app.get('/gardener', async (req, res) => {
 });
 
 app.get('/workIntake', async (req, res) => {
+    try {
     res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi' })
+    }
+    catch (error) {
+        console.log(error)
+    }
 })
 
 app.post('/saveFormToDB', async (req, res) => {
@@ -190,6 +195,11 @@ app.post('/updateDB', async (req, res) => {
 
 // Add a work
 app.post('/addWork', async (req, res) => {
+    //format date to common finnish date format
+    const date = new Date(req.body.date)
+    const formatter = new Intl.DateTimeFormat('fi-FI', { day: '2-digit', month: '2-digit', year: 'numeric' })
+    const formattedDate = formatter.format(date)
+
     try {
         const work = new Worksite({
             customerName: req.body.customerName,
@@ -198,8 +208,10 @@ app.post('/addWork', async (req, res) => {
             workAddress: req.body.workAddress,
             postalCode: req.body.postalCode,
             city: req.body.city,
+            date: formattedDate,
             tasks: req.body.tasks,
-            additionalInformation: req.body.additionalInformation
+            additionalInformation: req.body.additionalInformation,
+            isAssigned: false
         })
         await work.save()
             .then(res.redirect('workIntake'))
