@@ -13,6 +13,7 @@ body {
     background-image: url("testBackground.jpg");
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.4em;
+    height: 100vh;
 }
 
 header {
@@ -99,30 +100,60 @@ button {
 }
 
 /* ADMIN-page css */
-#addDeleteEditEmployee {
+
+.employeeFormSection,
+.employeeFormSection>form {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
-.employeeFormSelection {
-    width: 33%;
+.employeeFormSection {
+    width: 32%;
+    padding: 1em;
+    border: 2px solid green;
+    border-radius: 20px;
 }
 
-.employeeFormSelection>form {
-    width: 90%;
+.employeeFormSection>form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 0 !important;
+    font-size: 1.1em;
+    font-weight: 600;
 }
 
-.employeeFieldset>label {
-    align-content: center;
+.employeeFormSection>h3 {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 1em;
 }
 
-.employeeFieldset {
-    display: grid;
-    grid-template-columns: 40fr 60fr;
+.employeeFormSection>form>input,
+.employeeFormSection>form>select,
+.employeeFormSection>form>input[type='email'] {
+    font-size: 1em;
 }
 
-.deleteWorkerForm {
-    display: block;
+.employeeFormSection>form>select,
+.employeeFormSection>form>input[type='email'] {
+    padding: 0.2em;
+    margin: 0.3em 0 0.5em 0;
+}
+
+.employeeFormSection>form>label {
+    margin: 0.5em 0;
+}
+
+.deleteEmployeeForm {
+    display: grid !important;
+    grid-template-columns: 70% 30%;
+    margin-bottom: 0.5em;
 }
 
 /* End of ADMIN-page css */
+
+caption {
+    caption-side: top !important;
+    color: #0F2310 !important;
+}

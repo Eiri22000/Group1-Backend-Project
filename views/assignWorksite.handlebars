@@ -1,50 +1,55 @@
-<table style="background-color: lightyellow">
-    <thead>
-        <h3>Avoimet työkohteet</h3>
-        <tr>
-            <th>Päivämäärä</th>
-            <th>Asiakas</th>
-            <th>Puhelinnumero</th>
-            <th>Sähköpostiosoite</th>
-            <th>Työtehtävät</th>
-            <th>Lisätiedot</th>
-            <th>Poista työ</th>
-            <th>Valitse työntekijä</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each openWorksites}}
-        <tr>
-            <td>{{this.date}}</td>
-            <td>{{this.customerName}}</td>
-            <td>{{this.phoneNumber}}</td>
-            <td>{{this.email}}</td>
-            <td>{{#each this.tasks}}
-                {{this}}<br>
-                {{/each}}</td>
-            <td>{{this.additionalInformation}}</td>
-            <td><input class="worksiteToDelete" value={{this._id}} type="checkbox"></td>
-            <td>
-                <select class="workerOption" name="Valitse">
-                    <option disabled selected value> -- Valitse -- </option>
-                    {{#each ../workers}}
-                    <option value={{this._id}} data-date={{../date}} data-customer={{../customerName}}
-                        data-chores={{../tasks}}>
-                        {{this.name}}</option>
-                    {{/each}}
-                </select>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
-    <tfoot>
-        <td>
-            <button onclick=deleteWorksites()>Poista valitut työkohteet</button>
-            <button onclick=assignWorks()>Lisää määritetyt työt työntekijöille</button>
-        </td>
-    </tfoot>
-</table>
-<p id="responseMessage"></p>
+<main>
+
+    <table class="table table-striped table-bordered greenBack mx-auto">
+        <caption class="greenBack">
+            <h3>Avoimet työkohteet</h3>
+        </caption>
+        <thead class="thead-dark">
+            <tr>
+                <th>Päivämäärä</th>
+                <th>Asiakas</th>
+                <th>Puhelinnumero</th>
+                <th>Sähköpostiosoite</th>
+                <th>Työtehtävät</th>
+                <th>Lisätiedot</th>
+                <th>Poista työ</th>
+                <th>Valitse työntekijä</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each openWorksites}}
+            <tr>
+                <td>{{this.date}}</td>
+                <td>{{this.customerName}}</td>
+                <td>{{this.phoneNumber}}</td>
+                <td>{{this.email}}</td>
+                <td>{{#each this.tasks}}
+                    {{this}}<br>
+                    {{/each}}</td>
+                <td>{{this.additionalInformation}}</td>
+                <td class="text-center"><input class="worksiteToDelete d-inline-block" value={{this._id}}
+                        type="checkbox">
+                </td>
+                <td>
+                    <select class="workerOption" name="Valitse">
+                        <option disabled selected value> -- Valitse -- </option>
+                        {{#each ../workers}}
+                        <option value={{this._id}} data-date={{../date}} data-customer={{../customerName}}
+                            data-chores={{../tasks}}>
+                            {{this.name}}</option>
+                        {{/each}}
+                    </select>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+
+
+    </table>
+    <button onclick=deleteWorksites()>Poista valitut työkohteet</button>
+    <button onclick=assignWorks()>Lisää määritetyt työt työntekijöille</button>
+    <p id="responseMessage"></p>
+</main>
 <script>
     async function deleteWorksites() {
         let idsToRemove = [];

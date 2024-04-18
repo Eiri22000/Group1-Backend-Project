@@ -1,68 +1,54 @@
-<main id="addDeleteEditEmployee">
-    <section class="employeeFormSelection">
+<main class="row row-cols-3 justify-content-around" id="addDeleteEditEmployee">
+    <section class="employeeFormSection greenBack">
+        <h3 class="align-self-center">Uusi työntekijä</h3>
         <form method="post" action="/saveFormToDB">
-            <fieldset class="employeeFieldset">
-                <legend>
-                    <h3>Uusi työntekijä</h3>
-                </legend>
-                <label for="employeeName" placeholder="Nimi">Työntekijän nimi: </label>
-                <input id="employeeName" type="text" name="employeeName" />
-                <label for="employeePhone" placeholder="Puhelinnumero">Puhelinnumero: </label>
-                <input id="employeePhone" type="text" name="phoneNumber" />
-                <label for="employeeEmail" placeholder='Sähköpostiosoite'>Sähköpostiosoite: </label>
-                <input id="employeeEmail" type="email" name="email" />
-                <label for="employeeUsername">Käyttäjälle luotu käyttäjätunnus: </label>
-                <input id="employeeUsername" type="text" name="username" />
-                <input type="hidden" value="addEmployee" name="type" />
-                <button type="submit">Lisää työntekijä</button>
-            </fieldset>
+            <label for="employeeName" placeholder="Nimi">Työntekijän nimi: </label>
+            <input id="employeeName" type="text" name="employeeName" />
+            <label for="employeePhone" placeholder="Puhelinnumero">Puhelinnumero: </label>
+            <input id="employeePhone" type="text" name="phoneNumber" />
+            <label for="employeeEmail" placeholder='Sähköpostiosoite'>Sähköpostiosoite: </label>
+            <input id="employeeEmail" type="email" name="email" />
+            <label for="employeeUsername">Käyttäjälle luotu käyttäjätunnus: </label>
+            <input id="employeeUsername" type="text" name="username" />
+            <input type="hidden" value="addEmployee" name="type" />
+            <button type="submit" class="my-4 mx-auto">Lisää työntekijä</button>
         </form>
     </section>
-    <section class="employeeFormSelection">
+    <section class="employeeFormSection greenBack">
+        <h3 class="align-self-center">Muokkaa työntekijän tietoja</h3>
         <form method="post" action="/updateDB">
-            <fieldset id="editEmployee" class="employeeFieldset">
-                 <legend>
-                    <h3>Muokkaa työntekijän tietoja</h3>
-                </legend>
-                <label for="selectEmployee">Valitse työntekijä</label>
-                <select id="selectEmployee" name="selectedEmployee">
-                    {{#each workers}}
-                    <option name="employeeName" data-id={{this._id}} data-name={{this.name}}
-                        data-phoneNumber={{this.phoneNumber}} data-email={{this.email}}>
-                        {{this.name}}</option>
-                    {{/each}}
-                </select>
-                <label for=" editName">Työntekijän nimi: </label>
-                <input id="editName" type="text" name="employeeName" value="" />
-                <label for="editPhone">Puhelinnumero: </label>
-                <input id="editPhone" type="text" name="phoneNumber" value="" />
-                <label for="editEmail">Sähköpostiosoite: </label>
-                <input id="editEmail" type="email" name="email" value="" />
-                <input type="hidden" value="editEmployee" name="type" />
-                <input type="hidden" id="editEmployeeHiddenInput" name="hiddenId" />
-                <button type="submit">Päivitä tiedot</button>
-            </fieldset>
+            <label for="selectEmployee">Valitse työntekijä</label>
+            <select id="selectEmployee" name="selectedEmployee">
+                {{#each workers}}
+                <option name="employeeName" data-id={{this._id}} data-name={{this.name}}
+                    data-phoneNumber={{this.phoneNumber}} data-email={{this.email}}>
+                    {{this.name}}</option>
+                {{/each}}
+            </select>
+            <label for=" editName">Työntekijän nimi: </label>
+            <input id="editName" type="text" name="employeeName" value="" />
+            <label for="editPhone">Puhelinnumero: </label>
+            <input id="editPhone" type="text" name="phoneNumber" value="" />
+            <label for="editEmail">Sähköpostiosoite: </label>
+            <input id="editEmail" type="email" name="email" value="" />
+            <input type="hidden" value="editEmployee" name="type" />
+            <input type="hidden" id="editEmployeeHiddenInput" name="hiddenId" />
+            <button type="submit" class="my-4 mx-auto">Päivitä tiedot</button>
         </form>
     </section>
-    <section class="employeeFormSelection">
-        <h3>Poista työntekijä</h3>
+    <section class="employeeFormSection greenBack">
+        <h3 class="align-self-center">Poista työntekijä</h3>
         {{#each workers}}
-        <form class="deleteWorkerForm" method="post" action="/updateDB">
-            <p>{{this.name}}</p>
-            <button type="submit" value="{{this._id}}" name="idToRemove">Poista työntekijä</button>
+        <form class="deleteEmployeeForm" method="post" action="/updateDB">
+            <p class="my-auto">{{this.name}}</p>
+            <button type="submit" value="{{this._id}}" name="idToRemove">Poista</button>
             <input type="hidden" value="removeEmployee" name="type" />
         </form>
         {{/each}}
     </section>
-    {{!-- <section id="lookEmployeeInfo">
-        <h2>Katso työntekijän tiedot</h2>
-        {{#each workers}}
-        <h3>{{this.name}}</h3>
-        {{/each}}
-    </section> --}}
 
 </main>
-<p style="background-color:pink">TÄHÄN SE PITÄIS SAADA :{{message}}</p>
+<p style="background-color:pink">TÄHÄN PALAUTE :{{message}}</p>
 
 <script>
     document.getElementById("selectEmployee").addEventListener("change", function (e) {
