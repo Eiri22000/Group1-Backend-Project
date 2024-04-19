@@ -30,14 +30,18 @@ const worksiteSchema = new mongoose.Schema({
         required: true
     },
     tasks: {
-        type: Array,
+        type: Array
     },
     additionalInformation: {
         type: String
     },
     isAssigned: {
-        type: Boolean,
+        type: Boolean
+    },
+    assignedWorkerId: {
+        type: String
     }
+
 })
 
 module.exports = mongoose.model("Worksite", worksiteSchema)
