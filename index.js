@@ -44,28 +44,6 @@ app.engine('handlebars', exphbs.engine({
 app.use(express.json());
 
 
-
-// Get plant photo from Perenual Plan API
-// const randomImage = async() => {
-//     try{
-//         const number = Math.floor(Math.random() * 3001)
-//         await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
-//             key: process.env.PLANTAPIKEY,
-//         }))
-//         .then(req => req.json())
-//         .then(json => json.default_image)
-//         .then(defImage => console.log(defImage.regular_url))
-//     }
-//     catch (error) {
-//         console.log(error)
-//     }
-// }
-
-// console.log(randomImage())
-
-
-
-
 // ROUTES //
 
 // Define authentication routes
@@ -75,23 +53,35 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 
 
-app.get('/', (req, res) => {
-    res.render('index',
-        {
-            title: 'Penan Puutarha',
-            subtitle: 'Tervetuloa Penan Puutarhalle!'
+app.get('/', async (req, res) => {
+    try {
+        const backGroundImage = await randomImage();
+        res.render('index', { 
+            backGroundImage,
+            title: 'Penan Puutarha', 
+            subtitle: 'Tervetuloa Penan Puutarhalle!' 
         });
+    } catch (error) {
+        console.error(error);
+        res.render('index', { 
+            backGroundImage: 'testBackground.jpg', 
+            title: 'Penan Puutarha', 
+            subtitle: 'Tervetuloa Penan Puutarhalle!' 
+        });
+    }
 });
 
 app.get('/admin', async (req, res) => {
     const users = await User.find().lean()
-    res.render('admin', { subtitle: 'Työntekijöiden hallinta', workers: users })
+    const backGroundImage = await randomImage();
+    res.render('admin', { subtitle: 'Työntekijöiden hallinta', workers: users, backGroundImage })
 })
 
 app.get('/assignWorksite', async (req, res) => {
     const openWorksites = await Worksite.find({ isAssigned: false }).lean()
     const workers = await User.find().select('_id, name').lean()
-    res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers })
+    const backGroundImage = await randomImage();
+    res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers, backGroundImage })
 })
 
 app.post('/assignWorksite', async (req, res) => {
@@ -110,7 +100,8 @@ app.get('/gardener', async (req, res) => {
     try {
         const worker = "eirnen167";
         const works = await AppointedWorksites.find({ worker: worker }).lean();
-        res.render('gardener', { subtitle: 'Puutarhurin työlista', AppointedWorksites: works });
+        const backGroundImage = await randomImage();
+        res.render('gardener', { subtitle: 'Puutarhurin työlista', AppointedWorksites: works, backGroundImage });
     } catch (error) {
         // Log the full error for debugging purposes
         console.error(error);
@@ -121,7 +112,9 @@ app.get('/gardener', async (req, res) => {
 
 app.get('/workIntake', async (req, res) => {
     try {
-        res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi' })
+    const backGroundImage = await randomImage();
+    res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', imageUrl:'testBackground.jpg', backGroundImage
+ })
     }
     catch (error) {
         console.log(error)
@@ -223,6 +216,29 @@ app.delete('/deleteWorksite', async (req, res) => {
     }
 })
 
+
+// Get plant photo from Perenual Plan API
+const randomImage = async() => {
+    var image = "testBackground.jpg"
+    try{
+        const number = Math.floor(Math.random() * 3001)
+        await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
+            key: process.env.PLANTAPIKEY,
+        }))
+        .then(req => req.json())
+        .then(json => json.default_image)
+        .then(function(defImage) {
+            //If lausetta ei kerennyt kokeilla vielä ennenkuin loppu api
+            // if ( !defImage.original_url === undefined || !defImage.original_url === null) {
+            //      image = defImage.regular_url
+            // }
+        })
+    }
+    catch (error) {
+        console.log(error)
+    }
+    return image 
+}
 
 app.use((req, res, next) => {
     res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");

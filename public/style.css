@@ -10,10 +10,11 @@ html {
 
 body {
     margin: 0;
-    background-image: url("testBackground.jpg");
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-size: 1.4em;
     height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 header {
