@@ -1,4 +1,4 @@
-<main class="row row-cols-3 justify-content-around" id="addDeleteEditEmployee">
+<main class="row row-cols-3 justify-content-around mb-4">
     <section class="employeeFormSection greenBack">
         <h3 class="align-self-center">Uusi työntekijä</h3>
         <form method="post" action="/saveFormToDB">
@@ -19,6 +19,8 @@
         <form method="post" action="/updateDB">
             <label for="selectEmployee">Valitse työntekijä</label>
             <select id="selectEmployee" name="selectedEmployee">
+                <option disabled selected value> -- Valitse -- </option>
+
                 {{#each workers}}
                 <option name="employeeName" data-id={{this._id}} data-name={{this.name}}
                     data-phoneNumber={{this.phoneNumber}} data-email={{this.email}}>
@@ -48,19 +50,21 @@
     </section>
 
 </main>
-<p style="background-color:pink">TÄHÄN PALAUTE :{{message}}</p>
-
+{{> linkAndFeedback linkHref="/assignWorksite" linkText="Siirry avoimiin työkohteisiin"}}
 <script>
     document.getElementById("selectEmployee").addEventListener("change", function (e) {
         document.getElementById('editName').value = e.target.value
-        document.getElementById('editPhone').value = e.target[e.target.options.selectedIndex].getAttribute('data-phoneNumber');
+        document.getElementById('editPhone').value =
+            e.target[e.target.options.selectedIndex].getAttribute('data-phoneNumber');
         document.getElementById('editEmail').value = e.target[e.target.options.selectedIndex].getAttribute('data-email');
-        document.getElementById('editEmployeeHiddenInput').value = e.target[e.target.options.selectedIndex].getAttribute('data-id')
+        document.getElementById('editEmployeeHiddenInput').value =
+            e.target[e.target.options.selectedIndex].getAttribute('data-id')
     })
 
     document.getElementById("employeeName").addEventListener("focusout", function (e) {
         let newUserName = e.target.value.toLowerCase()
-        newUserName = newUserName.substring(0, 3) + newUserName.substring(newUserName.length - 3, newUserName.length) + Math.floor(Math.random() * 999)
+        newUserName = newUserName.substring(0, 3) + newUserName.substring(newUserName.length - 3, newUserName.length) +
+            Math.floor(Math.random() * 999)
         document.getElementById("employeeUsername").value = newUserName
     })
 
