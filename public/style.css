@@ -34,7 +34,6 @@ footer {
     bottom: 0;
     width: 100%;
     height: min-content;
-    ;
 }
 
 h1 {
@@ -152,6 +151,25 @@ button {
 }
 
 /* End of ADMIN-page css */
+#openWorksTable {
+    height: 73vh;
+    min-width: fit-content;
+}
+
+#openWorks {
+    height: 100%;
+}
+
+table {
+    display: block;
+    overflow-y: scroll;
+    height: 90%;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+}
 
 caption {
     caption-side: top !important;

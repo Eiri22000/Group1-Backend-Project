@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 
-{{>header}}
-<body>
+<body class="min-vh-100 vh-100">
+    {{>header}}
     <div class="container">
-    {{{body}}}
+        {{{body}}}
     </div>
-     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {{> footer}}
 </body>
-{{> footer}}
 
 </html>
