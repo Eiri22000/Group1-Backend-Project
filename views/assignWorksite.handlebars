@@ -34,8 +34,7 @@
                         <select class="workerOption" name="Valitse">
                             <option disabled selected value> -- Valitse -- </option>
                             {{#each ../workers}}
-                            <option value={{this._id}} data-date={{../date}} data-customer={{../customerName}}
-                                data-chores={{../tasks}}>
+                            <option value={{this._id}} data-worksite_id={{../_id}}>
                                 {{this.name}}</option>
                             {{/each}}
                         </select>
@@ -82,16 +81,16 @@
         Array.from(workerSelects).map((select) => {
             Array.from(select).map((option) => {
                 if (option.selected && option.label != "-- Valitse --") {
+
                     let newAssignedWork = {
-                        date: option.dataset.date,
-                        customer: option.dataset.customer,
-                        chores: option.dataset.chores,
-                        workerId: option.value
+                        worksiteId: option.dataset.worksite_id,
+                        employeeId: option.value
                     }
                     toBeAssigned.push(newAssignedWork)
                 }
             })
         })
+
         const response = await fetch('/assignWorksite', {
             method: 'POST',
             headers: {

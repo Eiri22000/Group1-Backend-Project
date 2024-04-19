@@ -89,7 +89,7 @@ app.get('/admin', async (req, res) => {
 })
 
 app.get('/assignWorksite', async (req, res) => {
-    const openWorksites = await Worksite.find().lean()
+    const openWorksites = await Worksite.find({ isAssigned: false }).lean()
     const workers = await User.find().select('_id, name').lean()
     res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers })
 })
@@ -97,20 +97,13 @@ app.get('/assignWorksite', async (req, res) => {
 app.post('/assignWorksite', async (req, res) => {
     const assignedWorksitesToDB = req.body
     for (const worksite of assignedWorksitesToDB) {
-        const workerNames = await User.findOne({ _id: worksite.workerId }).lean()
-        let workerUserName = workerNames.username
-        let workerFullName = workerNames.name
-
-        const newAssignedWorksite = new AppointedWorksites({
-            date: worksite.date,
-            customerName: worksite.customer,
-            chores: worksite.chores,
-            worker: workerFullName,
-            workerFullName: workerUserName
+        await Worksite.updateOne({ _id: worksite.worksiteId }, {
+            isAssigned: true,
+            assignedWorkerId: worksite.employeeId
         })
-        await newAssignedWorksite.save()
+            .then(console.log("Onnistui"))
+            .catch(error => console.log(error))
     }
-
 })
 
 app.get('/gardener', async (req, res) => {
@@ -128,7 +121,7 @@ app.get('/gardener', async (req, res) => {
 
 app.get('/workIntake', async (req, res) => {
     try {
-    res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi' })
+        res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi' })
     }
     catch (error) {
         console.log(error)
@@ -136,7 +129,6 @@ app.get('/workIntake', async (req, res) => {
 })
 
 app.post('/saveFormToDB', async (req, res) => {
-    console.log(req.body)
     try {
         switch (req.body.type) {
             case "addEmployee":
@@ -150,10 +142,10 @@ app.post('/saveFormToDB', async (req, res) => {
                 })
                 await newEmployee.save()
                     .then(res.redirect('admin'), { message: "Uusi työntekijä tallennettu!" })
-                    .catch(error => {
+                    .catch(error =>
                         console.log("Virhe" + error)
                         //res.redirect('admin'), { message: "Tallennus epäonnistui." }
-                    })
+                    )
                 break;
             case "addWorksite":
 
