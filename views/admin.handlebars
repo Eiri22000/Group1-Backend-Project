@@ -51,6 +51,8 @@
 
 </main>
 {{> linkAndFeedback linkHref="/assignWorksite" linkText="Siirry avoimiin työkohteisiin"}}
+
+
 <script>
     document.getElementById("selectEmployee").addEventListener("change", function (e) {
         document.getElementById('editName').value = e.target.value
@@ -62,10 +64,12 @@
     })
 
     document.getElementById("employeeName").addEventListener("focusout", function (e) {
-        let newUserName = e.target.value.toLowerCase()
-        newUserName = newUserName.substring(0, 3) + newUserName.substring(newUserName.length - 3, newUserName.length) +
-            Math.floor(Math.random() * 999)
-        document.getElementById("employeeUsername").value = newUserName
+        if (e.target.value != "") {
+            let newUserName = e.target.value.toLowerCase()
+            newUserName = newUserName.substring(0, 3) + newUserName.substring(newUserName.length - 3, newUserName.length) +
+                Math.floor(Math.random() * 999)
+            document.getElementById("employeeUsername").value = newUserName
+        }
     })
 
 </script>

@@ -6,22 +6,22 @@
             <fieldset class="border p-3 m-1 border-secondary col-3">
                 <legend class="w-auto form-group">Tilaajan tiedot</legend>
                 <label for="name">Nimi:</label>
-                <input name="customerName" id="name" type="text" class="form-control border-secondary" required="true">
+                <input name="customerName" id="name" type="text" class="form-control border-secondary" required="true" value="{{{formData.customerName}}}">
                 <label for="phone">Puhelinnumero:</label>
-                <input name="phoneNumber" id="phone" type="text" class="form-control border-secondary" required="true">
+                <input name="phoneNumber" id="phone" type="text" class="form-control border-secondary" required="true" value="{{{formData.phoneNumber}}}">
                 <label for="email">Sähköposti:</label>
-                <input name="email" id="email" type="text" class="form-control border-secondary" required="true">
+                <input name="email" id="email" type="text" class="form-control border-secondary" required="true" value="{{{formData.email}}}">
             </fieldset>
             <fieldset class="border p-3 m-1 border-secondary col-3">
                 <legend class="w-auto form-group">Kohteen tiedot</legend>
                 <label for="address">Kohteen osoite:</label>
-                <input name="workAddress" id="address" type="text" class="form-control border-secondary">
+                <input name="workAddress" id="address" type="text" class="form-control border-secondary" required="true" value="{{{formData.workAddress}}}">
                 <label for="postalCode">Postinumero:</label>
-                <input name="postalCode" id="postalCode" type="text" class="form-control border-secondary">
+                <input name="postalCode" id="postalCode" type="text" class="form-control border-secondary" required="true" value="{{{formData.postalCode}}}">
                 <label for="city">Paikkakunta:</label>
-                <input name="city" id="city" type="text" class="form-control border-secondary">
+                <input name="city" id="city" type="text" class="form-control border-secondary" required="true" value="{{{formData.city}}}">
                 <label for="date">Haluttu päivämäärä työn suorittamiselle</label>
-                <input name="date" id="date" type="date" class="form-control border-secondary">
+                <input name="date" id="date" type="date" class="form-control border-secondary" required="true" value="{{{formData.date}}}">
 
             </fieldset>
             <fieldset class="border p-3 m-1 border-secondary col-4">
@@ -44,12 +44,15 @@
                 </div>
                 <div>
                     <label for="lisätietoja" class="form-label">Muita toiveita tai lisätietoja:</label>
-                    <textarea name="additionalInformation"  id="lisätietoja" class="form-control" rows="3"></textarea>
+                    <textarea name="additionalInformation"  id="lisätietoja" class="form-control" rows="3" value="{{{formData.additionalInformation}}}"></textarea>
                 </div>
             </fieldset>
             </div>
             <div class="row justify-content-end">
         <button type="submit">Tilaa puutarhuri</button>
+        </div>
+        <div class="row">
+            <p>{{{message}}}</p>
         </div>
         </form>
      </section>
