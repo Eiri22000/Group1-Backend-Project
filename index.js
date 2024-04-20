@@ -9,6 +9,7 @@ const router = express.Router();
 module.exports = router;
 require('esm-hook');
 const fetch = require('node-fetch').default;
+const { body, validationResult } = require('express-validator');
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -38,7 +39,6 @@ app.use(express.static('public'));
 app.engine('handlebars', exphbs.engine({
     defaultLayout: 'main'
 }));
-
 
 // Parse JSON request body
 app.use(express.json());
@@ -113,7 +113,7 @@ app.get('/gardener', async (req, res) => {
 app.get('/workIntake', async (req, res) => {
     try {
     const backGroundImage = await randomImage();
-    res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', imageUrl:'testBackground.jpg', backGroundImage
+    res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage
  })
     }
     catch (error) {
@@ -179,13 +179,37 @@ app.post('/updateDB', async (req, res) => {
 })
 
 // Add a work
-app.post('/addWork', async (req, res) => {
+app.post('/addWork', 
+    // Validate and sanitize adding-work-form
+    [
+        body('customerName').trim().notEmpty().withMessage('Nimi on pakollinen.').escape().matches(/^[a-zA-Z\u00C4\u00E4\u00D6\u00F6\u00C5\u00E5\s]+$/).withMessage('Vain kirjaimet ovat sallittuja nimessä.'),
+        body('phoneNumber').trim().notEmpty().withMessage('Puhelinnumero on pakollinen.').escape().isInt({allow_leading_zeroes: true}).withMessage('Puhelinnumerossa saa olla vain numeroita.'),
+        body('email').trim().notEmpty().withMessage('Sähköpostiosoite on pakollinen.').escape().isEmail().withMessage('Sähköpostissa virhe. Tarkasta osoite.'),
+        body('workAddress').trim().notEmpty().withMessage('Työn sijainnin osoite on pakollinen.').escape().matches(/^[a-zA-Z0-9\u00C4\u00E4\u00D6\u00F6\u00C5\u00E5\s]+$/).withMessage('Vain kirjaimet ja numerot ovat sallittuja osoitteessa.'),
+        body('postalCode').trim().notEmpty().withMessage('Postinumero on pakollinen.').escape().isNumeric().withMessage('Postinumerossa saa olla vain numeroita.'),
+        body('city').trim().notEmpty().withMessage('Paikkakunta on pakollinen.').escape().matches(/^[a-zA-Z\u00C4\u00E4\u00D6\u00F6\u00C5\u00E5\s]+$/).withMessage('Paikkakunnan nimessä voi olla vain kirjaimia.'),
+        body('date').trim().notEmpty().withMessage('Päivämäärä on pakollinen.').escape().isDate().withMessage('Päivämäärävirhe, syötä muodossa dd/mm/yyyy.').custom((value, {req}) => {
+            const thisDate = new Date();
+            if ( new Date(value) <= thisDate) {
+                throw new Error('Päivämäärä saa olla aikaisintaan huominen.')
+            }
+            return true;
+        }),
+        body('tasks').escape(),
+        body('additionalInformation').escape().isLength({ max: 200}).withMessage('Lisäsarakkeen maksimipituus on 200 merkkiä.'),
+    ], 
+    async (req, res) => {
     //format date to common finnish date format
     const date = new Date(req.body.date)
     const formatter = new Intl.DateTimeFormat('fi-FI', { day: '2-digit', month: '2-digit', year: 'numeric' })
     const formattedDate = formatter.format(date)
 
     try {
+    const validationErrors = validationResult(req)
+    if (!validationErrors.isEmpty()) {
+        const errors = validationErrors.array().map(error => error.msg)
+        return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message:"Korjaa virheet lomakkeessa: " + errors})
+    }
         const work = new Worksite({
             customerName: req.body.customerName,
             phoneNumber: req.body.phoneNumber,
@@ -198,11 +222,12 @@ app.post('/addWork', async (req, res) => {
             additionalInformation: req.body.additionalInformation,
             isAssigned: false
         })
-        await work.save()
-            .then(res.redirect('workIntake'))
+            await work.save()
+            .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!'}))
     }
     catch (error) {
         console.log(error)
+        res.status(500).send('Server error')
     }
 })
 
@@ -228,14 +253,14 @@ const randomImage = async() => {
         .then(req => req.json())
         .then(json => json.default_image)
         .then(function(defImage) {
-            //If lausetta ei kerennyt kokeilla vielä ennenkuin loppu api
+            // Set new image if chosen plant has image
             if ( defImage.original_url !== undefined || defImage.original_url !== null) {
                  image = defImage.regular_url
             }
         })
     }
     catch (error) {
-        console.log(error)
+        console.log('Plant-API did not provide image of plant. Using default image')
     }
     return image 
 }
