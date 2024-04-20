@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const connectDB = require('./db');
 const path = require('path');
 require('dotenv').config();
 const exphbs = require('express-handlebars');
@@ -17,19 +18,22 @@ const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPA
 const User = require('./models/User');
 const Worksite = require('./models/Worksite');
 const AppointedWorksites = require('./models/AppointedWorksites');
-const createMongoDBView = require('./models/worksiteView');
+const workerWorksView = require('./models/createWorkerWorksView');
 
 //Wait for database connection and when succesful make the app listen to port 3000
+
 mongoose.connect(dbURI)
     .then((result) => {
         console.log('Database access succesful!')
         const PORT = process.env.PORT || 3000
         app.listen(PORT, () => console.log('Listening port: ' + PORT))
-        workersiteView();
     })
     .catch((error) => {
         console.log('Error occurred connecting to database: ' + error)
     })
+
+// Connect to MongoDB, this is not working
+//const database = connectDB();
 
 const app = express();
 app.set('view engine', 'handlebars');
@@ -42,7 +46,6 @@ app.engine('handlebars', exphbs.engine({
 
 // Parse JSON request body
 app.use(express.json());
-
 
 // ROUTES //
 
@@ -98,10 +101,11 @@ app.post('/assignWorksite', async (req, res) => {
 
 app.get('/gardener', async (req, res) => {
     try {
-        const worker = "eirnen167";
-        const works = await AppointedWorksites.find({ worker: worker }).lean();
+        const worker = "661d33c58f866f3f675f05a2";
+        const workerName = await User.find({id: worker}).lean();
+        const works = await Worksite.find({ assignedWorkerId: worker }).lean();
         const backGroundImage = await randomImage();
-        res.render('gardener', { subtitle: 'Puutarhurin työlista', AppointedWorksites: works, backGroundImage });
+        res.render('gardener', { subtitle: 'Puutarhurin työlista', Worksite: works, backGroundImage, User: workerName });
     } catch (error) {
         // Log the full error for debugging purposes
         console.error(error);
