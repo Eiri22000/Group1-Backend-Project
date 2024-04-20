@@ -229,9 +229,9 @@ const randomImage = async() => {
         .then(json => json.default_image)
         .then(function(defImage) {
             //If lausetta ei kerennyt kokeilla vielä ennenkuin loppu api
-            // if ( !defImage.original_url === undefined || !defImage.original_url === null) {
-            //      image = defImage.regular_url
-            // }
+            if ( defImage.original_url !== undefined || defImage.original_url !== null) {
+                 image = defImage.regular_url
+            }
         })
     }
     catch (error) {
