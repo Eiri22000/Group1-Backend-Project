@@ -1,31 +1,36 @@
-<section class="worklist">
-        <form id="worklist">
-            <fieldset class="worklist">
-                <div class="list-group">
-                    <legend><h2>Seuraavat työkohteet</h2></legend>
-                    <ul "list-group-item list-group-item-action flex-column align-items-start active"></ul>
-                    {{#each AppointedWorksites}}
-                        <li class="list-group-item">{{this.date}}
-                        <p><b>Asiakas:</b> {{{this.customerName}}}</p>
-                        <p><b>Puhelin:</b>{{{this.phoneNumber}}}</p>
-                        <p><b>Osoite:</b> {{{this.address}}}</p>
-                        <p><b>Kunta:</b> {{{this.city}}}</p>
-                        <p><b>Työkohteen tehtävät:</b> {{{this.chores}}}</p></li>
-                    {{/each}}
-                </ul>               
-                </div>
-            </fieldset>
-        </form>
-</section>
-<section class="worksiteForecast">
-        <form id="worksiteForecast">
-            <fieldset class="worksiteForecast"> 
-                <aside>
-                    <legend>
-                        <h3>Työkohteen sääennuste</h3>
-                    </legend>
-
-                </aside>
-            </fieldset>
-        </form>
-    </section>
+<main id="WorksTable" class="row mb-4 px-3">
+    <table class="table table-sm table-striped table-bordered greenBack p-1 m-0 col-8">
+        <caption class="greenBack">
+            <h3>Hei {{workerName}}</h3>
+            <p>Ohessa seuraavat työkohteesi:</p>
+        </caption>
+            <tr>
+                <th>Päivämäärä</th>
+                <th>Asiakas</th>
+                <th>Puhelinnumero</th>
+                <th>Osoite</th>
+                <th>Paikkakunta</th>
+                <th>Työtehtävät</th>
+                <th>Lisätiedot</th>
+            </tr>
+        </thead>
+       <tbody>
+            {{#each Worksite}}
+            <tr>
+                <td>{{this.date}}</td>
+                <td>{{this.customerName}}</td>
+                <td>{{this.phoneNumber}}</td>
+                <td>{{this.workAddress}}</td>
+                <td>{{this.postalCode}} {{this.city}}</td>
+                <td>{{#each this.tasks}}
+                    {{this}}<br>
+                    {{/each}}</td>
+                <td>{{this.additionalInformation}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <aside id="forecast">
+    
+    </aside>
+</main>

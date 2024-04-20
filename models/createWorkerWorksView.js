@@ -1,30 +1,16 @@
 const mongoose = require('mongoose');
 
-// Define the Schema for the view
-const WorkersWorksitesSchema = new mongoose.Schema({
-    customerName: String,
-    phoneNumber: String,
-    email: String,
-    workAddress: String,
-    city: String,
-    tasks: [String],
-    additionalInformation: String
-});
-
-// Define the model for the view
-const WorkersWorksitesModel = mongoose.model('workersWorksites', WorkersWorksitesSchema, 'workersWorksites');
-
 // Define the function to create the MongoDB view
-async function workerWorksView() {
+async function createWorkerWorksView() {
     try {
         // Define the aggregation pipeline for the view
         const pipeline = [
             {
                 $lookup: {
-                    from: "appointedworksites",
-                    localField: "customerName",
-                    foreignField: "customerName",
-                    as: "workerWorksites"
+                    from: "users",
+                    localField: "assignedWorkerId",
+                    foreignField: "_id",
+                    as: "worker"
                 }
             },
             {
@@ -34,6 +20,7 @@ async function workerWorksView() {
                     email: 1,
                     workAddress: 1,
                     city: 1,
+                    assignedWorkerId: 1,
                     tasks: "$workerWorksites.chores",
                     additionalInformation: "$workerWorksites.additionalInformation"
                 }
@@ -50,4 +37,5 @@ async function workerWorksView() {
     }
 }
 
-module.exports = workerWorksView;
+// Export the function to create the view
+module.exports = createWorkerWorksView;
