@@ -11,6 +11,7 @@ module.exports = router;
 require('esm-hook');
 const fetch = require('node-fetch').default;
 const { body, validationResult } = require('express-validator');
+const { lettersOnly } = require('./models/validations')
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -212,7 +213,8 @@ app.post('/addWork',
     const validationErrors = validationResult(req)
     if (!validationErrors.isEmpty()) {
         const errors = validationErrors.array().map(error => error.msg)
-        return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message:"Korjaa virheet lomakkeessa: " + errors})
+       
+        return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message:"Korjaa virheet lomakkeessa: " + errors, formData: req.body})
     }
         const work = new Worksite({
             customerName: req.body.customerName,
@@ -230,7 +232,6 @@ app.post('/addWork',
             .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!'}))
     }
     catch (error) {
-        console.log(error)
         res.status(500).send('Server error')
     }
 })
