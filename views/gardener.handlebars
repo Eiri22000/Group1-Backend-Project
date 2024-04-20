@@ -12,6 +12,7 @@
                 <th>Paikkakunta</th>
                 <th>Työtehtävät</th>
                 <th>Lisätiedot</th>
+                <th>Sääennuste</th>
             </tr>
         </thead>
        <tbody>
@@ -21,11 +22,13 @@
                 <td>{{this.customerName}}</td>
                 <td>{{this.phoneNumber}}</td>
                 <td>{{this.workAddress}}</td>
-                <td>{{this.postalCode}} {{this.city}}</td>
+                <td>{{this.city}}</td>
                 <td>{{#each this.tasks}}
                     {{this}}<br>
                     {{/each}}</td>
                 <td>{{this.additionalInformation}}</td>
+                <td class="weather-forecast">Temperature max: <span class="temp-max"></span>°C, Temperature min: <span class="temp-min"></span>°C</td>
+                </td> <!-- Added empty td for weather forecast -->
             </tr>
             {{/each}}
         </tbody>
@@ -34,3 +37,35 @@
     
     </aside>
 </main>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const worksites = document.querySelectorAll('#WorksTable tbody tr');
+    const date = '2024-04-22'; // Replace with the desired date
+
+    // Loop through each row and fetch weather forecast for each location
+    worksites.forEach((worksite) => {
+        const location = worksite.querySelector('td:nth-child(5)').textContent.trim(); // Assuming city is in the 5th column
+
+        fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${date}/${date}?unitGroup=metric&elements=name%2Ctempmax%2Ctempmin%2Chumidity%2Cuvindex%2Csunrise%2Csunset&key=T37KJYM23DQGRSGFQ3786MD5V&contentType=json`, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Extract temperature data from API response
+            const tempMax = data.days[0].tempmax;
+            const tempMin = data.days[0].tempmin;
+
+            // Display weather forecast in the corresponding td element
+            const forecastCell = worksite.querySelector('.weather-forecast');
+            const tempMaxSpan = forecastCell.querySelector('.temp-max');
+            const tempMinSpan = forecastCell.querySelector('.temp-min');
+            tempMaxSpan.textContent = tempMax;
+            tempMinSpan.textContent = tempMin;
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+        });
+    });
+});
+</script>

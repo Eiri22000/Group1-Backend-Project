@@ -7,9 +7,9 @@ const exphbs = require('express-handlebars');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const router = express.Router();
+const fetch = require('node-fetch');
 module.exports = router;
 require('esm-hook');
-const fetch = require('node-fetch').default;
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -18,6 +18,7 @@ const User = require('./models/User');
 const Worksite = require('./models/Worksite');
 const AppointedWorksites = require('./models/AppointedWorksites');
 const workerWorksView = require('./models/createWorkerWorksView');
+const { weatherAPI } = ('.middlewares/weatherAPI');
 
 //Wait for database connection and when succesful make the app listen to port 3000
 
@@ -54,6 +55,23 @@ app.use('/auth', authRoutes);
 // Define user routes
 app.use('/user', userRoutes);
 
+app.get('/weather', (req, res) => {
+    const location = req.query.location || 'Helsinki';
+    const date = req.query.date || '2024-04-22';
+  
+    fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${date}/${date}?unitGroup=metric&elements=name%2Ctempmax%2Ctempmin%2Chumidity%2Cuvindex%2Csunrise%2Csunset&key=T37KJYM23DQGRSGFQ3786MD5V&contentType=json`, {
+      method: 'GET',
+      headers: {}
+    })
+    .then(response => response.json())
+    .then(data => {
+      res.json(data); // Send the fetched data as JSON response
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error: 'Error fetching weather data' }); // Send an error response if fetching fails
+    });
+  });
 
 app.get('/', async (req, res) => {
     try {
@@ -240,7 +258,7 @@ const randomImage = async() => {
     catch (error) {
         console.log(error)
     }
-    return image 
+
 }
 
 app.use((req, res, next) => {
