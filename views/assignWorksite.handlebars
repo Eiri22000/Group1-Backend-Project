@@ -70,8 +70,12 @@
         });
 
         const data = await response.json();
-        document.getElementById('responseMessage').innerHTML = data.message
+        let message = data.message
+        location.href = `/assignWorksite?message=${message}`
     }
+
+
+
 
     async function assignWorks() {
         let toBeAssigned = []
@@ -98,7 +102,8 @@
         });
 
         const data = await response.json();
-        document.getElementById('responseMessage').innerHTML = data.message
+        let message = data.message
+        location.href = `/assignWorksite?message=${message}`
     }
 
 </script>
