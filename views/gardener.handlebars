@@ -13,6 +13,7 @@
                 <th>Työtehtävät</th>
                 <th>Lisätiedot</th>
                 <th>Sääennuste</th>
+                <th>Työ valmistunut</th>
             </tr>
         </thead>
        <tbody>
@@ -27,45 +28,109 @@
                     {{this}}<br>
                     {{/each}}</td>
                 <td>{{this.additionalInformation}}</td>
-                <td class="weather-forecast">Temperature max: <span class="temp-max"></span>°C, Temperature min: <span class="temp-min"></span>°C</td>
-                </td> <!-- Added empty td for weather forecast -->
+                <td class="weather-forecast">Päivän ylin: <span class="temp-max"></span>°C, <br>
+                Päivän alin: <span class="temp-min"></span>°C, <br>
+                Ilmankosteus: <span class="humidity"></span> %, <br>
+                UV-indeksi: <span class="uv-index"></span></td>
+                <td class="text-center"><input class="gardenerDone d-inline-block" value={{this._id}}
+                        type="checkbox">
+                </td>
             </tr>
             {{/each}}
         </tbody>
     </table>
-    <aside id="forecast">
-    
-    </aside>
+     <section class="col-8 d-flex justify-content-around greenBack py-2">
+        <button onclick=gardenerWorkDone()>Kuittaa työt valmistuneeksi</button>
+    </section>
 </main>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+//Weather forecast with https://www.visualcrossing.com/weather/
+    window.onload = function() {
+        const worksites = document.querySelectorAll('#WorksTable tbody tr');
+
+        worksites.forEach((worksite) => {
+            const location = worksite.cells[4].textContent.trim(); // Assuming city is in the 5th column
+            const dateCell = worksite.cells[0]; // Assuming date is in the first cell
+            const inputDate = dateCell.textContent.trim(); // Assuming the date is in text format
+
+            // Convert date to "YYYY-MM-DD" format
+            const components = inputDate.split('.').reverse();
+            const outputDate = components.join('-');
+
+            fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${outputDate}/${outputDate}?unitGroup=metric&elements=name%2Ctempmax%2Ctempmin%2Chumidity%2Cuvindex%2Csunrise%2Csunset&key=T37KJYM23DQGRSGFQ3786MD5V&contentType=json`, {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tempMax = data.days[0].tempmax;
+                const tempMin = data.days[0].tempmin;
+                const humidity = data.days[0].humidity;
+                const uvIndex = data.days[0].uvindex;
+
+                const forecastCell = worksite.querySelector('.weather-forecast');
+                const tempMaxSpan = forecastCell.querySelector('.temp-max');
+                const tempMinSpan = forecastCell.querySelector('.temp-min');
+                const humiditySpan = forecastCell.querySelector('.humidity');
+                const uvIndexSpan = forecastCell.querySelector('.uv-index');
+
+                tempMaxSpan.textContent = tempMax;
+                tempMinSpan.textContent = tempMin;
+                humiditySpan.textContent = humidity;
+                uvIndexSpan.textContent = uvIndex;
+            })
+            .catch(error => {
+                console.error('Error fetching weather data:', error);
+            });
+        });
+    };
+
+// Update Worksite that work is done
+async function gardenerWorkDone() {
+    try {
+        // Create an object representing the worksite to be marked as done
+        let worksiteIdUpdate = [];
+        let gardenerCheckboxes = document.getElementsByClassName('gardenerDone')
+            workIsDone: true // Use boolean true instead of string "true"
+        };
+
+                Array.from(gardenerCheckboxes).map((checkbox) => {
+            if (checkbox.checked) {
+                workDone.push(checkbox.value)
+            }
+
+        // Make a POST request to update the worksite
+        const response = await fetch('/gardenerWorkDone', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updatedWorksite) // Send only one worksite to update
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update worksite');
+        }
+
+        // Redirect to a new page or perform other actions as needed
+        const data = await response.json();
+        let message = data.message;
+        location.href = `/garderner?message=${message}`;
+    } catch (error) {
+        console.error('Error updating worksite:', error);
+    }
+}
+
+window.onload = function() {
     const worksites = document.querySelectorAll('#WorksTable tbody tr');
-    const date = '2024-04-22'; // Replace with the desired date
 
-    // Loop through each row and fetch weather forecast for each location
     worksites.forEach((worksite) => {
-        const location = worksite.querySelector('td:nth-child(5)').textContent.trim(); // Assuming city is in the 5th column
+        const gardenerDoneButton = worksite.querySelector('.gardenerDoneButton');
+        const worksiteId = gardenerDoneButton.dataset.worksiteId;
 
-        fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${date}/${date}?unitGroup=metric&elements=name%2Ctempmax%2Ctempmin%2Chumidity%2Cuvindex%2Csunrise%2Csunset&key=T37KJYM23DQGRSGFQ3786MD5V&contentType=json`, {
-            method: 'GET'
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Extract temperature data from API response
-            const tempMax = data.days[0].tempmax;
-            const tempMin = data.days[0].tempmin;
-
-            // Display weather forecast in the corresponding td element
-            const forecastCell = worksite.querySelector('.weather-forecast');
-            const tempMaxSpan = forecastCell.querySelector('.temp-max');
-            const tempMinSpan = forecastCell.querySelector('.temp-min');
-            tempMaxSpan.textContent = tempMax;
-            tempMinSpan.textContent = tempMin;
-        })
-        .catch(error => {
-            console.error('Error fetching weather data:', error);
+        gardenerDoneButton.addEventListener('click', async () => {
+            await gardenerWorkDone(worksiteId); // Call the gardenerWorkDone function with the worksiteId
         });
     });
-});
+};
 </script>

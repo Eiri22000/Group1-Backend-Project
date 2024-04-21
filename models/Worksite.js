@@ -40,6 +40,9 @@ const worksiteSchema = new mongoose.Schema({
     },
     assignedWorkerId: {
         type: String
+    },
+    workIsDone: {
+        type: Boolean
     }
 
 })

@@ -10,7 +10,6 @@ const router = express.Router();
 const fetch = require('node-fetch');
 module.exports = router;
 require('esm-hook');
-const fetch = require('node-fetch').default;
 const { body, validationResult } = require('express-validator');
 const { lettersOnly } = require('./models/validations')
 
@@ -19,12 +18,8 @@ const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPA
 //Import custom modules
 const User = require('./models/User');
 const Worksite = require('./models/Worksite');
-const AppointedWorksites = require('./models/AppointedWorksites');
-const workerWorksView = require('./models/createWorkerWorksView');
-const { weatherAPI } = ('.middlewares/weatherAPI');
 
 //Wait for database connection and when succesful make the app listen to port 3000
-
 mongoose.connect(dbURI)
     .then((result) => {
         console.log('Database access succesful!')
@@ -57,24 +52,6 @@ app.use('/auth', authRoutes);
 
 // Define user routes
 app.use('/user', userRoutes);
-
-app.get('/weather', (req, res) => {
-    const location = req.query.location || 'Helsinki';
-    const date = req.query.date || '2024-04-22';
-  
-    fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${date}/${date}?unitGroup=metric&elements=name%2Ctempmax%2Ctempmin%2Chumidity%2Cuvindex%2Csunrise%2Csunset&key=T37KJYM23DQGRSGFQ3786MD5V&contentType=json`, {
-      method: 'GET',
-      headers: {}
-    })
-    .then(response => response.json())
-    .then(data => {
-      res.json(data); // Send the fetched data as JSON response
-    })
-    .catch(error => {
-      console.error(error);
-      res.status(500).json({ error: 'Error fetching weather data' }); // Send an error response if fetching fails
-    });
-  });
 
 app.get('/', async (req, res) => {
     try {
@@ -248,7 +225,8 @@ app.post('/addWork',
             date: formattedDate,
             tasks: req.body.tasks,
             additionalInformation: req.body.additionalInformation,
-            isAssigned: false
+            isAssigned: false,
+            workIsDone: false
         })
             await work.save()
             .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!'}))
@@ -258,6 +236,24 @@ app.post('/addWork',
     }
 })
 
+app.post('/gardenerWorkDone', async (req, res) => {
+    const { worksiteId, workIsDone } = req.body;
+
+    try {
+        // Find the worksite by ID and update the workIsDone field
+        const updatedWorksite = await Worksite.findByIdAndUpdate(worksiteId, { workIsDone }, { new: true });
+
+        if (!updatedWorksite) {
+            return res.status(404).json({ error: 'Worksite not found' });
+        }
+
+        // Respond with the updated worksite
+        res.json(updatedWorksite);
+    } catch (error) {
+        console.error('Error updating worksite:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 
 // Get plant photo from Perenual Plan API
