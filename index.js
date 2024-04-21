@@ -163,6 +163,18 @@ app.get('/workIntake', async (req, res) => {
     }
 })
 
+app.get('/plantInfo', async (req, res) => {
+    try {
+        const backGroundImage = await randomImage();
+        res.render('plantInfo', {
+            subtitle: 'Lisätietoa taustakuvan kasvista', backGroundImage
+        })
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
+
 app.post('/saveFormToDB', async (req, res) => {
     const backGroundImage = await randomImage();
     const newEmployee = new User({
