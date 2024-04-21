@@ -7,12 +7,12 @@ const exphbs = require('express-handlebars');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const router = express.Router();
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 module.exports = router;
 require('esm-hook');
 const fetch = require('node-fetch').default;
 const { body, validationResult } = require('express-validator');
-const { lettersOnly } = require('./models/validations')
+const { validateForm } = require('./models/validations');
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -22,6 +22,7 @@ const Worksite = require('./models/Worksite');
 const AppointedWorksites = require('./models/AppointedWorksites');
 const workerWorksView = require('./models/createWorkerWorksView');
 const { weatherAPI } = ('.middlewares/weatherAPI');
+const {isInArray} = require('./models/helpers.js');
 
 //Wait for database connection and when succesful make the app listen to port 3000
 
@@ -206,38 +207,20 @@ app.post('/updateDB', async (req, res) => {
 })
 
 // Add a work
-app.post('/addWork',
-    // Validate and sanitize adding-work-form
-    [
-        body('customerName').trim().notEmpty().withMessage('Nimi on pakollinen.').escape().matches(/^[a-zA-Z\u00C4\u00E4\u00D6\u00F6\u00C5\u00E5\s]+$/).withMessage('Vain kirjaimet ovat sallittuja nimessä.'),
-        body('phoneNumber').trim().notEmpty().withMessage('Puhelinnumero on pakollinen.').escape().isInt({ allow_leading_zeroes: true }).withMessage('Puhelinnumerossa saa olla vain numeroita.'),
-        body('email').trim().notEmpty().withMessage('Sähköpostiosoite on pakollinen.').escape().isEmail().withMessage('Sähköpostissa virhe. Tarkasta osoite.'),
-        body('workAddress').trim().notEmpty().withMessage('Työn sijainnin osoite on pakollinen.').escape().matches(/^[a-zA-Z0-9\u00C4\u00E4\u00D6\u00F6\u00C5\u00E5\s]+$/).withMessage('Vain kirjaimet ja numerot ovat sallittuja osoitteessa.'),
-        body('postalCode').trim().notEmpty().withMessage('Postinumero on pakollinen.').escape().isNumeric().withMessage('Postinumerossa saa olla vain numeroita.'),
-        body('city').trim().notEmpty().withMessage('Paikkakunta on pakollinen.').escape().matches(/^[a-zA-Z\u00C4\u00E4\u00D6\u00F6\u00C5\u00E5\s]+$/).withMessage('Paikkakunnan nimessä voi olla vain kirjaimia.'),
-        body('date').trim().notEmpty().withMessage('Päivämäärä on pakollinen.').escape().isDate().withMessage('Päivämäärävirhe, syötä muodossa dd/mm/yyyy.').custom((value, { req }) => {
-            const thisDate = new Date();
-            if (new Date(value) <= thisDate) {
-                throw new Error('Päivämäärä saa olla aikaisintaan huominen.')
-            }
-            return true;
-        }),
-        body('tasks').escape(),
-        body('additionalInformation').escape().isLength({ max: 200 }).withMessage('Lisäsarakkeen maksimipituus on 200 merkkiä.'),
-    ],
-    async (req, res) => {
-        //format date to common finnish date format
-        const date = new Date(req.body.date)
-        const formatter = new Intl.DateTimeFormat('fi-FI', { day: '2-digit', month: '2-digit', year: 'numeric' })
-        const formattedDate = formatter.format(date)
+app.post('/addWork', validateForm(),async (req, res) => {
+    //format date to common finnish date format
+    const date = new Date(req.body.date)
+    const formatter = new Intl.DateTimeFormat('fi-FI', { day: '2-digit', month: '2-digit', year: 'numeric' })
+    const formattedDate = formatter.format(date)
 
     try {
-    const validationErrors = validationResult(req)
-    if (!validationErrors.isEmpty()) {
-        const errors = validationErrors.array().map(error => error.msg)
-       
-        return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message:"Korjaa virheet lomakkeessa: " + errors, formData: req.body})
-    }
+        const validationErrors = validationResult(req)
+        // If there are validation errors, user is redirected to fix errors in form with error message
+        if (!validationErrors.isEmpty()) {
+            const errors = validationErrors.array().map(error => error.msg)
+            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message:"Korjaa virheet lomakkeessa: " + errors, formData: req.body})
+        }
+        // Without errors, save and direct back with message
         const work = new Worksite({
             customerName: req.body.customerName,
             phoneNumber: req.body.phoneNumber,
@@ -262,6 +245,7 @@ app.post('/addWork',
 
 // Get plant photo from Perenual Plan API
 const randomImage = async () => {
+    // Set image from public folder as a default
     var image = "testBackground.jpg"
     try {
         const number = Math.floor(Math.random() * 3001)
@@ -271,7 +255,6 @@ const randomImage = async () => {
             .then(req => req.json())
             .then(json => json.default_image)
             .then(function (defImage) {
-                //If lausetta ei kerennyt kokeilla vielä ennenkuin loppu api
                 if (defImage.original_url !== undefined || defImage.original_url !== null) {
                     image = defImage.regular_url
                 }
