@@ -19,3 +19,7 @@ Small web-app to a gardening company. Made with MongoDB, open APIs and Handlebar
 - delete employee
 - assign a worksite to employee
 - delete worksite
+
+### Used APIs
+-
+- Weather API, https://www.visualcrossing.com/weather/
