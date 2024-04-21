@@ -1,6 +1,7 @@
    <main>
     <section class="col greenBack ">
         <p class="description row">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä, joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita.</p>
+        {{!-- If form is posted with errors, fields are filled with given values of formData --}}
         <form id="addWorkForm" action="/addWork" method="post">
             <div class="row row-cols-2 d-flex justify-content-center">
             <fieldset class="border p-3 m-1 border-secondary col-3">
@@ -27,24 +28,24 @@
             <fieldset class="border p-3 m-1 border-secondary col-4">
                 <legend class="w-auto">Kohteeseen tilattavat työt</legend>
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" id="haravointi" value="Haravointi" name="tasks" class="custom-control-input">
+                    <input type="checkbox" id="haravointi" value="Haravointi" {{#if formData}}{{#contains formData.tasks "Haravointi"}}{{/contains}}{{/if}} name="tasks" class="custom-control-input">
                     <label for="haravointi" class="custom-control-label">Haravointi</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" id="nurmikonleikkaus" value="Nurmikonleikkaus" name="tasks" class="custom-control-input">
+                    <input type="checkbox" id="nurmikonleikkaus" value="Nurmikonleikkaus" {{#if formData}}{{#contains formData.tasks "Nurmikonleikkaus"}}{{/contains}}{{/if}} name="tasks" class="custom-control-input">
                     <label for="nurmikonleikkaus" class="custom-control-label">Nurmikonleikkaus</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" id="istutustyö" value="Istutustyö" name="tasks" class="custom-control-input">
+                    <input type="checkbox" id="istutustyö" value="Istutustyö" {{#if formData}}{{#contains formData.tasks "Istutustyö"}}{{/contains}}{{/if}} name="tasks" class="custom-control-input">
                     <label for="istutustyö" class="custom-control-label">Istutustyö</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" id="rikkaruohojenKitkentä" value="Rikkaruohojen kitkentä" name="tasks" class="custom-control-input">
+                    <input type="checkbox" id="rikkaruohojenKitkentä" value="Rikkaruohojen kitkentä" {{#if formData}}{{#contains formData.tasks "Rikkaruohojen kitkentä"}}{{/contains}}{{/if}} name="tasks" class="custom-control-input">
                     <label for="rikkaruohojenKitkentä" class="custom-control-label">Rikkaruohojen kitkentä</label>
                 </div>
                 <div>
                     <label for="lisätietoja" class="form-label">Muita toiveita tai lisätietoja:</label>
-                    <textarea name="additionalInformation"  id="lisätietoja" class="form-control" rows="3" value="{{{formData.additionalInformation}}}"></textarea>
+                    <textarea name="additionalInformation"  id="lisätietoja" class="form-control" rows="3" >{{#if formData}}{{{formData.additionalInformation}}}{{/if}}</textarea>
                 </div>
             </fieldset>
             </div>
