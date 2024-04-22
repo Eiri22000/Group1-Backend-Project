@@ -56,9 +56,11 @@ app.use('/user', userRoutes);
 
 app.get('/', async (req, res) => {
     try {
-        const backGroundImage = await randomImage();
+        const plant = await randomImage();
+        const backGroundImage = plant.image
+        const plantId = plant.plantId
         res.render('index', {
-            backGroundImage,
+            backGroundImage, plantId,
             title: 'Penan Puutarha',
             subtitle: 'Tervetuloa Penan Puutarhalle!'
         });
@@ -74,8 +76,10 @@ app.get('/', async (req, res) => {
 
 app.get('/admin', async (req, res) => {
     const users = await User.find().lean()
-    const backGroundImage = await randomImage();
-    res.render('admin', { subtitle: 'Työntekijöiden hallinta', workers: users, backGroundImage })
+    const plant = await randomImage();
+    const backGroundImage = plant.image
+    const plantId = plant.plantId
+    res.render('admin', { subtitle: 'Työntekijöiden hallinta', workers: users, backGroundImage, plantId })
 })
 
 app.get('/assignWorksite', async (req, res) => {
@@ -85,8 +89,10 @@ app.get('/assignWorksite', async (req, res) => {
     }
     const openWorksites = await Worksite.find({ isAssigned: false }).lean()
     const workers = await User.find().select('_id, name').lean()
-    const backGroundImage = await randomImage();
-    res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers, backGroundImage, message: feedbackMessage })
+    const plant = await randomImage();
+    const backGroundImage = plant.image
+    const plantId = plant.plantId
+    res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers, backGroundImage, plantId, message: feedbackMessage })
 })
 
 app.post('/assignWorksite', async (req, res) => {
@@ -118,8 +124,10 @@ app.get('/gardener', async (req, res) => {
         const worker = "661d33c58f866f3f675f05a2";
         const workerName = await User.find({ id: worker }).lean();
         const works = await Worksite.find({ assignedWorkerId: worker }).lean();
-        const backGroundImage = await randomImage();
-        res.render('gardener', { subtitle: 'Puutarhurin työlista', Worksite: works, backGroundImage, User: workerName });
+        const plant = await randomImage();
+        const backGroundImage = plant.image
+        const plantId = plant.plantId
+        res.render('gardener', { subtitle: 'Puutarhurin työlista', Worksite: works, backGroundImage, plantId, User: workerName });
     } catch (error) {
         // Log the full error for debugging purposes
         console.error(error);
@@ -130,9 +138,11 @@ app.get('/gardener', async (req, res) => {
 
 app.get('/workIntake', async (req, res) => {
     try {
-        const backGroundImage = await randomImage();
+        const plant = await randomImage();
+        const backGroundImage = plant.image
+        const plantId = plant.plantId
         res.render('workIntake', {
-            subtitle: 'Tilaa työ puutarhaasi', backGroundImage
+            subtitle: 'Tilaa työ puutarhaasi', backGroundImage, plantId
         })
     }
     catch (error) {
@@ -141,10 +151,13 @@ app.get('/workIntake', async (req, res) => {
 })
 
 app.get('/plantInfo', async (req, res) => {
+    const plantId = (req.query.id)
     try {
-        const backGroundImage = await randomImage();
+        const plant = await randomImage(plantId);
+        const backGroundImage = plant.image
+        const plantInfo = plant.info
         res.render('plantInfo', {
-            subtitle: 'Lisätietoa taustakuvan kasvista', backGroundImage
+            subtitle: 'Lisätietoa taustakuvan kasvista',backGroundImage, plantId, plantInfo
         })
     }
     catch (error) {
@@ -197,7 +210,7 @@ app.post('/updateDB', async (req, res) => {
 
 // Add a work
 app.post('/addWork', validateForm(),async (req, res) => {
-    //format date to common finnish date format
+    // Format date to common finnish date format
     const date = new Date(req.body.date)
     const formatter = new Intl.DateTimeFormat('fi-FI', { day: '2-digit', month: '2-digit', year: 'numeric' })
     const formattedDate = formatter.format(date)
@@ -252,26 +265,34 @@ app.post('/gardenerWorkDone', async (req, res) => {
 
 
 // Get plant photo from Perenual Plan API
-const randomImage = async () => {
+const randomImage = async (number) => {
+    // Call from plantInfo has an plantId to get info from specific plant, otherwise use random to create background
+    if (number === undefined) {
+        number = Math.floor(Math.random() * 3001)
+    }
     // Set image from public folder as a default
     var image = "testBackground.jpg"
-    try {
-        const number = Math.floor(Math.random() * 3001)
-        await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
-            key: process.env.PLANTAPIKEY,
-        }))
-            .then(req => req.json())
-            .then(json => json.default_image)
-            .then(function (defImage) {
-                if (defImage.original_url !== undefined || defImage.original_url !== null) {
-                    image = defImage.regular_url
-                }
-            })
-    }
-    catch (error) {
-        console.log('Plant-API did not provide image of plant. Using default image')
-    }
-    return image
+    var info = {name:"Zebra Plant",scientificName: "Calathea orbifolia", image: "testBackground.jpg", light:"Half shade", propagation:"seeds, division", watering:"Keep moist"}
+    var plantId = 6000
+    // try {
+    //     await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
+    //         key: process.env.PLANTAPIKEY,
+    //     }))
+    //         .then(res => res.json())
+    //         .then(json => {
+    //             plantId =json.id;
+    //             info = {name:json.common_name, scientificName:json.scientific_name, image: json.original_url, light:json.sunlight, propagation:json.propagation, watering:json.watering}
+    //             const defImage =json.default_image
+    //             if (defImage.original_url !== undefined || defImage.original_url !== null) {
+    //                         image = defImage.regular_url
+    //             }
+    //         })
+
+    // }
+    // catch (error) {
+    //     console.log('Plant-API did not provide image of plant. Using default image')
+    // }
+    return { image, plantId, info }
 }
 
 app.use((req, res, next) => {
