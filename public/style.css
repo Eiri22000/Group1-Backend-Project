@@ -167,21 +167,15 @@ button {
 /* End of ADMIN-page css */
 
 /*ASSIGN WORKSITE-page */
-#openWorksTable {
-    height: 55vh;
-    min-width: max-content;
-}
-
-#openWorks {
-    height: 100%;
-    text-align: -webkit-center;
+#worksTable {
+    height: 58vh;
 }
 
 table {
     display: block;
-    min-width: max-content !important;
+    width: max-content !important;
     overflow-y: scroll;
-    max-height: 90%;
+    max-height: 90% !important;
 }
 
 thead {
@@ -192,10 +186,6 @@ thead {
 caption {
     caption-side: top !important;
     color: #0F2310 !important;
-}
-
-#calenderView {
-    height: min-content;
 }
 
 /*ASSIGN WORKSITE-page end*/

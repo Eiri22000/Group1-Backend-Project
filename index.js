@@ -18,7 +18,7 @@ const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPA
 //Import custom modules
 const User = require('./models/User');
 const Worksite = require('./models/Worksite');
-const {isInArray} = require('./models/helpers.js');
+const { isInArray } = require('./models/helpers.js');
 
 //Wait for database connection and when succesful make the app listen to port 3000
 mongoose.connect(dbURI)
@@ -83,10 +83,11 @@ app.get('/assignWorksite', async (req, res) => {
     if (req.query.message) {
         feedbackMessage = req.query.message
     }
-    const openWorksites = await Worksite.find({ isAssigned: false }).lean()
-    const workers = await User.find().select('_id, name').lean()
+    const openWorksites = await Worksite.find({ isAssigned: false }).sort({ date: -1 }).lean()
+    const workers = await User.find().select('_id name').lean()
+    const assignedWorksites = await Worksite.find({ isAssigned: true }).select('date assignedWorkerId').lean()
     const backGroundImage = await randomImage();
-    res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers, backGroundImage, message: feedbackMessage })
+    res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers, backGroundImage, message: feedbackMessage, allReadyAssignedWorks: assignedWorksites })
 })
 
 app.post('/assignWorksite', async (req, res) => {
@@ -196,7 +197,7 @@ app.post('/updateDB', async (req, res) => {
 })
 
 // Add a work
-app.post('/addWork', validateForm(),async (req, res) => {
+app.post('/addWork', validateForm(), async (req, res) => {
     //format date to common finnish date format
     const date = new Date(req.body.date)
     const formatter = new Intl.DateTimeFormat('fi-FI', { day: '2-digit', month: '2-digit', year: 'numeric' })
@@ -207,7 +208,7 @@ app.post('/addWork', validateForm(),async (req, res) => {
         // If there are validation errors, user is redirected to fix errors in form with error message
         if (!validationErrors.isEmpty()) {
             const errors = validationErrors.array().map(error => error.msg)
-            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message:"Korjaa virheet lomakkeessa: " + errors, formData: req.body})
+            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: "Korjaa virheet lomakkeessa: " + errors, formData: req.body })
         }
         // Without errors, save and direct back with message
         const work = new Worksite({
@@ -223,8 +224,8 @@ app.post('/addWork', validateForm(),async (req, res) => {
             isAssigned: false,
             workIsDone: false
         })
-            await work.save()
-            .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!'}))
+        await work.save()
+            .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!' }))
     }
     catch (error) {
         res.status(500).send('Server error')

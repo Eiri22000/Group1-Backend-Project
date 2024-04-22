@@ -1,7 +1,7 @@
-<main id="WorksTable" class="row mb-4 px-3">
-    <table class="table table-sm table-striped table-bordered greenBack p-1 m-0 col-8">
-        <caption class="greenBack">
-            <h3>Avoimet työkohteet</h3>
+<main id="worksTable" class="row mb-4">
+    <table class="table table-striped table-bordered greenBack p-1 m-0 mx-auto openWorks">
+        <caption class="greenBack text-center">
+            <h3 class="p-0">Avoimet työkohteet</h3>
         </caption>
         <thead class="thead-dark">
             <tr>
@@ -42,11 +42,9 @@
             {{/each}}
         </tbody>
     </table>
-    <aside id="calenderView" style="background-color: green;" class="col-4 p-0">teksti'
-    </aside>
-    <section class="col-8 d-flex justify-content-around greenBack py-2">
-        <button onclick=deleteWorksites()>Poista valitut työkohteet</button>
-        <button onclick=assignWorks()>Lisää määritetyt työt työntekijöille</button>
+    <section class="d-flex justify-content-around greenBack py-2 px-5 mt-1 mx-auto">
+        <button class="mx-4" onclick=deleteWorksites()>Poista valitut työkohteet</button>
+        <button class="mx-4" onclick=assignWorks()>Lisää määritetyt työt työntekijöille</button>
     </section>
 </main>
 {{> linkAndFeedback linkHref=" /admin" linkText="Siirry työntekijöiden hallintaan" col="8" }}
