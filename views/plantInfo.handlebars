@@ -1,22 +1,20 @@
 <main>
-    <article class="greenBack text-center">
-        <p class="feature">Nimi:</p>
-        <p class="description">Silver leaf</p>
-        <p class="feature">Latinankielinen nimi:</p>
-        <p class="description">Kokkodus kokkodus</p>
-        <p class="feature">Kasvupaikka:</p>
-        <p class="description">Valoisa</p>
-        <p class="feature">Kastelu</p>
-        <p class="description">Hitusen vettä</p>
-        <p class="feature"></p>
-        <p class="description"></p>
-        <p class="feature"></p>
-        <p class="description"></p>
-        <p class="feature"></p>
-        <p class="description"></p>
-        <p class="feature"></p>
-        <p class="description"></p>
-        <p class="feature"></p>
-        <p class="description"></p>
-    </article>
+    <section class="container greenBack">
+        <article class="row">
+            <div class="col-md-5">
+                <img src="{{{backGroundImage}}}" id="plantInfoImage" alt="">
+                <h3>{{{plantInfo.name}}}</h3>
+            </div>
+            <div class="col-md-7">
+                <p class="feature">Latinankielinen nimi:</p>
+                <p>{{{plantInfo.scientificName}}}</p>
+                <p class="feature">Valontarve:</p>
+                <p>{{{plantInfo.light}}}</p>
+                <p class="feature">Kastelu:</p>
+                <p>{{{plantInfo.watering}}}</p>
+                <p class="feature">Lisääminen:</p>
+                <p>{{{plantInfo.propagation}}}</p>
+            </div>
+        </article>
+    </section>
 </main>
