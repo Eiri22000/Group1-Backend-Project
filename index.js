@@ -244,25 +244,23 @@ app.post('/addWork', validateForm(),async (req, res) => {
     }
 })
 
-app.post('/gardenerWorkDone', async (req, res) => {
-    const { worksiteId, workIsDone } = req.body;
+app.post('/updateWorkDone', async (req, res) => {
+    const worksiteIsDoneToDb = req.body;
+    const worker = "661d33c58f866f3f675f05a2";
+    const workerName = await User.findOne({ _id: worker }).lean();
+    const works = await Worksite.find({ assignedWorkerId: worker }).lean();
+    const plant = await randomImage();
+    const backGroundImage = plant.image;
+    const plantId = plant.plantId;
 
     try {
-        // Find the worksite by ID and update the workIsDone field
-        const updatedWorksite = await Worksite.findByIdAndUpdate(worksiteId, { workIsDone }, { new: true });
-
-        if (!updatedWorksite) {
-            return res.status(404).json({ error: 'Worksite not found' });
-        }
-
-        // Respond with the updated worksite
-        res.json(updatedWorksite);
+        const worksiteIds = worksiteIsDoneToDb.map(worksite => worksite.hiddenId);
+        await Worksite.updateMany({ _id: { $in: worksiteIds } }, { workIsDone: true });
+        res.status(200).render('gardener', { subtitle: 'Puutarhurin työlista', message: `Työ kuitattu valmiiksi`, Worksite: works, backGroundImage, plantId, User: workerName });
     } catch (error) {
-        console.error('Error updating worksite:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).render('gardener', { subtitle: 'Puutarhurin työlista', message: `Tietoja ei päivitetty. Virhe: ${error.message}`, Worksite: works, backGroundImage, plantId, User: workerName });
     }
 });
-
 
 // Get plant photo from Perenual Plan API
 const randomImage = async (number) => {
