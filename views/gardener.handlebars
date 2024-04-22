@@ -44,7 +44,7 @@
             </tbody>
         </table>
         <section class="col-8 d-flex justify-content-around greenBack py-2">
-            <button onclick=updateWorkToDone() value="{{this._id}}">Päivitä työ tehdyksi</button>
+            <button id="updateWorkButton" onclick="updateWorkToDone()">Päivitä työ tehdyksi</button>
             <input type="hidden" value="updateWorkToDone" name="type"/>
         </section>
 </main>
@@ -92,29 +92,31 @@
     };
 
 async function updateWorkToDone() {
-        let worksiteComplete = []
-        let worksiteCheckboxes = document.getElementsByClassName('gardenerDone')
-        Array.from(worksiteCheckboxes).map((checkbox) => {
-            if (checkbox.checked) {
+    let worksiteIds = [];
+    let worksiteCheckboxes = document.getElementsByClassName('gardenerDone');
+    Array.from(worksiteCheckboxes).forEach((checkbox) => {
+        if (checkbox.checked) {
+            worksiteIds.push(checkbox.value);
+        }
+    });
 
-                let updateWorkToDone = {
-                    worksiteId: checkbox.value,
-                    workIsDone: true
-                }
-                workDoneId.push(updateWorkToDone)
-            }
-        })
+    const response = await fetch('/updateWorkDone', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ worksiteIds: worksiteIds })
+    });
 
-        const response = await fetch('/updateWorkDone', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(worksiteComplete)
-        });
-
+    if (response.ok) {
         const data = await response.json();
-        let message = data.message
-        location.href = `/gardener?message=${message}`
+        let message = data.message;
+        location.href = `/gardener?message=${message}`;
+    } else {
+        console.error('Failed to update worksites');
+        // Handle error
+    }
 }
+</script>
+
 </script>
