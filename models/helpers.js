@@ -10,9 +10,18 @@ const isInArray = hbs.handlebars.registerHelper('contains', function (array, val
 })
 
 //Check for free workers
-const freeEmployees = hbs.handlebars.registerHelper('getFreeEmployees', function (assigned, unAssigned) {
-  assigned.pop()
-  return assigned
+const freeEmployees = hbs.handlebars.registerHelper('getFreeEmployees', function (workers, assignedWorks, date) {
+  const allReadyBookedWorkersForDate = []
+  assignedWorks.map((oneWork) => {
+
+    if (date === oneWork.date) {
+      allReadyBookedWorkersForDate.push(oneWork.assignedWorkerId)
+    }
+  }
+  )
+
+  let freeWorkersForDate = workers.filter(worker => !allReadyBookedWorkersForDate.includes(worker._id.toString()));
+  return freeWorkersForDate
 })
 
 module.exports = { isInArray, freeEmployees }

@@ -32,8 +32,7 @@
                 <td>
                     <select class="workerOption" name="Valitse">
                         <option disabled selected value> -- Valitse -- </option>
-                        {{#each (getFreeEmployees ../workers openWorksites)}}
-
+                        {{#each (getFreeEmployees ../workers ../allReadyAssignedWorks ./date)}}
                         <option value={{this._id}} data-worksite_id={{../_id}}>
                             {{this.name}}</option>
                         {{/each}}
