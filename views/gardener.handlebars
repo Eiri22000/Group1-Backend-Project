@@ -1,48 +1,54 @@
 <main id="WorksTable" class="row mb-4 px-3">
-    <table class="table table-sm table-striped table-bordered greenBack p-1 m-0 col-8">
-        <caption class="greenBack">
-            <h3>Hei {{workerName}}</h3>
-            <p>Ohessa seuraavat työkohteesi:</p>
-        </caption>
-            <tr>
-                <th>Päivämäärä</th>
-                <th>Asiakas</th>
-                <th>Puhelinnumero</th>
-                <th>Osoite</th>
-                <th>Paikkakunta</th>
-                <th>Työtehtävät</th>
-                <th>Lisätiedot</th>
-                <th>Sääennuste</th>
-                <th>Työ valmistunut</th>
-            </tr>
-        </thead>
-       <tbody>
-            {{#each Worksite}}
-            <tr>
-                <td>{{this.date}}</td>
-                <td>{{this.customerName}}</td>
-                <td>{{this.phoneNumber}}</td>
-                <td>{{this.workAddress}}</td>
-                <td>{{this.city}}</td>
-                <td>{{#each this.tasks}}
-                    {{this}}<br>
-                    {{/each}}</td>
-                <td>{{this.additionalInformation}}</td>
-                <td class="weather-forecast">Päivän ylin: <span class="temp-max"></span>°C, <br>
-                Päivän alin: <span class="temp-min"></span>°C, <br>
-                Ilmankosteus: <span class="humidity"></span> %, <br>
-                UV-indeksi: <span class="uv-index"></span></td>
-                <td class="text-center"><input class="gardenerDone d-inline-block" value={{this._id}}
-                        type="checkbox">
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-     <section class="col-8 d-flex justify-content-around greenBack py-2">
-        <button onclick=gardenerWorkDone()>Kuittaa työt valmistuneeksi</button>
-    </section>
+        <table class="table table-sm table-striped table-bordered greenBack p-1 m-0 col-8">
+            <caption class="greenBack">
+                <h3>Hei {{workerName}}</h3>
+                <p>Ohessa seuraavat työkohteesi:</p>
+            </caption>
+            <thead>
+                <tr>
+                    <th>Päivämäärä</th>
+                    <th>Asiakas</th>
+                    <th>Puhelinnumero</th>
+                    <th>Osoite</th>
+                    <th>Paikkakunta</th>
+                    <th>Työtehtävät</th>
+                    <th>Lisätiedot</th>
+                    <th>Sääennuste</th>
+                    <th>Työ valmistunut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each Worksite}}
+                <tr>
+                    <td>{{this.date}}</td>
+                    <td>{{this.customerName}}</td>
+                    <td>{{this.phoneNumber}}</td>
+                    <td>{{this.workAddress}}</td>
+                    <td>{{this.city}}</td>
+                    <td>
+                        {{#each this.tasks}}
+                        {{this}}<br>
+                        {{/each}}
+                    </td>
+                    <td>{{this.additionalInformation}}</td>
+                    <td class="weather-forecast">Päivän ylin: <span class="temp-max"></span>°C, <br>
+                        Päivän alin: <span class="temp-min"></span>°C, <br>
+                        Ilmankosteus: <span class="humidity"></span> %, <br>
+                        UV-indeksi: <span class="uv-index"></span>
+                    </td>
+                    <td class="text-center">
+                        <input class="gardenerDone d-inline-block" value={{this._id}} type="checkbox">
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <section class="col-8 d-flex justify-content-around greenBack py-2">
+            <button onclick=updateWorkToDone() value="{{this._id}}">Päivitä työ tehdyksi</button>
+            <input type="hidden" value="updateWorkToDone" name="type"/>
+        </section>
 </main>
+
 
 <script>
 //Weather forecast with https://www.visualcrossing.com/weather/
@@ -71,12 +77,12 @@
                 const forecastCell = worksite.querySelector('.weather-forecast');
                 const tempMaxSpan = forecastCell.querySelector('.temp-max');
                 const tempMinSpan = forecastCell.querySelector('.temp-min');
-                const humiditySpan = forecastCell.querySelector('.humidity');
-                const uvIndexSpan = forecastCell.querySelector('.uv-index');
+                const humiditySpan = forecastCell.querySelector('.humidity'); 
+                const uvIndexSpan = forecastCell.querySelector('.uv-index');   
 
                 tempMaxSpan.textContent = tempMax;
                 tempMinSpan.textContent = tempMin;
-                humiditySpan.textContent = humidity;
+                humiditySpan.textContent = humidity; 
                 uvIndexSpan.textContent = uvIndex;
             })
             .catch(error => {
@@ -85,52 +91,30 @@
         });
     };
 
-// Update Worksite that work is done
-async function gardenerWorkDone() {
-    try {
-        // Create an object representing the worksite to be marked as done
-        let worksiteIdUpdate = [];
-        let gardenerCheckboxes = document.getElementsByClassName('gardenerDone')
-            workIsDone: true // Use boolean true instead of string "true"
-        };
-
-                Array.from(gardenerCheckboxes).map((checkbox) => {
+async function updateWorkToDone() {
+        let worksiteComplete = []
+        let worksiteCheckboxes = document.getElementsByClassName('gardenerDone')
+        Array.from(worksiteCheckboxes).map((checkbox) => {
             if (checkbox.checked) {
-                workDone.push(checkbox.value)
-            }
 
-        // Make a POST request to update the worksite
-        const response = await fetch('/gardenerWorkDone', {
+                let updateWorkToDone = {
+                    worksiteId: checkbox.value,
+                    workIsDone: true
+                }
+                workDoneId.push(updateWorkToDone)
+            }
+        })
+
+        const response = await fetch('/updateWorkDone', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(updatedWorksite) // Send only one worksite to update
+            body: JSON.stringify(worksiteComplete)
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to update worksite');
-        }
-
-        // Redirect to a new page or perform other actions as needed
         const data = await response.json();
-        let message = data.message;
-        location.href = `/garderner?message=${message}`;
-    } catch (error) {
-        console.error('Error updating worksite:', error);
-    }
+        let message = data.message
+        location.href = `/gardener?message=${message}`
 }
-
-window.onload = function() {
-    const worksites = document.querySelectorAll('#WorksTable tbody tr');
-
-    worksites.forEach((worksite) => {
-        const gardenerDoneButton = worksite.querySelector('.gardenerDoneButton');
-        const worksiteId = gardenerDoneButton.dataset.worksiteId;
-
-        gardenerDoneButton.addEventListener('click', async () => {
-            await gardenerWorkDone(worksiteId); // Call the gardenerWorkDone function with the worksiteId
-        });
-    });
-};
 </script>
