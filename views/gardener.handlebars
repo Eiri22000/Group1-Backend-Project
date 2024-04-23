@@ -1,10 +1,10 @@
-<main id="WorksTable" class="row mb-4 px-3">
-    <table class="table table-sm table-striped table-bordered greenBack p-1 m-0 col-8">
+<main id="worksTable" class="row mb-4">
+    <table class="table table-striped table-bordered greenBack p-1 m-0 mx-auto openWorks">
         <caption class="greenBack">
             <h3>Hei {{workerName}}</h3>
             <p>Ohessa seuraavat työkohteesi:</p>
         </caption>
-        <thead>
+        <thead class="thead-dark">
             <tr>
                 <th>Päivämäärä</th>
                 <th>Asiakas</th>
@@ -43,8 +43,8 @@
             {{/each}}
         </tbody>
     </table>
-    <section class="col-8 d-flex justify-content-around greenBack py-2">
-        <button onclick=updateWorkToDone() value="{{this._id}}">Päivitä työ tehdyksi</button>
+    <section class="d-flex justify-content-around greenBack py-2 px-5 mt-1 mx-auto">
+        <button id="updateWorkButton" onclick="updateWorkToDone()">Päivitä työ tehdyksi</button>
         <input type="hidden" value="updateWorkToDone" name="type" />
     </section>
 </main>
@@ -110,11 +110,12 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(worksiteComplete)
+            body: JSON.stringify({ worksiteIds: worksiteIds })
         });
 
-        const data = await response.json();
-        let message = data.message
-        location.href = `/gardener?message=${message}`
-    }
+        if (response.ok) {
+            const data = await response.json();
+            let message = data.message
+            location.href = `/gardener?message=${message}`
+        }
 </script>
