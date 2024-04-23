@@ -32,13 +32,15 @@
                 <td>
                     <select class="workerOption" name="Valitse">
                         <option disabled selected value> -- Valitse -- </option>
-                        {{#each ../workers}}
+                        {{#each (getFreeEmployees ../workers openWorksites)}}
+
                         <option value={{this._id}} data-worksite_id={{../_id}}>
                             {{this.name}}</option>
                         {{/each}}
                     </select>
                 </td>
             </tr>
+
             {{/each}}
         </tbody>
     </table>
@@ -50,6 +52,7 @@
 {{> linkAndFeedback linkHref=" /admin" linkText="Siirry työntekijöiden hallintaan" col="8" }}
 
 <script>
+
     async function deleteWorksites() {
         let idsToRemove = [];
         let worksiteCheckboxes = document.getElementsByClassName('worksiteToDelete')
