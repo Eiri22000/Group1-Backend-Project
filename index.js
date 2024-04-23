@@ -123,10 +123,10 @@ app.get('/gardener', async (req, res) => {
     try {
         const worker = "661d33c58f866f3f675f05a2";
         const workerName = await User.find({ id: worker }).lean();
-        const works = await Worksite.find({ assignedWorkerId: worker }).lean();
+        const works = await Worksite.find({ assignedWorkerId: worker }, {workIsDone: false}).lean();
         const plant = await randomImage();
-        const backGroundImage = plant.image
-        const plantId = plant.plantId
+        const backGroundImage = plant.image;
+        const plantId = plant.plantId;
         res.render('gardener', { subtitle: 'Puutarhurin työlista', Worksite: works, backGroundImage, plantId, User: workerName });
     } catch (error) {
         // Log the full error for debugging purposes
@@ -245,7 +245,7 @@ app.post('/addWork', validateForm(), async (req, res) => {
 })
 
 app.post('/updateWorkDone', async (req, res) => {
-    const worksiteIsDoneToDb = req.body;
+    const worksiteIdsToUpdate = req.body.worksiteIds;
     const worker = "661d33c58f866f3f675f05a2";
     const workerName = await User.findOne({ _id: worker }).lean();
     const works = await Worksite.find({ assignedWorkerId: worker }).lean();
@@ -254,8 +254,10 @@ app.post('/updateWorkDone', async (req, res) => {
     const plantId = plant.plantId;
 
     try {
-        const worksiteIds = worksiteIsDoneToDb.map(worksite => worksite.hiddenId);
-        await Worksite.updateMany({ _id: { $in: worksiteIds } }, { workIsDone: true });
+        await Worksite.updateMany(
+            { _id: { $in: worksiteIdsToUpdate } },
+            { workIsDone: true }
+        );
         res.status(200).render('gardener', { subtitle: 'Puutarhurin työlista', message: `Työ kuitattu valmiiksi`, Worksite: works, backGroundImage, plantId, User: workerName });
     } catch (error) {
         res.status(500).render('gardener', { subtitle: 'Puutarhurin työlista', message: `Tietoja ei päivitetty. Virhe: ${error.message}`, Worksite: works, backGroundImage, plantId, User: workerName });
