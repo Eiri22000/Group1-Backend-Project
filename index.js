@@ -269,29 +269,34 @@ const randomImage = async (number) => {
         number = Math.floor(Math.random() * 3001)
     }
     // Set image from public folder as a default
-    var image = "testBackground.jpg"
-    var info = { name: "Zebra Plant", scientificName: "Calathea orbifolia", image: "testBackground.jpg", light: "Half shade", propagation: "seeds, division", watering: "Keep moist" }
-    var plantId = 6000
-    try {
-        await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
-            key: process.env.PLANTAPIKEY,
-        }))
-            .then(res => res.json())
-            .then(json => {
-                plantId =json.id;
-                info = {name:json.common_name, scientificName:json.scientific_name, image: json.original_url, light:json.sunlight, propagation:json.propagation, watering:json.watering}
-                const defImage =json.default_image
-                if (defImage.original_url !== undefined || defImage.original_url !== null) {
-                            image = defImage.regular_url
-                }
-                // else {
-                //     randomImage()
-                // }
-            })
-    }
-    catch (error) {
-        console.log('Plant-API did not provide image of plant. Using default image')
-    }
+    var image = ""
+    var info = {}
+    var plantId
+    // try {
+    //     await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
+    //         key: process.env.PLANTAPIKEY,
+    //     }))
+    //         .then(res => res.json())
+    //         .then(json => {
+    //             plantId =json.id;
+    //             info = {name:json.common_name, scientificName:json.scientific_name, image: json.original_url, light:json.sunlight, propagation:json.propagation, watering:json.watering}
+    //             const defImage =json.default_image
+    //             // console.log("TÄSSÄ" +defImage.original_url)
+    //             if (defImage.original_url !== undefined || defImage.original_url !== null) {
+    //                         image = defImage.original_url
+    //                         console.log("minussa on kuva")
+    //             }
+    //             else {
+    //                 image = "testBackground.jpg"
+    //                 info = { name: "Zebra Plant", scientificName: "Calathea orbifolia", image: "testBackground.jpg", light: "Half shade", propagation: "seeds, division", watering: "Keep moist" }
+    //                 plantId = 6000
+    //                 console.log("otin defaultin")
+    //             }
+    //         })
+    // }
+    // catch (error) {
+    //     console.log('Plant-API did not provide image of plant. Using default image')
+    // }  
     return { image, plantId, info }
 }
 
