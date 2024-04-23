@@ -21,10 +21,12 @@ header {
     overflow: hidden;
     background-color: rgb(238, 248, 236);
     margin-bottom: 1em;
+    height: 15%; 
 }
 
 .container {
     min-width: fit-content;
+    overflow-y: scroll;
 }
 
 footer {
@@ -35,10 +37,8 @@ footer {
     margin-top: 1em;
     overflow: hidden;
     background-color: rgb(238, 248, 236);
-    position: absolute;
     bottom: 0;
-    width: 100%;
-    height: min-content;
+    height: 15%; 
 }
 
 h1 {
