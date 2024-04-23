@@ -21,10 +21,12 @@ header {
     overflow: hidden;
     background-color: rgb(238, 248, 236);
     margin-bottom: 1em;
+    height: 15%; 
 }
 
 .container {
     min-width: fit-content;
+    overflow-y: scroll;
 }
 
 footer {
@@ -35,10 +37,8 @@ footer {
     margin-top: 1em;
     overflow: hidden;
     background-color: rgb(238, 248, 236);
-    position: absolute;
     bottom: 0;
-    width: 100%;
-    height: min-content;
+    height: 15%; 
 }
 
 h1 {
@@ -167,21 +167,15 @@ button {
 /* End of ADMIN-page css */
 
 /*ASSIGN WORKSITE-page */
-#openWorksTable {
-    height: 55vh;
-    min-width: max-content;
-}
-
-#openWorks {
-    height: 100%;
-    text-align: -webkit-center;
+#worksTable {
+    height: 58vh;
 }
 
 table {
     display: block;
-    min-width: max-content !important;
+    width: max-content !important;
     overflow-y: scroll;
-    max-height: 90%;
+    max-height: 90% !important;
 }
 
 thead {
@@ -192,10 +186,6 @@ thead {
 caption {
     caption-side: top !important;
     color: #0F2310 !important;
-}
-
-#calenderView {
-    height: min-content;
 }
 
 /*ASSIGN WORKSITE-page end*/

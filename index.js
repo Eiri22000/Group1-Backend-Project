@@ -7,7 +7,6 @@ const exphbs = require('express-handlebars');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const router = express.Router();
-// const fetch = require('node-fetch');
 module.exports = router;
 require('esm-hook');
 const { body, validationResult } = require('express-validator');
@@ -18,7 +17,7 @@ const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPA
 //Import custom modules
 const User = require('./models/User');
 const Worksite = require('./models/Worksite');
-const {isInArray} = require('./models/helpers.js');
+const { isInArray, freeEmployees } = require('./models/helpers.js');
 
 //Wait for database connection and when succesful make the app listen to port 3000
 mongoose.connect(dbURI)
@@ -87,12 +86,13 @@ app.get('/assignWorksite', async (req, res) => {
     if (req.query.message) {
         feedbackMessage = req.query.message
     }
-    const openWorksites = await Worksite.find({ isAssigned: false }).lean()
-    const workers = await User.find().select('_id, name').lean()
+    const openWorksites = await Worksite.find({ isAssigned: false }).sort({ date: -1 }).lean()
+    const workers = await User.find().select('_id name').lean()
+    const assignedWorksites = await Worksite.find({ isAssigned: true }).select('date assignedWorkerId').lean()
     const plant = await randomImage();
     const backGroundImage = plant.image
     const plantId = plant.plantId
-    res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers, backGroundImage, plantId, message: feedbackMessage })
+    res.render('assignWorksite', { subtitle: 'Määritä työ työntekijälle', openWorksites: openWorksites, workers: workers, backGroundImage, plantId, message: feedbackMessage, allReadyAssignedWorks: assignedWorksites })
 })
 
 app.post('/assignWorksite', async (req, res) => {
@@ -157,7 +157,7 @@ app.get('/plantInfo', async (req, res) => {
         const backGroundImage = plant.image
         const plantInfo = plant.info
         res.render('plantInfo', {
-            subtitle: 'Lisätietoa taustakuvan kasvista',backGroundImage, plantId, plantInfo
+            subtitle: 'Lisätietoa taustakuvan kasvista', backGroundImage, plantId, plantInfo
         })
     }
     catch (error) {
@@ -209,8 +209,8 @@ app.post('/updateDB', async (req, res) => {
 })
 
 // Add a work
-app.post('/addWork', validateForm(),async (req, res) => {
-    // Format date to common finnish date format
+app.post('/addWork', validateForm(), async (req, res) => {
+    //format date to common finnish date format
     const date = new Date(req.body.date)
     const formatter = new Intl.DateTimeFormat('fi-FI', { day: '2-digit', month: '2-digit', year: 'numeric' })
     const formattedDate = formatter.format(date)
@@ -220,7 +220,7 @@ app.post('/addWork', validateForm(),async (req, res) => {
         // If there are validation errors, user is redirected to fix errors in form with error message
         if (!validationErrors.isEmpty()) {
             const errors = validationErrors.array().map(error => error.msg)
-            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message:"Korjaa virheet lomakkeessa: " + errors, formData: req.body})
+            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: "Korjaa virheet lomakkeessa: " + errors, formData: req.body })
         }
         // Without errors, save and direct back with message
         const work = new Worksite({
@@ -236,8 +236,8 @@ app.post('/addWork', validateForm(),async (req, res) => {
             isAssigned: false,
             workIsDone: false
         })
-            await work.save()
-            .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!'}))
+        await work.save()
+            .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!' }))
     }
     catch (error) {
         res.status(500).send('Server error')
@@ -272,26 +272,28 @@ const randomImage = async (number) => {
     }
     // Set image from public folder as a default
     var image = "testBackground.jpg"
-    var info = {name:"Zebra Plant",scientificName: "Calathea orbifolia", image: "testBackground.jpg", light:"Half shade", propagation:"seeds, division", watering:"Keep moist"}
+    var info = { name: "Zebra Plant", scientificName: "Calathea orbifolia", image: "testBackground.jpg", light: "Half shade", propagation: "seeds, division", watering: "Keep moist" }
     var plantId = 6000
-    // try {
-    //     await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
-    //         key: process.env.PLANTAPIKEY,
-    //     }))
-    //         .then(res => res.json())
-    //         .then(json => {
-    //             plantId =json.id;
-    //             info = {name:json.common_name, scientificName:json.scientific_name, image: json.original_url, light:json.sunlight, propagation:json.propagation, watering:json.watering}
-    //             const defImage =json.default_image
-    //             if (defImage.original_url !== undefined || defImage.original_url !== null) {
-    //                         image = defImage.regular_url
-    //             }
-    //         })
-
-    // }
-    // catch (error) {
-    //     console.log('Plant-API did not provide image of plant. Using default image')
-    // }
+    try {
+        await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
+            key: process.env.PLANTAPIKEY,
+        }))
+            .then(res => res.json())
+            .then(json => {
+                plantId =json.id;
+                info = {name:json.common_name, scientificName:json.scientific_name, image: json.original_url, light:json.sunlight, propagation:json.propagation, watering:json.watering}
+                const defImage =json.default_image
+                if (defImage.original_url !== undefined || defImage.original_url !== null) {
+                            image = defImage.regular_url
+                }
+                // else {
+                //     randomImage()
+                // }
+            })
+    }
+    catch (error) {
+        console.log('Plant-API did not provide image of plant. Using default image')
+    }
     return { image, plantId, info }
 }
 
