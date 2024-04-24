@@ -27,8 +27,8 @@ const freeEmployees = hbs.handlebars.registerHelper('getFreeEmployees', function
 
 // Convert date for table
 const convertDateFormat = hbs.handlebars.registerHelper('convertDate', function (date) {
-  let day = date.getDate()
-  let month = date.getMonth()
+  let day = date.getDate().toString().padStart(2, '0')
+  let month = date.getMonth().toString().padStart(2, '0')
   let year = date.getFullYear()
   let formattedDate = `${day}.${month}.${year}`
   return formattedDate
