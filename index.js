@@ -11,6 +11,17 @@ module.exports = router;
 require('esm-hook');
 const { body, validationResult } = require('express-validator');
 const { validateForm } = require('./models/validations');
+const nodemailer = require('nodemailer')
+
+
+//For email sending
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAILUSER,
+        pass: process.env.EMAILPASSWORD
+    }
+})
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -97,16 +108,24 @@ app.get('/assignWorksite', async (req, res) => {
 
 app.post('/assignWorksite', async (req, res) => {
     const assignedWorksitesToDB = req.body
-    for (const worksite of assignedWorksitesToDB) {
-        try {
+    let emailResponse
+
+    try {
+        for (const worksite of assignedWorksitesToDB) {
             await Worksite.updateOne({ _id: worksite.worksiteId }, {
                 isAssigned: true,
                 assignedWorkerId: worksite.employeeId
             })
-            res.status(200).json({ message: "Valitut työt merkitty tekijöilleen!" })
-        } catch (error) {
-            res.status(500).json({ message: `Määritys epäonnistui! Virhe: ${error.message}` })
+            // try {
+            //     await sendEmail(worksite.worksiteId)
+            //     emailResponse = "Sähköpostiviesti lähetetty."
+            // } catch (emailError) {
+            //     emailResponse = `Sähköpostin lähettäminen epäonnistui : ${emailError}`
+            // }
+            res.status(200).json({ message: `Valitut työt merkitty tekijöilleen! ${emailResponse}` })
         }
+    } catch (error) {
+        res.status(500).json({ message: `Määritys epäonnistui! Virhe: ${error.message}.` })
     }
 })
 
@@ -264,6 +283,13 @@ app.post('/updateWorkDone', async (req, res) => {
     }
 });
 
+app.use((req, res, next) => {
+    res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");
+});
+
+
+
+
 // Get plant photo from Perenual Plan API
 const randomImage = async (number) => {
     // Call from plantInfo has an plantId to get info from specific plant, otherwise use random to create background
@@ -302,6 +328,33 @@ const randomImage = async (number) => {
     return { image, plantId, info }
 }
 
-app.use((req, res, next) => {
-    res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");
-});
+
+async function sendEmail(worksiteId) {
+    const worksiteInfo = await Worksite.find({ _id: worksiteId }).select('customerName city tasks additionalInformation date').lean()
+    let tasks
+    worksiteInfo[0].tasks.map(task => {
+        tasks += `<li>${task}</li>`
+    });
+
+    if (worksiteInfo[0].additionalInformation !== "") {
+        tasks += `<li>${worksiteInfo[0].additionalInformation}</li>`
+    }
+
+    // Send email to assigned worker with worksite info
+    const newEmail = {
+        from: process.env.EMAILUSER,
+        to: 'anne22015@student.hamk.fi',
+        subject: 'Sinulle on määrätty uusi työkohde',
+        html: `<h1>${worksiteInfo[0].customerName}, ${worksiteInfo[0].city}</h1><h2>${worksiteInfo[0].date}</h2><h3>Työtehtävät ja lisätiedot</h3><ul>${tasks}</ul></br></br><p>Lisätietoja kohteesta näet omalta työsivultasi.</br> Kaivamisiin! T: Pena</p>`,
+    }
+
+    const response = await transporter.sendMail(newEmail, function (error, info) {
+
+        if (error) {
+            console.log('Error: ', error);
+        } else {
+            console.log('Sähköposti lähetetty.')
+        }
+
+    })
+}
