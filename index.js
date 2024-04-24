@@ -12,6 +12,17 @@ require('esm-hook');
 const { body, validationResult } = require('express-validator');
 const { validateForm } = require('./models/validations');
 const {randomImage} = require('./models/fetchplant.js');
+const nodemailer = require('nodemailer')
+
+
+//For email sending
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAILUSER,
+        pass: process.env.EMAILPASSWORD
+    }
+})
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -98,16 +109,24 @@ app.get('/assignWorksite', async (req, res) => {
 
 app.post('/assignWorksite', async (req, res) => {
     const assignedWorksitesToDB = req.body
-    for (const worksite of assignedWorksitesToDB) {
-        try {
+    let emailResponse
+
+    try {
+        for (const worksite of assignedWorksitesToDB) {
             await Worksite.updateOne({ _id: worksite.worksiteId }, {
                 isAssigned: true,
                 assignedWorkerId: worksite.employeeId
             })
-            res.status(200).json({ message: "Valitut työt merkitty tekijöilleen!" })
-        } catch (error) {
-            res.status(500).json({ message: `Määritys epäonnistui! Virhe: ${error.message}` })
+            // try {
+            //     await sendEmail(worksite.worksiteId)
+            //     emailResponse = "Sähköpostiviesti lähetetty."
+            // } catch (emailError) {
+            //     emailResponse = `Sähköpostin lähettäminen epäonnistui : ${emailError}`
+            // }
+            res.status(200).json({ message: `Valitut työt merkitty tekijöilleen! ${emailResponse}` })
         }
+    } catch (error) {
+        res.status(500).json({ message: `Määritys epäonnistui! Virhe: ${error.message}.` })
     }
 })
 
@@ -263,3 +282,75 @@ app.post('/updateWorkDone', async (req, res) => {
 app.use((req, res, next) => {
     res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");
 });
+
+
+
+
+// Get plant photo from Perenual Plan API
+const randomImage = async (number) => {
+    // Call from plantInfo has an plantId to get info from specific plant, otherwise use random to create background
+    if (number === undefined) {
+        number = Math.floor(Math.random() * 3001)
+    }
+    // Set image from public folder as a default
+    var image = ""
+    var info = {}
+    var plantId
+    // try {
+    //     await fetch('https://perenual.com/api/species/details/' + number + '?' + new URLSearchParams({
+    //         key: process.env.PLANTAPIKEY,
+    //     }))
+    //         .then(res => res.json())
+    //         .then(json => {
+    //             plantId =json.id;
+    //             info = {name:json.common_name, scientificName:json.scientific_name, image: json.original_url, light:json.sunlight, propagation:json.propagation, watering:json.watering}
+    //             const defImage =json.default_image
+    //             // console.log("TÄSSÄ" +defImage.original_url)
+    //             if (defImage.original_url !== undefined || defImage.original_url !== null) {
+    //                         image = defImage.original_url
+    //                         console.log("minussa on kuva")
+    //             }
+    //             else {
+    //                 image = "testBackground.jpg"
+    //                 info = { name: "Zebra Plant", scientificName: "Calathea orbifolia", image: "testBackground.jpg", light: "Half shade", propagation: "seeds, division", watering: "Keep moist" }
+    //                 plantId = 6000
+    //                 console.log("otin defaultin")
+    //             }
+    //         })
+    // }
+    // catch (error) {
+    //     console.log('Plant-API did not provide image of plant. Using default image')
+    // }  
+    return { image, plantId, info }
+}
+
+
+async function sendEmail(worksiteId) {
+    const worksiteInfo = await Worksite.find({ _id: worksiteId }).select('customerName city tasks additionalInformation date').lean()
+    let tasks
+    worksiteInfo[0].tasks.map(task => {
+        tasks += `<li>${task}</li>`
+    });
+
+    if (worksiteInfo[0].additionalInformation !== "") {
+        tasks += `<li>${worksiteInfo[0].additionalInformation}</li>`
+    }
+
+    // Send email to assigned worker with worksite info
+    const newEmail = {
+        from: process.env.EMAILUSER,
+        to: 'anne22015@student.hamk.fi',
+        subject: 'Sinulle on määrätty uusi työkohde',
+        html: `<h1>${worksiteInfo[0].customerName}, ${worksiteInfo[0].city}</h1><h2>${worksiteInfo[0].date}</h2><h3>Työtehtävät ja lisätiedot</h3><ul>${tasks}</ul></br></br><p>Lisätietoja kohteesta näet omalta työsivultasi.</br> Kaivamisiin! T: Pena</p>`,
+    }
+
+    const response = await transporter.sendMail(newEmail, function (error, info) {
+
+        if (error) {
+            console.log('Error: ', error);
+        } else {
+            console.log('Sähköposti lähetetty.')
+        }
+
+    })
+}
