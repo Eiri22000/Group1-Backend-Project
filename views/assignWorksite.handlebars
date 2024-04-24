@@ -18,7 +18,7 @@
         <tbody>
             {{#each openWorksites}}
             <tr>
-                <td>{{this.date}}</td>
+                <td>{{#convertDate this.date}}{{/convertDate}}</td>
                 <td>{{this.customerName}}</td>
                 <td>{{this.phoneNumber}}</td>
                 <td>{{this.email}}</td>
@@ -32,8 +32,7 @@
                 <td>
                     <select class="workerOption" name="Valitse">
                         <option disabled selected value> -- Valitse -- </option>
-                        {{#each (getFreeEmployees ../workers openWorksites)}}
-
+                        {{#each (getFreeEmployees ../workers ../allReadyAssignedWorks ./date)}}
                         <option value={{this._id}} data-worksite_id={{../_id}}>
                             {{this.name}}</option>
                         {{/each}}

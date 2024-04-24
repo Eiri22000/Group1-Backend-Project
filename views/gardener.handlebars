@@ -1,59 +1,58 @@
 <main id="worksTable" class="row mb-4">
-        <table class="table table-striped table-bordered greenBack p-1 m-0 mx-auto openWorks">
-            <caption class="greenBack">
-                <h3>Hei {{workerName}}</h3>
-                <p>Ohessa seuraavat työkohteesi:</p>
-            </caption>
-            <thead class="thead-dark">
-                <tr>
-                    <th>Päivämäärä</th>
-                    <th>Asiakas</th>
-                    <th>Puhelinnumero</th>
-                    <th>Osoite</th>
-                    <th>Paikkakunta</th>
-                    <th>Työtehtävät</th>
-                    <th>Lisätiedot</th>
-                    <th>Sääennuste</th>
-                    <th>Työ valmistunut</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each Worksite}}
-                <tr>
-                    <td>{{this.date}}</td>
-                    <td>{{this.customerName}}</td>
-                    <td>{{this.phoneNumber}}</td>
-                    <td>{{this.workAddress}}</td>
-                    <td>{{this.city}}</td>
-                    <td>
-                        {{#each this.tasks}}
-                        {{this}}<br>
-                        {{/each}}
-                    </td>
-                    <td>{{this.additionalInformation}}</td>
-                    <td class="weather-forecast">Päivän ylin: <span class="temp-max"></span>°C, <br>
-                        Päivän alin: <span class="temp-min"></span>°C, <br>
-                        Ilmankosteus: <span class="humidity"></span> %, <br>
-                        UV-indeksi: <span class="uv-index"></span>
-                    </td>
-                    <td class="text-center">
-                        <input class="gardenerDone d-inline-block" value={{this._id}} type="checkbox">
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-        <section class="d-flex justify-content-around greenBack py-2 px-5 mt-1 mx-auto" name="buttonSection">
-            <button id="updateWorkButton" onclick="updateWorkToDone()">Päivitä työ tehdyksi</button>
-            <input type="hidden" value="updateWorkToDone" name="type"/>
-            <button id="logoutButton">Kirjaudu ulos</button>
-        </section>
+    <table class="table table-striped table-bordered greenBack p-1 m-0 mx-auto openWorks">
+        <caption class="greenBack">
+            <h3>Hei {{workerName}}</h3>
+            <p>Ohessa seuraavat työkohteesi:</p>
+        </caption>
+        <thead class="thead-dark">
+            <tr>
+                <th>Päivämäärä</th>
+                <th>Asiakas</th>
+                <th>Puhelinnumero</th>
+                <th>Osoite</th>
+                <th>Paikkakunta</th>
+                <th>Työtehtävät</th>
+                <th>Lisätiedot</th>
+                <th>Sääennuste</th>
+                <th>Työ valmistunut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each Worksite}}
+            <tr>
+                <td>{{#convertDate this.date}}{{/convertDate}}</td>
+                <td>{{this.customerName}}</td>
+                <td>{{this.phoneNumber}}</td>
+                <td>{{this.workAddress}}</td>
+                <td>{{this.city}}</td>
+                <td>
+                    {{#each this.tasks}}
+                    {{this}}<br>
+                    {{/each}}
+                </td>
+                <td>{{this.additionalInformation}}</td>
+                <td class="weather-forecast">Päivän ylin: <span class="temp-max"></span>°C, <br>
+                    Päivän alin: <span class="temp-min"></span>°C, <br>
+                    Ilmankosteus: <span class="humidity"></span> %, <br>
+                    UV-indeksi: <span class="uv-index"></span>
+                </td>
+                <td class="text-center">
+                    <input class="gardenerDone d-inline-block" value={{this._id}} type="checkbox">
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <section class="d-flex justify-content-around greenBack py-2 px-5 mt-1 mx-auto">
+        <button id="updateWorkButton" onclick="updateWorkToDone()">Päivitä työ tehdyksi</button>
+        <input type="hidden" value="updateWorkToDone" name="type" />
+    </section>
 </main>
 
 
 <script>
-//Weather forecast with https://www.visualcrossing.com/weather/
-    window.onload = function() {
+    //Weather forecast with https://www.visualcrossing.com/weather/
+    window.onload = function () {
         const worksites = document.querySelectorAll('#WorksTable tbody tr');
 
         worksites.forEach((worksite) => {
@@ -68,46 +67,51 @@
             fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${outputDate}/${outputDate}?unitGroup=metric&elements=name%2Ctempmax%2Ctempmin%2Chumidity%2Cuvindex%2Csunrise%2Csunset&key=T37KJYM23DQGRSGFQ3786MD5V&contentType=json`, {
                 method: 'GET'
             })
-            .then(response => response.json())
-            .then(data => {
-                const tempMax = data.days[0].tempmax;
-                const tempMin = data.days[0].tempmin;
-                const humidity = data.days[0].humidity;
-                const uvIndex = data.days[0].uvindex;
+                .then(response => response.json())
+                .then(data => {
+                    const tempMax = data.days[0].tempmax;
+                    const tempMin = data.days[0].tempmin;
+                    const humidity = data.days[0].humidity;
+                    const uvIndex = data.days[0].uvindex;
 
-                const forecastCell = worksite.querySelector('.weather-forecast');
-                const tempMaxSpan = forecastCell.querySelector('.temp-max');
-                const tempMinSpan = forecastCell.querySelector('.temp-min');
-                const humiditySpan = forecastCell.querySelector('.humidity'); 
-                const uvIndexSpan = forecastCell.querySelector('.uv-index');   
+                    const forecastCell = worksite.querySelector('.weather-forecast');
+                    const tempMaxSpan = forecastCell.querySelector('.temp-max');
+                    const tempMinSpan = forecastCell.querySelector('.temp-min');
+                    const humiditySpan = forecastCell.querySelector('.humidity');
+                    const uvIndexSpan = forecastCell.querySelector('.uv-index');
 
-                tempMaxSpan.textContent = tempMax;
-                tempMinSpan.textContent = tempMin;
-                humiditySpan.textContent = humidity; 
-                uvIndexSpan.textContent = uvIndex;
-            })
-            .catch(error => {
-                console.error('Error fetching weather data:', error);
-            });
+                    tempMaxSpan.textContent = tempMax;
+                    tempMinSpan.textContent = tempMin;
+                    humiditySpan.textContent = humidity;
+                    uvIndexSpan.textContent = uvIndex;
+                })
+                .catch(error => {
+                    console.error('Error fetching weather data:', error);
+                });
         });
     };
 
-async function updateWorkToDone() {
-    let worksiteIds = [];
-    let worksiteCheckboxes = document.getElementsByClassName('gardenerDone');
-    Array.from(worksiteCheckboxes).forEach((checkbox) => {
-        if (checkbox.checked) {
-            worksiteIds.push(checkbox.value);
-        }
-    });
+    async function updateWorkToDone() {
+        let worksiteComplete = []
+        let worksiteCheckboxes = document.getElementsByClassName('gardenerDone')
+        Array.from(worksiteCheckboxes).map((checkbox) => {
+            if (checkbox.checked) {
 
-    const response = await fetch('/updateWorkDone', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ worksiteIds: worksiteIds })
-    });
+                let updateWorkToDone = {
+                    worksiteId: checkbox.value,
+                    workIsDone: true
+                }
+                workDoneId.push(updateWorkToDone)
+            }
+        })
+
+        const response = await fetch('/updateWorkDone', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ worksiteIds: worksiteIds })
+        });
 
     if (response.ok) {
         const data = await response.json();
