@@ -10,7 +10,7 @@ const router = express.Router();
 module.exports = router;
 require('esm-hook');
 const { body, validationResult } = require('express-validator');
-const { validateForm } = require('./models/validations');npm 
+const { validateForm } = require('./models/validations');
 const {randomImage} = require('./models/fetchplant.js');
 const nodemailer = require('nodemailer')
 
