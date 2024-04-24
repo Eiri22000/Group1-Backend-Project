@@ -10,8 +10,8 @@ const router = express.Router();
 module.exports = router;
 require('esm-hook');
 const { body, validationResult } = require('express-validator');
-const { validateForm } = require('./models/validations');npm 
-const {randomImage} = require('./models/fetchplant.js');
+const { validateForm } = require('./models/validations');
+const { randomImage } = require('./models/fetchplant.js');
 const nodemailer = require('nodemailer')
 
 
@@ -98,7 +98,7 @@ app.get('/assignWorksite', async (req, res) => {
     if (req.query.message) {
         feedbackMessage = req.query.message
     }
-    const openWorksites = await Worksite.find({ isAssigned: false }).sort({ date: -1 }).lean()
+    const openWorksites = await Worksite.find({ isAssigned: false }).sort({ date: 1 }).lean()
     const workers = await User.find().select('_id name').lean()
     const assignedWorksites = await Worksite.find({ isAssigned: true }).select('date assignedWorkerId').lean()
     const plant = await randomImage();

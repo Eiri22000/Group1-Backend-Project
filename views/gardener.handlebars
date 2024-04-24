@@ -20,7 +20,7 @@
         <tbody>
             {{#each Worksite}}
             <tr>
-                <td>{{this.date}}</td>
+                <td>{{#convertDate this.date}}{{/convertDate}}</td>
                 <td>{{this.customerName}}</td>
                 <td>{{this.phoneNumber}}</td>
                 <td>{{this.workAddress}}</td>

@@ -24,4 +24,14 @@ const freeEmployees = hbs.handlebars.registerHelper('getFreeEmployees', function
   return freeWorkersForDate
 })
 
-module.exports = { isInArray, freeEmployees }
+
+// Convert date for table
+const convertDateFormat = hbs.handlebars.registerHelper('convertDate', function (date) {
+  let day = date.getDate()
+  let month = date.getMonth()
+  let year = date.getFullYear()
+  let formattedDate = `${day}.${month}.${year}`
+  return formattedDate
+})
+
+module.exports = { isInArray, freeEmployees, convertDateFormat }
