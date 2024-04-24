@@ -148,7 +148,7 @@ app.get('/gardener', async (req, res) => {
     try {
         const worker = "661d33c58f866f3f675f05a2";
         const workerName = await User.find({ id: worker }).lean();
-        const works = await Worksite.find({ assignedWorkerId: worker , workIsDone: false}).lean();
+        const works = await Worksite.find({ assignedWorkerId: worker , workIsDone: false}).sort({ date: 1 }).lean();
         const plant = await randomImage();
         const backGroundImage = plant.image;
         const plantId = plant.plantId;

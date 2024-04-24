@@ -43,11 +43,16 @@
             {{/each}}
         </tbody>
     </table>
-    <section class="d-flex justify-content-around greenBack py-2 px-5 mt-1 mx-auto">
-        <button id="updateWorkButton" onclick="updateWorkToDone()">Päivitä työ tehdyksi</button>
-        <input type="hidden" value="updateWorkToDone" name="type" />
-    </section>
 </main>
+<aside>
+    <section class="d-flex justify-content-around greenBack py-2 px-5 mt-1 mx-auto">
+        <p><button id="updateWorkButton" onclick="updateWorkToDone()">Päivitä työ tehdyksi</button>
+        <input type="hidden" value="updateWorkToDone" name="type" /></p>
+        <p><button id="logoutButton">Kirjaudu ulos</button>
+        <input type="hidden" value="logoutButton" name="type" /></p>
+    </section>
+</aside>
+
 
 
 <script>
@@ -57,12 +62,14 @@
 
         worksites.forEach((worksite) => {
             const location = worksite.cells[4].textContent.trim(); // Assuming city is in the 5th column
-            const dateCell = worksite.cells[0]; // Assuming date is in the first cell
-            const inputDate = dateCell.textContent.trim(); // Assuming the date is in text format
+            const inputDate = worksite.cells[0]; // Assuming date is in the first cell
+            //const inputDate = dateCell.textContent.trim(); // Assuming the date is in text format
+            
 
             // Convert date to "YYYY-MM-DD" format
-            const components = inputDate.split('.').reverse();
-            const outputDate = components.join('-');
+            const components = inputDate.split('.');
+            const outputDate = `${components[2]}-${components[1]}-${components[0]}`;
+            console.log(outputDate);
 
             fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}/${outputDate}/${outputDate}?unitGroup=metric&elements=name%2Ctempmax%2Ctempmin%2Chumidity%2Cuvindex%2Csunrise%2Csunset&key=T37KJYM23DQGRSGFQ3786MD5V&contentType=json`, {
                 method: 'GET'
@@ -123,7 +130,7 @@
     }
 }
 
-// Example frontend JavaScript code
+// Logout function
 document.getElementById('logoutButton').addEventListener('click', async () => {
        try {
         const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
