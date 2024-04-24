@@ -43,9 +43,10 @@
                 {{/each}}
             </tbody>
         </table>
-        <section class="d-flex justify-content-around greenBack py-2 px-5 mt-1 mx-auto">
+        <section class="d-flex justify-content-around greenBack py-2 px-5 mt-1 mx-auto" name="buttonSection">
             <button id="updateWorkButton" onclick="updateWorkToDone()">Päivitä työ tehdyksi</button>
             <input type="hidden" value="updateWorkToDone" name="type"/>
+            <button id="logoutButton">Kirjaudu ulos</button>
         </section>
 </main>
 
@@ -117,6 +118,27 @@ async function updateWorkToDone() {
         // Handle error
     }
 }
-</script>
 
+// Example frontend JavaScript code
+document.getElementById('logoutButton').addEventListener('click', async () => {
+       try {
+        const token = localStorage.getItem('token'); // Assuming you store the token in localStorage
+        const response = await fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            credentials: 'same-origin' // Use 'include' if using CORS
+        });
+        if (response.ok) {
+            // Redirect user to login page or perform other actions
+            window.location.href = '/';
+        } else {
+            // Handle error response
+            console.error('Logout failed:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Logout failed:', error.message);
+    }
+});
 </script>

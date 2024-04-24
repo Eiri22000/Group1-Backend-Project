@@ -107,9 +107,8 @@ button {
 
 /* Gardener page css */
 
-#worklist {
-    display: flex;
-    flex-direction: row;
+.buttonSection {
+    width: max-content;
 }
 
 /* ADMIN-page css */

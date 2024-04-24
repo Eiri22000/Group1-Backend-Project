@@ -1,9 +1,11 @@
+// users.js
+
 const express = require('express');
-const {authenticate} = require('../middlewares/auth');
+const authenticateToken = require('../middlewares/authenticateToken');
 
 const router = express.Router();
 
-router.get('/profile', authenticate, (req, res) => {
+router.get('/profile', authenticateToken, (req, res) => {
   res.json({ message: `Welcome ${req.user.username}` });
 });
 

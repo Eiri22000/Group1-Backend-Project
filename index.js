@@ -1,16 +1,21 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const connectDB = require('./db');
+//const connectDB = require('./db');
 const path = require('path');
 require('dotenv').config();
+const router = express.Router();
 const exphbs = require('express-handlebars');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
-const router = express.Router();
+const logoutController = require('./controllers/logoutController');
+const secureRoute = require('./routes/secureRoute.js');
+const authenticateToken = require('./middlewares/authenticateToken.js');
+const routes = require('./middlewares/routes');
 module.exports = router;
 require('esm-hook');
 const { body, validationResult } = require('express-validator');
 const { validateForm } = require('./models/validations');
+const app = express();
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
@@ -33,10 +38,10 @@ mongoose.connect(dbURI)
 // Connect to MongoDB, this is not working
 //const database = connectDB();
 
-const app = express();
 app.set('view engine', 'handlebars');
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'));
+app.use('/secure', secureRoute);
 
 app.engine('handlebars', exphbs.engine({
     defaultLayout: 'main'
@@ -49,9 +54,8 @@ app.use(express.json());
 
 // Define authentication routes
 app.use('/auth', authRoutes);
-
-// Define user routes
 app.use('/user', userRoutes);
+app.use('/', routes);
 
 app.get('/', async (req, res) => {
     try {
@@ -120,10 +124,11 @@ app.delete('/deleteWorksite', async (req, res) => {
 })
 
 app.get('/gardener', async (req, res) => {
+//app.get('/gardener', authenticateToken, async (req, res) => {
     try {
         const worker = "661d33c58f866f3f675f05a2";
         const workerName = await User.find({ id: worker }).lean();
-        const works = await Worksite.find({ assignedWorkerId: worker }, {workIsDone: false}).lean();
+        const works = await Worksite.find({ assignedWorkerId: worker , workIsDone: false}).lean();
         const plant = await randomImage();
         const backGroundImage = plant.image;
         const plantId = plant.plantId;
@@ -296,6 +301,8 @@ const randomImage = async (number) => {
     }
     return { image, plantId, info }
 }
+
+app.post('/logout', logoutController.logout);
 
 app.use((req, res, next) => {
     res.status(404).send("Haluamaasi sisältöä ei löytynyt. Tarkasta osoite..");
