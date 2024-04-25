@@ -12,8 +12,14 @@ const login = async (req, res, next) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Compare plain text password with stored password
+    /*// Compare plain text password with stored password
     if (user.password !== password) {
+      return res.status(401).json({ message: 'Incorrect password' });
+    }*/
+
+    // Compare hashed password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return res.status(401).json({ message: 'Incorrect password' });
     }
 
