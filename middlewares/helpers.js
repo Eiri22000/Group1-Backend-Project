@@ -14,7 +14,7 @@ const freeEmployees = hbs.handlebars.registerHelper('getFreeEmployees', function
   const allReadyBookedWorkersForDate = []
   assignedWorks.map((oneWork) => {
 
-    if (date === oneWork.date) {
+    if (date.getTime() == oneWork.date.getTime()) {
       allReadyBookedWorkersForDate.push(oneWork.assignedWorkerId)
     }
   }
