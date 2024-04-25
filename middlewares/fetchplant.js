@@ -18,7 +18,6 @@ const randomImage = async (number) => {
     //             const defImage =json.default_image
     //             if (defImage.original_url !== undefined || defImage.original_url !== null) {
     //                         image = defImage.original_url
-    //                         console.log("minussa on kuva")
     //             }
     //         })
     // }
