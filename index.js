@@ -14,19 +14,17 @@ const routes = require('./middlewares/routes');
 module.exports = router;
 require('esm-hook');
 const { body, validationResult } = require('express-validator');
-const { validateForm } = require('./models/validations');
-const { randomImage } = require('./models/fetchplant.js');
+const { randomImage } = require('./middlewares/fetchplant.js');
+const { validateForm } = require('./middlewares/validations.js');
 const { sendEmail } = require('./middlewares/sendEmail.js');
-
-
-const app = express();
-
-const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
+const { isInArray, freeEmployees, convertDateFormat } = require('./middlewares/helpers.js');
 
 //Import custom modules
 const User = require('./models/User');
 const Worksite = require('./models/Worksite');
-const { isInArray, freeEmployees, convertDateFormat } = require('./models/helpers.js');
+
+const app = express();
+const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
 
 //Wait for database connection and when succesful make the app listen to port 3000
 mongoose.connect(dbURI)
