@@ -25,4 +25,4 @@ Small web-app to a gardening company. Made with MongoDB, open APIs and Handlebar
 ### Used APIs
 
 - Plant API, https://perenual.com/docs/api (background Image, more info available of plant)
-- Weather API, https://www.visualcrossing.com/weather/
+- Weather API, https://www.visualcrossing.com
