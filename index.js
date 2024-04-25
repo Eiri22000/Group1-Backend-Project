@@ -18,6 +18,8 @@ const { randomImage } = require('./middlewares/fetchplant.js');
 const { validateForm } = require('./middlewares/validations.js');
 const { sendEmail } = require('./middlewares/sendEmail.js');
 const { isInArray, freeEmployees, convertDateFormat } = require('./middlewares/helpers.js');
+const adminRoute = require('./routes/admin');
+const gardenerRoute = require('./routes/gardener');
 
 //Import custom modules
 const User = require('./models/User');
@@ -58,6 +60,8 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/', routes);
+//app.use('/admin', authenticateToken, adminRoute);
+//app.use('/gardener', authenticateToken, gardenerRoute);
 
 app.get('/', async (req, res) => {
     try {
@@ -79,13 +83,31 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/admin', async (req, res) => {
-    const users = await User.find().lean()
-    const plant = await randomImage();
-    const backGroundImage = plant.image
-    const plantId = plant.plantId
-    res.render('admin', { subtitle: 'Työntekijöiden hallinta', workers: users, backGroundImage, plantId })
-})
+
+app.use('/admin', authenticateToken, async (req, res) => {
+    try {
+        // Retrieve user information from the request object
+        const users = await User.find().lean();
+
+        // Fetch random plant image
+        const plant = await randomImage();
+        const backGroundImage = plant.image;
+        const plantId = plant.plantId;
+
+        // Render the admin page with user data and plant image
+        res.render('admin', {
+            subtitle: 'Työntekijöiden hallinta',
+            workers: users,
+            backGroundImage,
+            plantId
+        });
+    } catch (error) {
+        // Handle any errors that occur during data retrieval or rendering
+        console.error('Error rendering admin page:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 app.get('/assignWorksite', async (req, res) => {
     let feedbackMessage = ""
@@ -134,19 +156,18 @@ app.delete('/deleteWorksite', async (req, res) => {
 })
 
 app.get('/gardener', async (req, res) => {
-    //app.get('/gardener', authenticateToken, async (req, res) => {
     try {
         const worker = "661d33c58f866f3f675f05a2";
-        const workerName = await User.find({ id: worker }).lean();
+        const user = await User.findById(worker);
+        const workerName = user ? user.username : null;
+        //const workerName = await User.find({ id: worker }).lean();
         const works = await Worksite.find({ assignedWorkerId: worker, workIsDone: false }).sort({ date: 1 }).lean();
         const plant = await randomImage();
         const backGroundImage = plant.image;
         const plantId = plant.plantId;
         res.render('gardener', { subtitle: 'Puutarhurin työlista', Worksite: works, backGroundImage, plantId, User: workerName });
     } catch (error) {
-        // Log the full error for debugging purposes
         console.error(error);
-        // Send an error response with a generic message
         res.status(500).json({ message: 'Internal Server Error' });
     }
 });
