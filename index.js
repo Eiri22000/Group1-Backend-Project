@@ -16,17 +16,9 @@ require('esm-hook');
 const { body, validationResult } = require('express-validator');
 const { validateForm } = require('./models/validations');
 const { randomImage } = require('./models/fetchplant.js');
-const nodemailer = require('nodemailer')
+const { sendEmail } = require('./middlewares/sendEmail.js');
 
 
-//For email sending
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAILUSER,
-        pass: process.env.EMAILPASSWORD
-    }
-})
 const app = express();
 
 const dbURI = 'mongodb+srv://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.CLUSTER + '.mongodb.net/' + process.env.DB + '?retryWrites=true&w=majority&appName=Cluster0'
@@ -121,14 +113,14 @@ app.post('/assignWorksite', async (req, res) => {
                 isAssigned: true,
                 assignedWorkerId: worksite.employeeId
             })
-            // try {
-            //     await sendEmail(worksite.worksiteId)
-            //     emailResponse = "Sähköpostiviesti lähetetty."
-            // } catch (emailError) {
-            //     emailResponse = `Sähköpostin lähettäminen epäonnistui : ${emailError}`
-            // }
-            res.status(200).json({ message: `Valitut työt merkitty tekijöilleen! ${emailResponse}` })
+            try {
+                await sendEmail(worksite.worksiteId)
+                emailResponse = "Sähköpostiviesti lähetetty."
+            } catch (emailError) {
+                emailResponse = `Sähköpostin lähettäminen epäonnistui : ${emailError}`
+            }
         }
+        res.status(200).json({ message: `Valitut työt merkitty tekijöilleen! ${emailResponse}` })
     } catch (error) {
         res.status(500).json({ message: `Määritys epäonnistui! Virhe: ${error.message}.` })
     }
@@ -144,11 +136,11 @@ app.delete('/deleteWorksite', async (req, res) => {
 })
 
 app.get('/gardener', async (req, res) => {
-//app.get('/gardener', authenticateToken, async (req, res) => {
+    //app.get('/gardener', authenticateToken, async (req, res) => {
     try {
         const worker = "661d33c58f866f3f675f05a2";
         const workerName = await User.find({ id: worker }).lean();
-        const works = await Worksite.find({ assignedWorkerId: worker , workIsDone: false}).sort({ date: 1 }).lean();
+        const works = await Worksite.find({ assignedWorkerId: worker, workIsDone: false }).sort({ date: 1 }).lean();
         const plant = await randomImage();
         const backGroundImage = plant.image;
         const plantId = plant.plantId;
@@ -200,9 +192,9 @@ app.post('/saveFormToDB', async (req, res) => {
         password: req.body.username,
         role: "worker"
     })
+    const users = await User.find().lean()
     try {
         await newEmployee.save()
-        const users = await User.find().lean()
         res.render('admin', { subtitle: "Työntekijöiden hallinta", message: "Uusi työntekijä tallennettu!", workers: users, backGroundImage })
     }
     catch (error) {
@@ -291,32 +283,3 @@ app.use((req, res, next) => {
 });
 
 
-async function sendEmail(worksiteId) {
-    const worksiteInfo = await Worksite.find({ _id: worksiteId }).select('customerName city tasks additionalInformation date').lean()
-    let tasks
-    worksiteInfo[0].tasks.map(task => {
-        tasks += `<li>${task}</li>`
-    });
-
-    if (worksiteInfo[0].additionalInformation !== "") {
-        tasks += `<li>${worksiteInfo[0].additionalInformation}</li>`
-    }
-
-    // Send email to assigned worker with worksite info
-    const newEmail = {
-        from: process.env.EMAILUSER,
-        to: 'anne22015@student.hamk.fi',
-        subject: 'Sinulle on määrätty uusi työkohde',
-        html: `<h1>${worksiteInfo[0].customerName}, ${worksiteInfo[0].city}</h1><h2>${worksiteInfo[0].date}</h2><h3>Työtehtävät ja lisätiedot</h3><ul>${tasks}</ul></br></br><p>Lisätietoja kohteesta näet omalta työsivultasi.</br> Kaivamisiin! T: Pena</p>`,
-    }
-
-    const response = await transporter.sendMail(newEmail, function (error, info) {
-
-        if (error) {
-            console.log('Error: ', error);
-        } else {
-            console.log('Sähköposti lähetetty.')
-        }
-
-    })
-}

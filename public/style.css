@@ -179,6 +179,10 @@ button {
     margin-bottom: 0.5em;
 }
 
+#errorFeedback {
+    max-width: 58vw;
+}
+
 /* End of ADMIN-page css */
 
 /*ASSIGN WORKSITE-page */

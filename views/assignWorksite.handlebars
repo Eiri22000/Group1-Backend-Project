@@ -43,12 +43,12 @@
             {{/each}}
         </tbody>
     </table>
-    <section class="d-flex justify-content-around greenBack py-2 px-5 mt-1 mx-auto">
+    <section class="row cols-2 d-flex justify-content-around greenBack py-3 px-5 mt-1 mx-auto">
         <button class="mx-4" onclick=deleteWorksites()>Poista valitut työkohteet</button>
+        {{> linkAndFeedback linkHref=" /admin" linkText="Siirry työntekijöiden hallintaan"}}
         <button class="mx-4" onclick=assignWorks()>Lisää määritetyt työt työntekijöille</button>
     </section>
 </main>
-{{> linkAndFeedback linkHref=" /admin" linkText="Siirry työntekijöiden hallintaan" col="8" }}
 
 <script>
 
