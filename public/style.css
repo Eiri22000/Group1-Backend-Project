@@ -21,13 +21,13 @@ header {
     overflow: hidden;
     background-color: rgb(238, 248, 236);
     margin-bottom: 1em;
-    height: 15%; 
+    height: 15%;
 }
 
 .container {
     min-width: fit-content;
     overflow-y: scroll hidden;
-    
+
 }
 
 footer {
@@ -39,7 +39,7 @@ footer {
     overflow: hidden;
     background-color: rgb(238, 248, 236);
     bottom: 0;
-    height: 15%; 
+    height: 15%;
 }
 
 h1 {
@@ -162,6 +162,10 @@ button {
     display: grid !important;
     grid-template-columns: 70% 30%;
     margin-bottom: 0.5em;
+}
+
+#errorFeedback {
+    max-width: 58vw;
 }
 
 /* End of ADMIN-page css */

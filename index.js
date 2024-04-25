@@ -117,16 +117,16 @@ app.post('/assignWorksite', async (req, res) => {
 
     try {
         for (const worksite of assignedWorksitesToDB) {
-            await Worksite.updateOne({ _id: worksite.worksiteId }, {
-                isAssigned: true,
-                assignedWorkerId: worksite.employeeId
-            })
-            // try {
-            //     await sendEmail(worksite.worksiteId)
-            //     emailResponse = "Sähköpostiviesti lähetetty."
-            // } catch (emailError) {
-            //     emailResponse = `Sähköpostin lähettäminen epäonnistui : ${emailError}`
-            // }
+            // await Worksite.updateOne({ _id: worksite.worksiteId }, {
+            //         isAssigned: true,
+            //         assignedWorkerId: worksite.employeeId
+            //     })
+            try {
+                await sendEmail(worksite.worksiteId)
+                emailResponse = "Sähköpostiviesti lähetetty."
+            } catch (emailError) {
+                emailResponse = `Sähköpostin lähettäminen epäonnistui : ${emailError}`
+            }
             res.status(200).json({ message: `Valitut työt merkitty tekijöilleen! ${emailResponse}` })
         }
     } catch (error) {
@@ -144,11 +144,11 @@ app.delete('/deleteWorksite', async (req, res) => {
 })
 
 app.get('/gardener', async (req, res) => {
-//app.get('/gardener', authenticateToken, async (req, res) => {
+    //app.get('/gardener', authenticateToken, async (req, res) => {
     try {
         const worker = "661d33c58f866f3f675f05a2";
         const workerName = await User.find({ id: worker }).lean();
-        const works = await Worksite.find({ assignedWorkerId: worker , workIsDone: false}).sort({ date: 1 }).lean();
+        const works = await Worksite.find({ assignedWorkerId: worker, workIsDone: false }).sort({ date: 1 }).lean();
         const plant = await randomImage();
         const backGroundImage = plant.image;
         const plantId = plant.plantId;
@@ -200,9 +200,9 @@ app.post('/saveFormToDB', async (req, res) => {
         password: req.body.username,
         role: "worker"
     })
+    const users = await User.find().lean()
     try {
         await newEmployee.save()
-        const users = await User.find().lean()
         res.render('admin', { subtitle: "Työntekijöiden hallinta", message: "Uusi työntekijä tallennettu!", workers: users, backGroundImage })
     }
     catch (error) {
@@ -293,13 +293,15 @@ app.use((req, res, next) => {
 
 async function sendEmail(worksiteId) {
     const worksiteInfo = await Worksite.find({ _id: worksiteId }).select('customerName city tasks additionalInformation date').lean()
-    let tasks
+    let tasks = ""
+    let date = worksiteInfo[0].date
+    date = date.getDate() + "." + date.getMonth() + "." + date.getFullYear()
     worksiteInfo[0].tasks.map(task => {
         tasks += `<li>${task}</li>`
     });
 
     if (worksiteInfo[0].additionalInformation !== "") {
-        tasks += `<li>${worksiteInfo[0].additionalInformation}</li>`
+        tasks += `<li>Lisätiedot: ${worksiteInfo[0].additionalInformation}</li>`
     }
 
     // Send email to assigned worker with worksite info
@@ -307,7 +309,7 @@ async function sendEmail(worksiteId) {
         from: process.env.EMAILUSER,
         to: 'anne22015@student.hamk.fi',
         subject: 'Sinulle on määrätty uusi työkohde',
-        html: `<h1>${worksiteInfo[0].customerName}, ${worksiteInfo[0].city}</h1><h2>${worksiteInfo[0].date}</h2><h3>Työtehtävät ja lisätiedot</h3><ul>${tasks}</ul></br></br><p>Lisätietoja kohteesta näet omalta työsivultasi.</br> Kaivamisiin! T: Pena</p>`,
+        html: `<h1>${worksiteInfo[0].customerName}, ${worksiteInfo[0].city}</h1><h2>${date}</h2><h3>Työtehtävät ja lisätiedot</h3><ul>${tasks}</ul></br></br><p>Lisätietoja kohteesta näet omalta työsivultasi.</br> Kaivamisiin! T: Pena</p>`,
     }
 
     const response = await transporter.sendMail(newEmail, function (error, info) {
