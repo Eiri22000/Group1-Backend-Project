@@ -117,16 +117,16 @@ app.post('/assignWorksite', async (req, res) => {
 
     try {
         for (const worksite of assignedWorksitesToDB) {
-            // await Worksite.updateOne({ _id: worksite.worksiteId }, {
-            //         isAssigned: true,
-            //         assignedWorkerId: worksite.employeeId
-            //     })
-            try {
-                await sendEmail(worksite.worksiteId)
-                emailResponse = "Sähköpostiviesti lähetetty."
-            } catch (emailError) {
-                emailResponse = `Sähköpostin lähettäminen epäonnistui : ${emailError}`
-            }
+            await Worksite.updateOne({ _id: worksite.worksiteId }, {
+                isAssigned: true,
+                assignedWorkerId: worksite.employeeId
+            })
+            // try {
+            //     await sendEmail(worksite.worksiteId)
+            //     emailResponse = "Sähköpostiviesti lähetetty."
+            // } catch (emailError) {
+            //     emailResponse = `Sähköpostin lähettäminen epäonnistui : ${emailError}`
+            // }
             res.status(200).json({ message: `Valitut työt merkitty tekijöilleen! ${emailResponse}` })
         }
     } catch (error) {
