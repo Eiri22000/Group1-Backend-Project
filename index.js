@@ -84,7 +84,7 @@ app.get('/', async (req, res) => {
 });
 
 
-app.use('/admin', authenticateToken, async (req, res) => {
+app.use('/admin', async (req, res) => {
     try {
         // Retrieve user information from the request object
         const users = await User.find().lean();

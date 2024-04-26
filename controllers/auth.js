@@ -5,15 +5,15 @@ const Token = require('../models/tokenModel');
 
 // Login with an existing user
 const login = async (req, res, next) => {
-  const {username,password } = req.body;
-  
-    try {
+  const { username, password } = req.body;
+
+  try {
     const user = await User.findOne({ username });
     if (!user) {
       return res.status(404).json({ message: 'Käyttäjätunnusta ei löydy' });
     }
 
-   
+
     // Compare plain text password with stored password
     if (user.password !== password) {
       return res.status(401).json({ message: 'Incorrect password' });
@@ -21,41 +21,41 @@ const login = async (req, res, next) => {
 
     // Check user type
     if (user.role === 'admin') {
-  
-    // If user is admin, generate admin token
-    const adminToken = jwt.sign({userId: user._id, userType: 'admin' }, process.env.SECRET_KEY, {
-    expiresIn: '1 hour'
-    });
-    
-    // Store the token in the database
-    await saveToken(user._id, adminToken, Date.now() + 3600000);
 
-    // Redirect to admin page with token in request headers
-    return res.redirect('/admin', 302, {
-      headers: {
-        Authorization: `Bearer ${adminToken}`
-      }
-    });
-  } else {
+      // If user is admin, generate admin token
+      const adminToken = jwt.sign({ userId: user._id, userType: 'admin' }, process.env.SECRET_KEY, {
+        expiresIn: '1 hour'
+      });
+
+      // Store the token in the database
+      await saveToken(user._id, adminToken, Date.now() + 3600000);
+
+      // Redirect to admin page with token in request headers
+      return res.redirect('/admin', 302, {
+        headers: {
+          Authorization: `Bearer ${adminToken}`
+        }
+      });
+    } else {
       // If user is worker, generate worker token
-      const workerToken = jwt.sign({userId: user._id, userType: 'worker' }, process.env.SECRET_KEY, {
-      expiresIn: '1 hour'
-  });
-        // Store the token in the database
+      const workerToken = jwt.sign({ userId: user._id, userType: 'worker' }, process.env.SECRET_KEY, {
+        expiresIn: '1 hour'
+      });
+      // Store the token in the database
       await saveToken(user._id, workerToken, Date.now() + 3600000);
 
       // Redirect to gardener page
 
-      
+
       return res.redirect('/gardener', 302, {
         headers: {
           Authorization: `Bearer ${workerToken}`
         }
       });
     }
-} catch (error) {
+  } catch (error) {
 
-      next(error);
+    next(error);
   }
 };
 // Function to store token in the database
