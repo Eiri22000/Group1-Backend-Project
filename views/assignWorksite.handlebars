@@ -30,7 +30,7 @@
                         type="checkbox">
                 </td>
                 <td>
-                    <select class="workerOption" name="Valitse">
+                    <select class="workerOption w-75" name="Valitse">
                         <option disabled selected value> -- Valitse -- </option>
                         {{#each (getFreeEmployees ../workers ../allReadyAssignedWorks ./date)}}
                         <option value={{this._id}} data-worksite_id={{../_id}}>
