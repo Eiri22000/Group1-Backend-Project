@@ -18,14 +18,6 @@ const login = async (req, res, next) => {
     if (user.password !== password) {
       return res.status(401).json({ message: 'Incorrect password' });
     }
-    
- /*
-    // Compare hashed password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Virheellinen salasana' });
-    }
-    */
 
     // Check user type
     if (user.role === 'admin') {
