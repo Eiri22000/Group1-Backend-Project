@@ -1,5 +1,5 @@
-<main id="workIntakeMainContent" class="greenBack addWorkSection">
-    <p class="description">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä,
+<main id="workIntakeMainContent" class="greenBack addWorkSection p-2">
+    <p class="description px-4">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä,
         joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita.</p>
     {{!-- If form is posted with errors, fields are filled with given values of formData --}}
     <form id="addWorkForm" class="form-row d-flex justify-content-center" action="/addWork" method="post">
@@ -41,29 +41,30 @@
                 <div class="custom-control custom-checkbox pl-0 py-2">
                     <input type="checkbox" id="haravointi" value="Haravointi" {{#if formData}}{{#contains
                         formData.tasks "Haravointi" }}{{/contains}}{{/if}} name="tasks" class="workIntakeCheckbox" />
-                    <label for="haravointi" class="ml-3">Haravointi</label>
+                    <label for="haravointi" class="ml-3 worksToBeDoneLabel">Haravointi</label>
                 </div>
                 <div class="custom-control custom-checkbox pl-0 py-2">
                     <input type="checkbox" id="nurmikonleikkaus" value="Nurmikonleikkaus" {{#if formData}}{{#contains
                         formData.tasks "Nurmikonleikkaus" }}{{/contains}}{{/if}} name="tasks"
                         class="workIntakeCheckbox" />
-                    <label for="nurmikonleikkaus" class="ml-3" />Nurmikonleikkaus</label>
+                    <label for="nurmikonleikkaus" class="ml-3 worksToBeDoneLabel" />Nurmikonleikkaus</label>
                 </div>
                 <div class="custom-control custom-checkbox pl-0 py-2">
                     <input type="checkbox" id="istutustyö" value="Istutustyö" {{#if formData}}{{#contains
                         formData.tasks "Istutustyö" }}{{/contains}}{{/if}} name="tasks" class="workIntakeCheckbox" />
-                    <label for="istutustyö" class="ml-3">Istutustyö</label>
+                    <label for="istutustyö" class="ml-3 worksToBeDoneLabel">Istutustyö</label>
                 </div>
 
-                <div class="custom-control custom-checkbox pl-0 py-2">
+                <div class="custom-control custom-checkbox pl-0 py-2 mb-2">
                     <input type="checkbox" id="rikkaruohojenKitkentä" value="Rikkaruohojen kitkentä" {{#if
                         formData}}{{#contains formData.tasks "Rikkaruohojen kitkentä" }}{{/contains}}{{/if}}
                         name="tasks" class="workIntakeCheckbox" />
-                    <label for="rikkaruohojenKitkentä" class="ml-3">Rikkaruohojen
+                    <label for="rikkaruohojenKitkentä" class="ml-3 worksToBeDoneLabel">Rikkaruohojen
                         kitkentä</label>
                 </div>
                 <div>
-                    <label for="lisätietoja" class="form-label">Muita toiveita tai lisätietoja:</label>
+                    <label for="lisätietoja" class="form-label worksToBeDoneLabel">Muita toiveita tai
+                        lisätietoja:</label>
                     <textarea name="additionalInformation" id="lisätietoja" class="form-control"
                         rows="3">{{#if formData}}{{{formData.additionalInformation}}}{{/if}}</textarea>
                 </div>

@@ -14,6 +14,35 @@
     }
 }
 
+@media only screen and (max-width: 465px) {
+
+    footer,
+    .footerDiv>a {
+        font-size: 0.8rem !important;
+    }
+
+    .footerDiv {
+        padding: 0 0.1rem !important;
+    }
+
+    .footerDiv>p,
+    .footerDiv>a {
+        margin-bottom: 0 !important;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+    h1 {
+        font-size: 1.8rem !important;
+    }
+
+    h2 {
+        font-size: 1.4rem !important;
+        text-align: center;
+    }
+
+}
+
 :root {
     --sectionsBgColor: #BACEC1;
     color: #0F2310;
@@ -58,9 +87,6 @@ footer {
     height: 15%;
 }
 
-h1 {
-    font-size: 40px;
-}
 
 h2 {
     font-size: 32px;
@@ -253,4 +279,12 @@ caption {
 /* Clickable elements should be atleast 24x24px */
 .workIntakeCheckbox {
     transform: scale(2, 2);
+}
+
+.workIntakeFieldset>label,
+.worksToBeDoneLabel,
+.description,
+#moreInfoOnPlant {
+    font-size: 1.1rem;
+    margin: 0.1rem 0;
 }
