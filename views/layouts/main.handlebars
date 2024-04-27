@@ -1,13 +1,22 @@
 <!DOCTYPE html>
+{{!-- Page language --}}
 <html lang="fi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{!-- Site description in metatag --}}
+    <meta name="description"
+        content="Sivustolla voit tehdä työtilauksen puutarhatöillesi. Palveun tarjoaa Penan puutarha.">
+    {{!-- Appropriate title for page: Työtilauksen tekeminen kohteeseen - penanpuutarha.fi --}}
     <title>{{{title}}}</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>body {background-image: url({{backGroundImage}}) }</style>
+    <style>
+        body {
+            background-image: url({{backGroundImage}})
+        }
+    </style>
 </head>
 
 <body class="min-vh-100 vh-100">

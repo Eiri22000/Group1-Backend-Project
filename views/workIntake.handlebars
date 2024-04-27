@@ -1,4 +1,4 @@
-   <main id="workIntakeMainContent" class="greenBack addWorkSection">
+<main id="workIntakeMainContent" class="greenBack addWorkSection">
     <p class="description">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä,
         joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita.</p>
     {{!-- If form is posted with errors, fields are filled with given values of formData --}}
@@ -38,27 +38,28 @@
         <div class="col-md-4">
             <fieldset class="border p-3 m-1 border-secondary workIntakeFieldset">
                 <legend class="w-auto form-group">Tilattavat työt</legend>
-                <div class="custom-control custom-checkbox">
+                <div class="custom-control custom-checkbox pl-0 py-2">
                     <input type="checkbox" id="haravointi" value="Haravointi" {{#if formData}}{{#contains
-                        formData.tasks "Haravointi" }}{{/contains}}{{/if}} name="tasks" class="custom-control-input">
-                    <label for="haravointi" class="custom-control-label">Haravointi</label>
+                        formData.tasks "Haravointi" }}{{/contains}}{{/if}} name="tasks" class="workIntakeCheckbox" />
+                    <label for="haravointi" class="ml-3">Haravointi</label>
                 </div>
-                <div class="custom-control custom-checkbox">
+                <div class="custom-control custom-checkbox pl-0 py-2">
                     <input type="checkbox" id="nurmikonleikkaus" value="Nurmikonleikkaus" {{#if formData}}{{#contains
                         formData.tasks "Nurmikonleikkaus" }}{{/contains}}{{/if}} name="tasks"
-                        class="custom-control-input">
-                    <label for="nurmikonleikkaus" class="custom-control-label">Nurmikonleikkaus</label>
+                        class="workIntakeCheckbox" />
+                    <label for="nurmikonleikkaus" class="ml-3" />Nurmikonleikkaus</label>
                 </div>
-                <div class="custom-control custom-checkbox">
+                <div class="custom-control custom-checkbox pl-0 py-2">
                     <input type="checkbox" id="istutustyö" value="Istutustyö" {{#if formData}}{{#contains
-                        formData.tasks "Istutustyö" }}{{/contains}}{{/if}} name="tasks" class="custom-control-input">
-                    <label for="istutustyö" class="custom-control-label">Istutustyö</label>
+                        formData.tasks "Istutustyö" }}{{/contains}}{{/if}} name="tasks" class="workIntakeCheckbox" />
+                    <label for="istutustyö" class="ml-3">Istutustyö</label>
                 </div>
-                <div class="custom-control custom-checkbox">
+
+                <div class="custom-control custom-checkbox pl-0 py-2">
                     <input type="checkbox" id="rikkaruohojenKitkentä" value="Rikkaruohojen kitkentä" {{#if
                         formData}}{{#contains formData.tasks "Rikkaruohojen kitkentä" }}{{/contains}}{{/if}}
-                        name="tasks" class="custom-control-input">
-                    <label for="rikkaruohojenKitkentä" class="custom-control-label">Rikkaruohojen
+                        name="tasks" class="workIntakeCheckbox" />
+                    <label for="rikkaruohojenKitkentä" class="ml-3">Rikkaruohojen
                         kitkentä</label>
                 </div>
                 <div>
@@ -71,7 +72,7 @@
 
         <section>
             <p>{{{message}}}</p>
-            <button type="submit">Tilaa puutarhuri</button>
+            <button type="submit" id="makeWorkOrder">Tilaa puutarhuri</button>
         </section>
     </form>
 </main>

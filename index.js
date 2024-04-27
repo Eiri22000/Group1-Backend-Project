@@ -178,7 +178,7 @@ app.get('/workIntake', async (req, res) => {
         const backGroundImage = plant.image
         const plantId = plant.plantId
         res.render('workIntake', {
-            subtitle: 'Tilaa työ puutarhaasi', backGroundImage, plantId
+            subtitle: 'Tilaa työ puutarhaasi', backGroundImage, plantId, title: 'Työtilauksen tekeminen kohteeseen - penanpuutarha.fi'
         })
     }
     catch (error) {

@@ -79,10 +79,11 @@ h4 {
 a {
     font-size: 1.3em;
     text-decoration: underline !important;
+    color: #0F2310 !important;
 }
 
 a:visited {
-    color: #0F2310;
+    color: purple !important;
 }
 
 form {
@@ -231,4 +232,25 @@ caption {
 
 .workIntakeFieldset {
     height: 100%;
+}
+
+/* ACCESSIBILTY CHANGES */
+
+:focus {
+    outline: 0.07em orangered solid;
+}
+
+.form-control:focus {
+    border-color: orangered !important;
+    box-shadow: 0 0 0 .2rem rgba(255, 69, 0, .25) !important;
+}
+
+#makeWorkOrder:focus {
+    border-color: orangered !important;
+    box-shadow: 0 0 0 .4rem rgba(255, 69, 0, .25) !important;
+}
+
+/* Clickable elements should be atleast 24x24px */
+.workIntakeCheckbox {
+    transform: scale(2, 2);
 }
