@@ -259,6 +259,16 @@ caption {
     height: 100%;
 }
 
+.warningText {
+    color: rgb(134, 17, 17);
+    font-size: 1rem;
+    display: flex;
+    width: 100%;
+}
+
+#errorMessage {
+    font-size: 1.6rem;
+}
 /* ACCESSIBILTY CHANGES */
 
 :focus {

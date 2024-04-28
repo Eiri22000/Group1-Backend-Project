@@ -9,13 +9,16 @@
                 <legend class="w-auto form-group">Tilaajan tiedot</legend>
                 <label for="name">Nimi:</label>
                 <input name="customerName" id="name" type="text" class="form-control" required="true"
-                    value="{{{formData.customerName}}}">
+                    value="{{{formData.customerName}}}" aria-descripedby="customerNameError">
+                <span id="customerNameError"></span>
                 <label for="phone">Puhelinnumero:</label>
                 <input name="phoneNumber" id="phone" type="text" class="form-control" required="true"
-                    value="{{{formData.phoneNumber}}}">
+                    value="{{{formData.phoneNumber}}}" aria-descripedby="phoneError">
+                <span id="phoneNumberError"></span>
                 <label for="email">Sähköposti:</label>
                 <input name="email" id="email" type="text" class="form-control" required="true"
-                    value="{{{formData.email}}}">
+                    value="{{{formData.email}}}" aria-descripedby="emailError">
+                    <span id="emailError"></span>
             </fieldset>
         </div>
         <div class="col-md-4">
@@ -23,16 +26,21 @@
                 <legend class="w-auto ">Kohteen tiedot</legend>
                 <label for="address">Kohteen osoite:</label>
                 <input name="workAddress" id="address" type="text" class="form-control" required="true"
-                    value="{{{formData.workAddress}}}">
+                    value="{{{formData.workAddress}}}" aria-descripedby="workAddressError">
+                <span id="workAddressError"></span>
                 <label for="postalCode">Postinumero:</label>
                 <input name="postalCode" id="postalCode" type="text" class="form-control" required="true"
-                    value="{{{formData.postalCode}}}">
+                    value="{{{formData.postalCode}}}" aria-descripedby="postalCodeError">
+                <span id="postalCodeError"></span>
                 <label for="city">Paikkakunta:</label>
                 <input name="city" id="city" type="text" class="form-control" required="true"
-                    value="{{{formData.city}}}">
+                    value="{{{formData.city}}}" aria-descripedby="cityError">
+                <span id="cityError"></span>
                 <label for="date">Haluttu päivämäärä työn suorittamiselle</label>
                 <input name="date" id="date" type="date" class="form-control" required="true"
-                    value="{{{formData.date}}}">
+                    value="{{{formData.date}}}" aria-descripedby="dateError">
+                <span id="dateError"></span>
+                
             </fieldset>
         </div>
         <div class="col-md-4">
@@ -66,22 +74,39 @@
                     <label for="lisätietoja" class="form-label worksToBeDoneLabel">Muita toiveita tai
                         lisätietoja:</label>
                     <textarea name="additionalInformation" id="lisätietoja" class="form-control"
-                        rows="3">{{#if formData}}{{{formData.additionalInformation}}}{{/if}}</textarea>
+                        rows="3" aria-descripedby="additionalInformationError">{{#if formData}}{{{formData.additionalInformation}}}{{/if}}</textarea>
+                    <span id="additionalInformationError"></span>
+                    
                 </div>
             </fieldset>
         </div>
 
         <section>
-            <p>{{{message}}}</p>
+            <p id="errorMessage">{{{message}}}</p>
             <button type="submit" id="makeWorkOrder">Tilaa puutarhuri</button>
         </section>
     </form>
 </main>
 
 <script>
-    let errorFields = "{{{ errorFields }}}"
+    var errorData = {{{errors}}}
+      errorData.forEach((error) => {
+        let falseInput = document.getElementsByName(error.path)
+        let errorMessage = document.getElementById(`${error.path}Error`)
+        errorMessage.textContent= error.message;
+        errorMessage.setAttribute("class", "warningText");
+        falseInput[0].setAttribute("style", "border: 2px solid red;");
+      })
+
+
+
+</script>
+
+ {{!-- let errors = {{{ allErrorData }}}.json
+     console.log(errors) --}}
+ {{!-- let errorFields = "{{{ errorFields }}}"
     errorFields.split(',').forEach((errorField) => {
         let falseInput = document.getElementsByName(errorField)
+        console.log(falseInput)
         falseInput[0].setAttribute("style", "border: 2px solid red;");
-    })
-</script>
+    }) --}}
