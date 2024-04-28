@@ -251,7 +251,8 @@ app.post('/addWork', validateForm(), async (req, res) => {
         // If there are validation errors, user is redirected to fix errors in form with error message
         if (!validationErrors.isEmpty()) {
             const errors = validationErrors.array().map(error => error.msg)
-            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: "Korjaa virheet lomakkeessa: " + errors, formData: req.body })
+            const errorFields = validationErrors.array().map(error => error.path)
+            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: "Korjaa virheet lomakkeessa: " + errors, formData: req.body, errorFields })
         }
         // Without errors, save and direct back with message
         const work = new Worksite({

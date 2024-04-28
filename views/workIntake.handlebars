@@ -8,13 +8,13 @@
             <fieldset class="border p-3 m-1 border-secondary workIntakeFieldset">
                 <legend class="w-auto form-group">Tilaajan tiedot</legend>
                 <label for="name">Nimi:</label>
-                <input name="customerName" id="name" type="text" class="form-control border-secondary" required="true"
+                <input name="customerName" id="name" type="text" class="form-control" required="true"
                     value="{{{formData.customerName}}}">
                 <label for="phone">Puhelinnumero:</label>
-                <input name="phoneNumber" id="phone" type="text" class="form-control border-secondary" required="true"
+                <input name="phoneNumber" id="phone" type="text" class="form-control" required="true"
                     value="{{{formData.phoneNumber}}}">
                 <label for="email">Sähköposti:</label>
-                <input name="email" id="email" type="text" class="form-control border-secondary" required="true"
+                <input name="email" id="email" type="text" class="form-control" required="true"
                     value="{{{formData.email}}}">
             </fieldset>
         </div>
@@ -22,16 +22,16 @@
             <fieldset class="border p-3 m-1 border-secondary workIntakeFieldset">
                 <legend class="w-auto ">Kohteen tiedot</legend>
                 <label for="address">Kohteen osoite:</label>
-                <input name="workAddress" id="address" type="text" class="form-control border-secondary" required="true"
+                <input name="workAddress" id="address" type="text" class="form-control" required="true"
                     value="{{{formData.workAddress}}}">
                 <label for="postalCode">Postinumero:</label>
-                <input name="postalCode" id="postalCode" type="text" class="form-control border-secondary"
-                    required="true" value="{{{formData.postalCode}}}">
+                <input name="postalCode" id="postalCode" type="text" class="form-control" required="true"
+                    value="{{{formData.postalCode}}}">
                 <label for="city">Paikkakunta:</label>
-                <input name="city" id="city" type="text" class="form-control border-secondary" required="true"
+                <input name="city" id="city" type="text" class="form-control" required="true"
                     value="{{{formData.city}}}">
                 <label for="date">Haluttu päivämäärä työn suorittamiselle</label>
-                <input name="date" id="date" type="date" class="form-control border-secondary" required="true"
+                <input name="date" id="date" type="date" class="form-control" required="true"
                     value="{{{formData.date}}}">
             </fieldset>
         </div>
@@ -77,3 +77,11 @@
         </section>
     </form>
 </main>
+
+<script>
+    let errorFields = "{{{ errorFields }}}"
+    errorFields.split(',').forEach((errorField) => {
+        let falseInput = document.getElementsByName(errorField)
+        falseInput[0].setAttribute("style", "border: 2px solid red;");
+    })
+</script>

@@ -60,14 +60,14 @@ body {
     height: 100vh;
     background-repeat: no-repeat;
     background-size: cover;
-    
+
 }
 
 header {
     overflow: hidden;
     background-color: rgb(238, 248, 236);
     margin-bottom: 1em;
-    max-height:min-content;
+    max-height: min-content;
 
 }
 
