@@ -8,15 +8,15 @@
                 <legend class="w-auto form-group">Tilaajan tiedot</legend>
                 <label for="name"><i aria-hidden="true">*</i>Nimi:</label>
                 <input name="customerName" id="name" type="text" class="form-control" required="true"
-                    value="{{{formData.customerName}}}" aria-descripedby="customerNameError" aria-required="true">
+                    value="{{{formData.customerName}}}" aria-describedby="customerNameError" aria-required="true">
                 <span id="customerNameError"></span>
                 <label for="phone"><i aria-hidden="true">*</i>Puhelinnumero:</label>
                 <input name="phoneNumber" id="phone" type="text" class="form-control" required="true"
-                    value="{{{formData.phoneNumber}}}" aria-descripedby="phoneError" aria-required="true">
+                    value="{{{formData.phoneNumber}}}" aria-describedby="phoneError" aria-required="true">
                 <span id="phoneNumberError"></span>
                 <label for="email"><i aria-hidden="true">*</i>Sähköposti:</label>
                 <input name="email" id="email" type="text" class="form-control" required="true"
-                    value="{{{formData.email}}}" aria-descripedby="emailError" aria-required="true">
+                    value="{{{formData.email}}}" aria-describedby="emailError" aria-required="true">
                     <span id="emailError"></span>
             </fieldset>
         </div>
@@ -25,19 +25,19 @@
                 <legend class="w-auto ">Kohteen tiedot</legend>
                 <label for="address"><i aria-hidden="true">*</i>Kohteen osoite:</label>
                 <input name="workAddress" id="address" type="text" class="form-control" required="true"
-                    value="{{{formData.workAddress}}}" aria-descripedby="workAddressError" aria-required="true">
+                    value="{{{formData.workAddress}}}" aria-describedby="workAddressError" aria-required="true">
                 <span id="workAddressError"></span>
                 <label for="postalCode"><i aria-hidden="true">*</i>Postinumero:</label>
                 <input name="postalCode" id="postalCode" type="text" class="form-control" required="true"
-                    value="{{{formData.postalCode}}}" aria-descripedby="postalCodeError" aria-required="true">
+                    value="{{{formData.postalCode}}}" aria-describedby="postalCodeError" aria-required="true">
                 <span id="postalCodeError"></span>
                 <label for="city"><i aria-hidden="true">*</i>Paikkakunta:</label>
                 <input name="city" id="city" type="text" class="form-control" required="true"
-                    value="{{{formData.city}}}" aria-descripedby="cityError" aria-required="true">
+                    value="{{{formData.city}}}" aria-describedby="cityError" aria-required="true">
                 <span id="cityError"></span>
                 <label for="date"><i aria-hidden="true">*</i>Haluttu päivämäärä työn suorittamiselle</label>
                 <input name="date" id="date" type="date" class="form-control" required="true"
-                    value="{{{formData.date}}}" aria-descripedby="dateError" aria-required="true">
+                    value="{{{formData.date}}}" aria-describedby="dateError" aria-required="true">
                 <span id="dateError"></span>
                 
             </fieldset>
@@ -73,7 +73,7 @@
                     <label for="lisätietoja" class="form-label worksToBeDoneLabel">Muita toiveita tai
                         lisätietoja:</label>
                     <textarea name="additionalInformation" id="lisätietoja" class="form-control"
-                        rows="3" aria-descripedby="additionalInformationError">{{#if formData}}{{{formData.additionalInformation}}}{{/if}}</textarea>
+                        rows="3" aria-describedby="additionalInformationError">{{#if formData}}{{{formData.additionalInformation}}}{{/if}}</textarea>
                     <span id="additionalInformationError"></span>
                     
                 </div>
