@@ -81,18 +81,15 @@
             </fieldset>
         </div>
         <section>
-            <p id="errorMessage">{{{message}}}</p>
+            <p id="feedbackMessage" aria-live="assertive">{{{message}}}</p>
             <button type="submit" id="makeWorkOrder">Tilaa puutarhuri</button>
         </section>
     </form>
 </main>
 
 <script>
-    var workSaved = {{{ succesfull }}}
-    console.log('workSaved : ', workSaved);
     var errorData = {{{ errors }}}
-    console.log('errorData: ', errorData);
-
+    let isWorkSaved = {{{ succesfull }}}
     if (errorData !== undefined) {
         document.getElementsByName(errorData[0].path)[0].focus()
         errorData.forEach((error) => {
@@ -104,8 +101,4 @@
         })
 
     }
-    else if (workSaved) {
-        document.getElementById('errorMessage').focus()
-    }
-
 </script>

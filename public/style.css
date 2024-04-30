@@ -74,7 +74,6 @@ header {
 .container {
     min-width: fit-content;
     overflow-y: scroll hidden;
-
 }
 
 footer {
@@ -266,9 +265,10 @@ caption {
     width: 100%;
 }
 
-#errorMessage {
+#feedbackMessage {
     font-size: 1.6rem;
 }
+
 /* ACCESSIBILTY CHANGES */
 
 :focus {
