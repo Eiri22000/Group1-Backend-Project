@@ -7,15 +7,15 @@
         <div class="col-md-4">
             <fieldset class="border p-3 m-1 border-secondary workIntakeFieldset">
                 <legend class="w-auto form-group">Tilaajan tiedot</legend>
-                <label for="name"><i aria-hidden="true">*</i>Nimi:</label>
+                <label for="name"><span aria-hidden="true">*</span>Nimi:</label>
                 <input name="customerName" id="name" type="text" class="form-control" required="true"
                     value="{{{formData.customerName}}}" aria-describedby="customerNameError" aria-required="true">
                 <span id="customerNameError"></span>
-                <label for="phone"><i aria-hidden="true">*</i>Puhelinnumero:</label>
+                <label for="phone"><span aria-hidden="true">*</span>Puhelinnumero:</label>
                 <input name="phoneNumber" id="phone" type="text" class="form-control" required="true"
                     value="{{{formData.phoneNumber}}}" aria-describedby="phoneNumberError" aria-required="true">
                 <span id="phoneNumberError"></span>
-                <label for="email"><i aria-hidden="true">*</i>Sähköposti:</label>
+                <label for="email"><span aria-hidden="true">*</span>Sähköposti:</label>
                 <input name="email" id="email" type="text" class="form-control" required="true"
                     value="{{{formData.email}}}" aria-describedby="emailError" aria-required="true">
                 <span id="emailError"></span>
@@ -24,19 +24,19 @@
         <div class="col-md-4">
             <fieldset class="border p-3 m-1 border-secondary workIntakeFieldset">
                 <legend class="w-auto ">Kohteen tiedot</legend>
-                <label for="address"><i aria-hidden="true">*</i>Kohteen osoite:</label>
+                <label for="address"><span aria-hidden="true">*</span>Kohteen osoite:</label>
                 <input name="workAddress" id="address" type="text" class="form-control" required="true"
                     value="{{{formData.workAddress}}}" aria-describedby="workAddressError" aria-required="true">
                 <span id="workAddressError"></span>
-                <label for="postalCode"><i aria-hidden="true">*</i>Postinumero:</label>
+                <label for="postalCode"><span aria-hidden="true">*</span>Postinumero:</label>
                 <input name="postalCode" id="postalCode" type="text" class="form-control" required="true"
                     value="{{{formData.postalCode}}}" aria-describedby="postalCodeError" aria-required="true">
                 <span id="postalCodeError"></span>
-                <label for="city"><i aria-hidden="true">*</i>Paikkakunta:</label>
+                <label for="city"><span aria-hidden="true">*</span>Paikkakunta:</label>
                 <input name="city" id="city" type="text" class="form-control" required="true"
                     value="{{{formData.city}}}" aria-describedby="cityError" aria-required="true">
                 <span id="cityError"></span>
-                <label for="date"><i aria-hidden="true">*</i>Haluttu päivämäärä työn suorittamiselle</label>
+                <label for="date"><span aria-hidden="true">*</span>Haluttu päivämäärä työn suorittamiselle</label>
                 <input name="date" id="date" type="date" class="form-control" required="true"
                     value="{{{formData.date}}}" aria-describedby="dateError" aria-required="true">
                 <span id="dateError"></span>
@@ -90,7 +90,7 @@
 <script>
     var errorData = {{{ errors }}}
     let isWorkSaved = {{{ succesfull }}}
-    if (errorData !== undefined) {
+    if (errorData !== "undefined") {
         document.getElementsByName(errorData[0].path)[0].focus()
         errorData.forEach((error) => {
             let falseInput = document.getElementsByName(error.path)
@@ -99,6 +99,5 @@
             errorMessage.setAttribute("class", "warningText");
             falseInput[0].setAttribute("style", "border: 2px solid red;");
         })
-
     }
 </script>
