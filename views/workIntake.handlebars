@@ -1,6 +1,7 @@
 <main id="workIntakeMainContent" class="greenBack addWorkSection p-2">
     <p class="description px-4">Ympäristösyistä laskutamme vain sähköpostitse. Lisätietoja kohtaan voit kirjata töitä,
-        joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita. Tähdellä (*) merkityt kentät ovat pakollisia.</p>
+        joita ei listasta löydy. Voit kirjata myös erityistä huomiota vaativia asioita. Tähdellä (*) merkityt kentät
+        ovat pakollisia.</p>
     {{!-- If form is posted with errors, fields are filled with given values of formData --}}
     <form id="addWorkForm" class="form-row d-flex justify-content-center" action="/addWork" method="post">
         <div class="col-md-4">
@@ -17,7 +18,7 @@
                 <label for="email"><i aria-hidden="true">*</i>Sähköposti:</label>
                 <input name="email" id="email" type="text" class="form-control" required="true"
                     value="{{{formData.email}}}" aria-describedby="emailError" aria-required="true">
-                    <span id="emailError"></span>
+                <span id="emailError"></span>
             </fieldset>
         </div>
         <div class="col-md-4">
@@ -39,7 +40,7 @@
                 <input name="date" id="date" type="date" class="form-control" required="true"
                     value="{{{formData.date}}}" aria-describedby="dateError" aria-required="true">
                 <span id="dateError"></span>
-                
+
             </fieldset>
         </div>
         <div class="col-md-4">
@@ -72,10 +73,10 @@
                 <div>
                     <label for="lisätietoja" class="form-label worksToBeDoneLabel">Muita toiveita tai
                         lisätietoja:</label>
-                    <textarea name="additionalInformation" id="lisätietoja" class="form-control"
-                        rows="3" aria-describedby="additionalInformationError">{{#if formData}}{{{formData.additionalInformation}}}{{/if}}</textarea>
+                    <textarea name="additionalInformation" id="lisätietoja" class="form-control" rows="3"
+                        aria-describedby="additionalInformationError">{{#if formData}}{{{formData.additionalInformation}}}{{/if}}</textarea>
                     <span id="additionalInformationError"></span>
-                    
+
                 </div>
             </fieldset>
         </div>
@@ -87,12 +88,13 @@
 </main>
 
 <script>
-    var errorData = {{{errors}}}
+    var errorData = {{{ errors }}}
+    document.getElementsByName(errorData[0].path)[0].focus()
     errorData.forEach((error) => {
         let falseInput = document.getElementsByName(error.path)
         let errorMessage = document.getElementById(`${error.path}Error`)
-        errorMessage.textContent= error.message;
+        errorMessage.textContent = error.message;
         errorMessage.setAttribute("class", "warningText");
         falseInput[0].setAttribute("style", "border: 2px solid red;");
-      })
+    })
 </script>

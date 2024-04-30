@@ -26,3 +26,7 @@ Small web-app to a gardening company. Made with MongoDB, open APIs and Handlebar
 
 - Plant API, https://perenual.com/docs/api (background Image, more info available of plant)
 - Weather API, https://www.visualcrossing.com
+
+
+### Accessibility
+Accessibility features are added to the customer work order page. It is accessible by keyboard and screenreader. Page is responsive in most common device sizes, landscape-mode and zoom-level up  200%.
