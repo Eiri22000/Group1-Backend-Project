@@ -83,6 +83,7 @@ footer {
     overflow: hidden;
     background-color: rgb(238, 248, 236);
     max-height: min-content;
+    margin-top: 1em;
 }
 
 

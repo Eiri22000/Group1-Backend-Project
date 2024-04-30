@@ -257,7 +257,7 @@ app.post('/addWork', validateForm(), async (req, res) => {
                 }
             ))
             const errors = JSON.stringify(errorData)
-            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", title: 'Penan Puutarha-työtilaus, penanpuutarha.fi', message: "Korjaa virheet lomakkeessa!", formData: req.body, errors })
+            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", title: 'Penan Puutarha-työtilaus, penanpuutarha.fi', message: "Korjaa virheet lomakkeessa!", formData: req.body, errors, succesfull: false })
         }
         // Without errors, save and direct back with message
         const work = new Worksite({
