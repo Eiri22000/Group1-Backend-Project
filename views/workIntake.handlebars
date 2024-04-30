@@ -88,13 +88,24 @@
 </main>
 
 <script>
+    var workSaved = {{{ succesfull }}}
+    console.log('workSaved : ', workSaved);
     var errorData = {{{ errors }}}
-    document.getElementsByName(errorData[0].path)[0].focus()
-    errorData.forEach((error) => {
-        let falseInput = document.getElementsByName(error.path)
-        let errorMessage = document.getElementById(`${error.path}Error`)
-        errorMessage.textContent = error.message;
-        errorMessage.setAttribute("class", "warningText");
-        falseInput[0].setAttribute("style", "border: 2px solid red;");
-    })
+    console.log('errorData: ', errorData);
+
+    if (errorData !== undefined) {
+        document.getElementsByName(errorData[0].path)[0].focus()
+        errorData.forEach((error) => {
+            let falseInput = document.getElementsByName(error.path)
+            let errorMessage = document.getElementById(`${error.path}Error`)
+            errorMessage.textContent = error.message;
+            errorMessage.setAttribute("class", "warningText");
+            falseInput[0].setAttribute("style", "border: 2px solid red;");
+        })
+
+    }
+    else if (workSaved) {
+        document.getElementById('errorMessage').focus()
+    }
+
 </script>

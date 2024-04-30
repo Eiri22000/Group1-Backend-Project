@@ -251,8 +251,9 @@ app.post('/addWork', validateForm(), async (req, res) => {
         // If there are validation errors, user is redirected to fix errors in form with error message
         if (!validationErrors.isEmpty()) {
             const errorData = validationErrors.array().map(error => (
-                {path: error.path,
-                message: error.msg
+                {
+                    path: error.path,
+                    message: error.msg
                 }
             ))
             const errors = JSON.stringify(errorData)
@@ -273,7 +274,7 @@ app.post('/addWork', validateForm(), async (req, res) => {
             workIsDone: false
         })
         await work.save()
-            .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!' }))
+            .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!', succesfull: true }))
     }
     catch (error) {
         res.status(500).send('Server error')
