@@ -1,323 +1,323 @@
-@media (orientation: landscape) {
+    @media screen and (max-width: 1450px) and (orientation: landscape) {
+        html {
+            overflow-y: scroll;
+        }
+
+        footer {
+            position: relative !important;
+        }
+
+        #workIntakeMainContent {
+            height: min-content !important;
+        }
+    }
+
+    @media only screen and (max-width: 770px) {
+        #workIntakeMainContent {
+            height: min-content !important;
+        }
+
+        #siteBody {
+            height: min-content !important;
+        }
+
+        footer {
+            position: relative !important;
+        }
+
+        .addWorkSection {
+            height: 100%;
+            overflow-y: hidden;
+        }
+
+        #addWorkForm {
+            height: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 465px) {
+
+        footer,
+        .footerDiv>a {
+            font-size: 0.8rem !important;
+        }
+
+        .footerDiv {
+            padding: 0 0.1rem !important;
+        }
+
+        .footerDiv>p,
+        .footerDiv>a {
+            margin-bottom: 0 !important;
+        }
+    }
+
+    @media only screen and (max-width: 410px) {
+        h1 {
+            font-size: 1.8rem !important;
+        }
+
+        h2 {
+            font-size: 1.4rem !important;
+            text-align: center;
+        }
+
+    }
+
+    :root {
+        --sectionsBgColor: #BACEC1;
+        color: #0F2310;
+        box-sizing: border-box;
+    }
+
     html {
-        overflow-y: scroll;
+        width: 100%;
+    }
+
+    body {
+        margin: 0;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-size: 1.4em;
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+    }
+
+    header {
+        overflow: hidden;
+        background-color: rgb(238, 248, 236);
+        margin-bottom: 1em;
+        max-height: min-content;
+
+    }
+
+    .container {
+        min-width: fit-content;
+        overflow-y: scroll hidden;
     }
 
     footer {
-        position: relative !important;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.4em;
+        overflow: hidden;
+        background-color: rgb(238, 248, 236);
+        max-height: min-content;
+        margin-top: 1em;
     }
 
-    #workIntakeMainContent {
-        height: min-content !important;
-    }
-}
-
-@media only screen and (max-width: 770px) {
-    #workIntakeMainContent {
-        height: min-content !important;
-    }
-
-    #siteBody {
-        height: min-content !important;
-    }
-
-    footer {
-        position: relative !important;
-    }
-
-    .addWorkSection {
-        height: 100%;
-        overflow-y: hidden;
-    }
-
-    #addWorkForm {
-        height: 100%;
-    }
-}
-
-@media only screen and (max-width: 465px) {
-
-    footer,
-    .footerDiv>a {
-        font-size: 0.8rem !important;
-    }
-
-    .footerDiv {
-        padding: 0 0.1rem !important;
-    }
-
-    .footerDiv>p,
-    .footerDiv>a {
-        margin-bottom: 0 !important;
-    }
-}
-
-@media only screen and (max-width: 410px) {
-    h1 {
-        font-size: 1.8rem !important;
-    }
 
     h2 {
-        font-size: 1.4rem !important;
-        text-align: center;
+        font-size: 32px;
+        padding: 0.3em;
     }
 
-}
+    h3 {
+        font-size: 32px;
+        padding: 0.3em;
+    }
 
-:root {
-    --sectionsBgColor: #BACEC1;
-    color: #0F2310;
-    box-sizing: border-box;
-}
+    h4 {
+        font-size: 15px;
+    }
 
-html {
-    width: 100%;
-}
+    a {
+        font-size: 1.3em;
+        text-decoration: underline !important;
+        color: #0F2310 !important;
+    }
 
-body {
-    margin: 0;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 1.4em;
-    height: 100vh;
-    background-repeat: no-repeat;
-    background-size: cover;
+    a:visited {
+        color: purple !important;
+    }
 
-}
+    form {
+        background-color: var(--sectionsBgColor);
+        padding: 1em;
+        font-size: 0.8em;
+    }
 
-header {
-    overflow: hidden;
-    background-color: rgb(238, 248, 236);
-    margin-bottom: 1em;
-    max-height: min-content;
+    input[type=text],
+    textarea {
+        font-size: 1em;
+        margin: 0.3em 0 0.5em 0;
+        padding: 0.2em;
+    }
 
-}
+    button {
+        height: fit-content;
+        width: max-content;
+        padding: 0.4em 0.6em;
+        font-size: 0.7em;
+        font-weight: 600;
+        background-color: rgb(204, 191, 241);
+        color: #111a46;
+        border: 2px solid #1D3124;
+        border-radius: 15px;
+        letter-spacing: 0.08em;
+        margin: 0.8em 0;
+    }
 
-.container {
-    min-width: fit-content;
-    overflow-y: scroll hidden;
-}
+    .greenBack {
+        background-color: #BACEC1;
+    }
 
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    font-size: 1rem;
-    padding: 0.4em;
-    overflow: hidden;
-    background-color: rgb(238, 248, 236);
-    max-height: min-content;
-    margin-top: 1em;
-}
+    .description {
+        padding: 0.6em;
+        font-size: 0.9em;
+    }
 
+    /* Gardener page css */
 
-h2 {
-    font-size: 32px;
-    padding: 0.3em;
-}
+    .buttonSection {
+        width: max-content;
+    }
 
-h3 {
-    font-size: 32px;
-    padding: 0.3em;
-}
+    /* ADMIN-page css */
 
-h4 {
-    font-size: 15px;
-}
+    .employeeFormSection,
+    .employeeFormSection>form {
+        display: flex;
+        flex-direction: column;
+    }
 
-a {
-    font-size: 1.3em;
-    text-decoration: underline !important;
-    color: #0F2310 !important;
-}
+    .employeeFormSection {
+        width: 32%;
+        padding: 0.5em;
+        border: 2px solid green;
+        border-radius: 20px;
+    }
 
-a:visited {
-    color: purple !important;
-}
+    .employeeFormSection>form {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding: 0 !important;
+        font-size: 1em;
+        font-weight: 600;
+    }
 
-form {
-    background-color: var(--sectionsBgColor);
-    padding: 1em;
-    font-size: 0.8em;
-}
+    .employeeFormSection>h3 {
+        font-size: 1.4em;
+        font-weight: 700;
+        margin-bottom: 1em;
+    }
 
-input[type=text],
-textarea {
-    font-size: 1em;
-    margin: 0.3em 0 0.5em 0;
-    padding: 0.2em;
-}
+    .employeeFormSection>form>input,
+    .employeeFormSection>form>select,
+    .employeeFormSection>form>input[type='email'] {
+        font-size: 1em;
+    }
 
-button {
-    height: fit-content;
-    width: max-content;
-    padding: 0.4em 0.6em;
-    font-size: 0.7em;
-    font-weight: 600;
-    background-color: rgb(204, 191, 241);
-    color: #111a46;
-    border: 2px solid #1D3124;
-    border-radius: 15px;
-    letter-spacing: 0.08em;
-    margin: 0.8em 0;
-}
+    .employeeFormSection>form>select,
+    .employeeFormSection>form>input[type='email'] {
+        padding: 0.2em;
+        margin: 0.3em 0 0.5em 0;
+    }
 
-.greenBack {
-    background-color: #BACEC1;
-}
+    .employeeFormSection>form>label {
+        margin: 0.3em 0;
+    }
 
-.description {
-    padding: 0.6em;
-    font-size: 0.9em;
-}
+    .deleteEmployeeForm {
+        display: grid !important;
+        grid-template-columns: 70% 30%;
+        margin-bottom: 0.5em;
+    }
 
-/* Gardener page css */
+    #errorFeedback {
+        max-width: 58vw;
+    }
 
-.buttonSection {
-    width: max-content;
-}
+    /* End of ADMIN-page css */
 
-/* ADMIN-page css */
+    /*ASSIGN WORKSITE-page */
+    #worksTable {
+        height: 58vh;
+    }
 
-.employeeFormSection,
-.employeeFormSection>form {
-    display: flex;
-    flex-direction: column;
-}
+    table {
+        display: block;
+        width: max-content !important;
+        overflow-y: scroll;
+        max-height: 90% !important;
+    }
 
-.employeeFormSection {
-    width: 32%;
-    padding: 0.5em;
-    border: 2px solid green;
-    border-radius: 20px;
-}
+    thead {
+        position: sticky;
+        top: 0;
+    }
 
-.employeeFormSection>form {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 0 !important;
-    font-size: 1em;
-    font-weight: 600;
-}
+    caption {
+        caption-side: top !important;
+        color: #0F2310 !important;
+    }
 
-.employeeFormSection>h3 {
-    font-size: 1.4em;
-    font-weight: 700;
-    margin-bottom: 1em;
-}
+    /*ASSIGN WORKSITE-page end*/
 
-.employeeFormSection>form>input,
-.employeeFormSection>form>select,
-.employeeFormSection>form>input[type='email'] {
-    font-size: 1em;
-}
+    /* Plant-info page */
+    #plantInfoImage {
+        width: auto;
+        height: 350px;
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
 
-.employeeFormSection>form>select,
-.employeeFormSection>form>input[type='email'] {
-    padding: 0.2em;
-    margin: 0.3em 0 0.5em 0;
-}
+    .feature {
+        font-size: 1.1em;
+        font-weight: bold;
+        margin: 1em 0 0 0;
+    }
 
-.employeeFormSection>form>label {
-    margin: 0.3em 0;
-}
+    /* WorkIntake page */
+    #addWorkForm {
+        margin: 0.5em;
 
-.deleteEmployeeForm {
-    display: grid !important;
-    grid-template-columns: 70% 30%;
-    margin-bottom: 0.5em;
-}
+    }
 
-#errorFeedback {
-    max-width: 58vw;
-}
+    .workIntakeFieldset {
+        height: 100%;
+    }
 
-/* End of ADMIN-page css */
+    .warningText {
+        color: rgb(134, 17, 17);
+        font-size: 1rem;
+        display: flex;
+        width: 100%;
+    }
 
-/*ASSIGN WORKSITE-page */
-#worksTable {
-    height: 58vh;
-}
+    #feedbackMessage {
+        font-size: 1.6rem;
+    }
 
-table {
-    display: block;
-    width: max-content !important;
-    overflow-y: scroll;
-    max-height: 90% !important;
-}
+    /* ACCESSIBILTY CHANGES */
 
-thead {
-    position: sticky;
-    top: 0;
-}
+    :focus {
+        outline: 0.07em orangered solid;
+    }
 
-caption {
-    caption-side: top !important;
-    color: #0F2310 !important;
-}
+    .form-control:focus {
+        border-color: orangered !important;
+        box-shadow: 0 0 0 .2rem rgba(255, 69, 0, .25) !important;
+    }
 
-/*ASSIGN WORKSITE-page end*/
+    #makeWorkOrder:focus {
+        border-color: orangered !important;
+        box-shadow: 0 0 0 .4rem rgba(255, 69, 0, .25) !important;
+    }
 
-/* Plant-info page */
-#plantInfoImage {
-    width: auto;
-    height: 350px;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
+    /* Clickable elements should be atleast 24x24px */
+    .workIntakeCheckbox {
+        transform: scale(2, 2);
+    }
 
-.feature {
-    font-size: 1.1em;
-    font-weight: bold;
-    margin: 1em 0 0 0;
-}
-
-/* WorkIntake page */
-#addWorkForm {
-    margin: 0.5em;
-
-}
-
-.workIntakeFieldset {
-    height: 100%;
-}
-
-.warningText {
-    color: rgb(134, 17, 17);
-    font-size: 1rem;
-    display: flex;
-    width: 100%;
-}
-
-#feedbackMessage {
-    font-size: 1.6rem;
-}
-
-/* ACCESSIBILTY CHANGES */
-
-:focus {
-    outline: 0.07em orangered solid;
-}
-
-.form-control:focus {
-    border-color: orangered !important;
-    box-shadow: 0 0 0 .2rem rgba(255, 69, 0, .25) !important;
-}
-
-#makeWorkOrder:focus {
-    border-color: orangered !important;
-    box-shadow: 0 0 0 .4rem rgba(255, 69, 0, .25) !important;
-}
-
-/* Clickable elements should be atleast 24x24px */
-.workIntakeCheckbox {
-    transform: scale(2, 2);
-}
-
-.workIntakeFieldset>label,
-.worksToBeDoneLabel,
-.description,
-#moreInfoOnPlant {
-    font-size: 1.1rem;
-    margin: 0.1rem 0;
-}
+    .workIntakeFieldset>label,
+    .worksToBeDoneLabel,
+    .description,
+    #moreInfoOnPlant {
+        font-size: 1.1rem;
+        margin: 0.1rem 0;
+    }
