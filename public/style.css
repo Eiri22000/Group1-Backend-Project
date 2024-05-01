@@ -1,7 +1,28 @@
+@media (orientation: landscape) {
+    html {
+        overflow-y: scroll;
+    }
+
+    footer {
+        position: relative !important;
+    }
+
+    #workIntakeMainContent {
+        height: min-content !important;
+    }
+}
+
 @media only screen and (max-width: 770px) {
     #workIntakeMainContent {
-        max-height: 65vh;
-        overflow-y: scroll;
+        height: min-content !important;
+    }
+
+    #siteBody {
+        height: min-content !important;
+    }
+
+    footer {
+        position: relative !important;
     }
 
     .addWorkSection {
@@ -77,8 +98,10 @@ header {
 }
 
 footer {
+    position: absolute;
+    bottom: 0;
     width: 100%;
-    font-size: 17px;
+    font-size: 1rem;
     padding: 0.4em;
     overflow: hidden;
     background-color: rgb(238, 248, 236);
