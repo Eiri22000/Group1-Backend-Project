@@ -80,24 +80,34 @@
                 </div>
             </fieldset>
         </div>
-        <section>
-            <p id="feedbackMessage" aria-live="assertive">{{{message}}}</p>
-            <button type="submit" id="makeWorkOrder">Tilaa puutarhuri</button>
+        <section class="w-100 text-center">
+            <p id="feedbackMessage" tabindex="-1">{{{message}}}</p>
+            <button type="submit" id="makeWorkOrder" class="mx-auto">Tilaa puutarhuri</button>
         </section>
     </form>
 </main>
 
 <script>
-    var errorData = {{{ errors }}}
-    let isWorkSaved = {{{ succesfull }}}
-    if (errorData !== "undefined") {
-        document.getElementsByName(errorData[0].path)[0].focus()
+    var hasErrors = {{{ unsuccesfull }}}
+    var isWorkSaved = {{{ succesfull }}}
+
+    if (hasErrors) {
+        var decodedErrors = decodeURIComponent('{{{ errors }}}');
+        var errorData = JSON.parse(decodedErrors);
+
         errorData.forEach((error) => {
             let falseInput = document.getElementsByName(error.path)
             let errorMessage = document.getElementById(`${error.path}Error`)
             errorMessage.textContent = error.message;
             errorMessage.setAttribute("class", "warningText");
             falseInput[0].setAttribute("style", "border: 2px solid red;");
+            document.getElementById('feedbackMessage').setAttribute('aria-live', 'assertive');
+            document.getElementById('feedbackMessage').focus();
         })
+        document.getElementsByName(errorData[0].path)[0].focus()
+    }
+    if (isWorkSaved) {
+        document.getElementById('feedbackMessage').setAttribute('aria-live', 'assertive');
+        document.getElementById('feedbackMessage').focus();
     }
 </script>

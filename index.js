@@ -178,7 +178,7 @@ app.get('/workIntake', async (req, res) => {
         const backGroundImage = plant.image
         const plantId = plant.plantId
         res.render('workIntake', {
-            subtitle: 'Tilaa työ puutarhaasi täyttämällä lomake', backGroundImage, plantId, title: 'Penan Puutarha-työtilaus, penanpuutarha.fi'
+            subtitle: 'Tilaa työ puutarhaasi täyttämällä lomake', backGroundImage, plantId, title: 'Penan Puutarha-työtilaus, penanpuutarha.fi', unsuccesfull: false, succesfull: false
         })
     }
     catch (error) {
@@ -257,7 +257,7 @@ app.post('/addWork', validateForm(), async (req, res) => {
                 }
             ))
             const errors = JSON.stringify(errorData)
-            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", title: 'Penan Puutarha-työtilaus, penanpuutarha.fi', message: "Korjaa virheet lomakkeessa!", formData: req.body, errors, succesfull: false })
+            return res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", title: 'Penan Puutarha-työtilaus, penanpuutarha.fi', message: "Korjaa virheet lomakkeessa!", formData: req.body, errors, unsuccesfull: true, succesfull: false })
         }
         // Without errors, save and direct back with message
         const work = new Worksite({
@@ -274,7 +274,7 @@ app.post('/addWork', validateForm(), async (req, res) => {
             workIsDone: false
         })
         await work.save()
-            .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", title: 'Penan Puutarha-työtilaus, penanpuutarha.fi', message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!', succesfull: true }))
+            .then(res.render('workIntake', { subtitle: 'Tilaa työ puutarhaasi', backGroundImage: "testBackground.jpg", title: 'Penan Puutarha-työtilaus, penanpuutarha.fi', message: 'Työsi on tallennettu onnistuneesti. Olemme tarvittaessa yhteydessä!', unsuccesfull: false, succesfull: true, errors: undefined }))
     }
     catch (error) {
         res.status(500).send('Server error')
