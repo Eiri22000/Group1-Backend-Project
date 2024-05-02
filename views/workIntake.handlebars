@@ -92,6 +92,7 @@
     var isWorkSaved = {{{ succesfull }}}
 
     if (hasErrors) {
+        console.log("error")
         var decodedErrors = decodeURIComponent('{{{ errors }}}');
         var errorData = JSON.parse(decodedErrors);
 
@@ -106,7 +107,7 @@
         })
         document.getElementsByName(errorData[0].path)[0].focus()
     }
-    if (isWorkSaved) {
+    if (isWorkSaved || hasErrors) {
         document.getElementById('feedbackMessage').setAttribute('aria-live', 'assertive');
         document.getElementById('feedbackMessage').focus();
     }
