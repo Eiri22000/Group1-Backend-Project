@@ -81,7 +81,7 @@
             </fieldset>
         </div>
         <section class="w-100 text-center">
-            <p id="feedbackMessage" tabindex="-1">{{{message}}}</p>
+            <p id="feedbackMessage" role="alert" aria-live="assertive"></p>
             <button type="submit" id="makeWorkOrder" class="mx-auto">Tilaa puutarhuri</button>
         </section>
     </form>
@@ -90,25 +90,27 @@
 <script>
     var hasErrors = {{{ unsuccesfull }}}
     var isWorkSaved = {{{ succesfull }}}
+    var feedbackText = "{{{ message }}}"
 
-    if (hasErrors) {
-        console.log("error")
-        var decodedErrors = decodeURIComponent('{{{ errors }}}');
-        var errorData = JSON.parse(decodedErrors);
-
-        errorData.forEach((error) => {
-            let falseInput = document.getElementsByName(error.path)
-            let errorMessage = document.getElementById(`${error.path}Error`)
-            errorMessage.textContent = error.message;
-            errorMessage.setAttribute("class", "warningText");
-            falseInput[0].setAttribute("style", "border: 2px solid red;");
-            document.getElementById('feedbackMessage').setAttribute('aria-live', 'assertive');
-            document.getElementById('feedbackMessage').focus();
-        })
-        document.getElementsByName(errorData[0].path)[0].focus()
-    }
     if (isWorkSaved || hasErrors) {
-        document.getElementById('feedbackMessage').setAttribute('aria-live', 'assertive');
-        document.getElementById('feedbackMessage').focus();
+        document.getElementById('feedbackMessage').innerText = feedbackText
+
+        if (hasErrors) {
+
+            var decodedErrors = decodeURIComponent('{{{ errors }}}');
+            var errorData = JSON.parse(decodedErrors);
+            errorData.forEach((error) => {
+                let falseInput = document.getElementsByName(error.path)
+                let errorMessage = document.getElementById(`${error.path}Error`)
+                errorMessage.textContent = error.message;
+                errorMessage.setAttribute("class", "warningText");
+                falseInput[0].setAttribute("style", "border: 2px solid red;");
+            })
+            setTimeout(function () {
+
+                document.getElementsByName(errorData[0].path)[0].focus()
+            }, 2900)
+
+        }
     }
 </script>
